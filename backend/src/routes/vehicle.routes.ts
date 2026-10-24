@@ -7,6 +7,7 @@ export function vehicleRoutes(controller: VehicleController, authenticate: Reque
   const router = Router();
   router.get('/', authenticate, authorize('GET /api/vehicles'), controller.list);
   router.get('/:id', authenticate, authorize('GET /api/vehicles/:id'), controller.get);
+  router.put('/:id', authenticate, authorize('PUT /api/vehicles/:id'), controller.update);
   router.post('/', authenticate, authorize('POST /api/vehicles'), controller.create);
   return router;
 }

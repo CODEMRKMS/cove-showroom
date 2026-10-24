@@ -1,7 +1,7 @@
 import type { PageRequest, PageResult, VehicleSort } from '../domain/pagination.js';
 import type { Vehicle } from '../domain/vehicle.js';
 import type { Prisma, PrismaClient, Vehicle as VehicleRow } from '../generated/prisma/client.js';
-import type { NewVehicle, VehicleRepository } from './vehicle.repository.js';
+import type { NewVehicle, VehiclePatch, VehicleRepository } from './vehicle.repository.js';
 
 // Prices are BigInt in the database and number everywhere else. That is safe
 // because the API caps them far below 2^53.
@@ -44,6 +44,22 @@ export class PrismaVehicleRepository implements VehicleRepository {
           delta: row.quantity,
           quantityAfter: row.quantity,
         },
+      });
+      return toVehicle(row);
+    });
+  }
+
+  update(id: string, patch: VehiclePatch, actorId: string): Promise<Vehicle | null> {
+    const { price, ...rest } = patch;
+    return this.prisma.$transaction(async (tx) => {
+      const { count } = await tx.vehicle.updateMany({
+        where: { id, deletedAt: null },
+        data: { ...rest, ...(price !== undefined && { price: BigInt(price) }) },
+      });
+      if (count === 0) return null;
+      const row = await tx.vehicle.findUniqueOrThrow({ where: { id } });
+      await tx.inventoryEvent.create({
+        data: { vehicleId: id, actorId, type: 'UPDATED', delta: 0, quantityAfter: row.quantity },
       });
       return toVehicle(row);
     });

@@ -1,7 +1,7 @@
 import { VehicleNotFoundError } from '../domain/errors.js';
 import type { PageRequest, Paginated } from '../domain/pagination.js';
 import type { BodyStyle, Category, Vehicle } from '../domain/vehicle.js';
-import type { VehicleRepository } from '../repositories/vehicle.repository.js';
+import type { VehiclePatch, VehicleRepository } from '../repositories/vehicle.repository.js';
 
 export type CreateVehicleInput = {
   make: string;
@@ -29,6 +29,12 @@ export class VehicleService {
       },
       actorId,
     );
+  }
+
+  async update(id: string, patch: VehiclePatch, actorId: string): Promise<Vehicle> {
+    const vehicle = await this.vehicles.update(id, patch, actorId);
+    if (!vehicle) throw new VehicleNotFoundError();
+    return vehicle;
   }
 
   async get(id: string): Promise<Vehicle> {
