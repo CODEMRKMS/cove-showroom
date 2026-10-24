@@ -6,7 +6,7 @@ export type Pose = {
   target: [number, number, number];
 };
 
-const MARGIN = 1.25;
+const MARGIN = 1.1;
 const ORBIT_AZIMUTH = (35 * Math.PI) / 180;
 const ORBIT_ELEVATION = (12 * Math.PI) / 180;
 

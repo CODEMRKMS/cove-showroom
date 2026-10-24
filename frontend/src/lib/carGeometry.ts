@@ -138,7 +138,9 @@ export function bodyOutline(spec: CarSpec): Vec2[] {
       const hump = (2 * wheels.radius + FENDER_MARGIN_UNITS) * Math.cos((t * Math.PI) / 2) ** 2;
       return Math.max(best, hump);
     }, 0);
-  const smooth = chaikin(top, 3).map(([x, y]): Vec2 => [x, Math.max(y, fenderHeight(x))]);
+  // Lifting the line into fenders leaves creases where it meets the hood, so smooth it once more.
+  const lifted = chaikin(top, 3).map(([x, y]): Vec2 => [x, Math.max(y, fenderHeight(x))]);
+  const smooth = chaikin(lifted, 2);
 
   // Sill from the nose back to the tail, stepping up around each wheel (front wheel first).
   const sill: Vec2[] = [[p.noseX, CLEARANCE_UNITS]];

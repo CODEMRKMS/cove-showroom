@@ -71,12 +71,12 @@ type Materials = {
 const make: { [K in keyof Materials]: () => Materials[K] } = {
   glass: () =>
     new MeshPhysicalMaterial({
-      color: '#0b1016',
-      metalness: 0.2,
-      roughness: 0.04,
-      clearcoat: 1,
-      clearcoatRoughness: 0.02,
-      envMapIntensity: 1.4,
+      color: '#05080b',
+      metalness: 0,
+      roughness: 0.06,
+      clearcoat: 0.6,
+      clearcoatRoughness: 0.03,
+      envMapIntensity: 0.55,
     }),
   tyre: () => new MeshStandardMaterial({ color: '#15171b', roughness: 0.88, metalness: 0 }),
   rim: () => new MeshStandardMaterial({ color: '#cfd4da', roughness: 0.22, metalness: 1 }),

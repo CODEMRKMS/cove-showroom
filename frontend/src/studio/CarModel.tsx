@@ -236,7 +236,7 @@ function WindowSlab({
       position={[centre[0] + normal[0] * 0.008, centre[1] + normal[1] * 0.008, 0]}
       rotation={[0, 0, Math.atan2(dy, dx)]}
     >
-      <boxGeometry args={[length * 0.9, 0.012, half * 2]} />
+      <boxGeometry args={[length * 0.5, 0.012, half * 2]} />
     </mesh>
   );
 }
