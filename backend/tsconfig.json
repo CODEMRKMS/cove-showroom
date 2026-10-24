@@ -16,5 +16,12 @@
     "resolveJsonModule": true,
     "noEmit": true
   },
-  "include": ["src", "test", "prisma.config.ts", "vitest.config.ts", "eslint.config.js"]
+  "include": [
+    "src",
+    "test",
+    "prisma.config.ts",
+    "vitest.config.ts",
+    "vitest.report.config.ts",
+    "eslint.config.js"
+  ]
 }
