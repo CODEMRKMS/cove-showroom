@@ -129,7 +129,7 @@ cd cove-showroom
 # 2. Create two empty databases (use your own superuser; on Windows psql is in
 #    C:\Program Files\PostgreSQL\16\bin if it is not on PATH)
 psql -U postgres -c "CREATE DATABASE cove_dev;"
-psql -U postgres -c "CREATE DATABASE cove_test;"
+psql -U postgres -c "CREATE DATABASE cove_test;"   # psql asks for the postgres password
 
 # 3. Install both packages and generate the Prisma client
 npm run setup
@@ -166,6 +166,8 @@ account), and the API docs are at <http://localhost:3000/api/docs>.
 
 The dev server proxies `/api` to the backend, so the refresh-token cookie is same-origin. If the
 backend runs on another port, start the frontend with `API_PROXY_TARGET=http://localhost:<port>`.
+To change the frontend port, call Vite directly (the root script does not forward flags):
+`npm --prefix frontend run dev -- --port 5175`.
 
 **Seeded accounts:** whatever you put in `.env` (`ADMIN_EMAIL` / `ADMIN_PASSWORD`, and the optional
 demo user). Nothing is hard-coded in the repository. Running `npm run db:seed` again is safe: it adds
@@ -201,7 +203,7 @@ Base path `/api`, JSON only. Full reference: Swagger UI at `/api/docs`, machine-
 | POST | `/vehicles` | **admin** | Create. 201 |
 | PUT | `/vehicles/:id` | **admin** | Update details (not quantity) |
 | DELETE | `/vehicles/:id` | **admin** | Soft delete. 204 |
-| POST | `/vehicles/:id/purchase` | signed in | `{ "quantity": 1 }` optional. Atomic. 409 `OUT_OF_STOCK` when short |
+| POST | `/vehicles/:id/purchase` | signed in | `{ "quantity": 1 }` optional (1 to 10). Atomic. 409 `OUT_OF_STOCK` when short |
 | POST | `/vehicles/:id/restock` | **admin** | `{ "quantity": n }` |
 | GET | `/orders/mine` | signed in | The caller's orders |
 | GET | `/admin/events` | **admin** | Recent inventory events |
@@ -363,9 +365,9 @@ Honest list, roughly in order of importance:
    tabs at the same instant can sign the user out.
 7. **No deployment.** Nothing is hosted; there is no live link. Cross-site hosting would need
    `SameSite=None; Secure` cookies and a CORS entry for the frontend origin.
-8. **No end-to-end browser test.** The frontend tests run in jsdom with a mocked network; the full flow
-   (browser, Vite proxy, real API, real database) was exercised by hand and in the clean-clone check, not
-   by an automated test.
+8. **No end-to-end browser test.** The frontend tests run in jsdom with a mocked network. In the
+   clean-clone check the API was exercised with `curl` through the Vite proxy against a real database,
+   but the finished pages were not driven in a browser as part of the documentation work.
 9. **No restore for soft-deleted vehicles** and no purge.
 10. **Search is substring matching** (`ILIKE`), not full-text search; fine for 24 cars, not for a large
     catalogue.
