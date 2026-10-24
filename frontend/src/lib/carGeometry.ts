@@ -41,6 +41,12 @@ export type CarDimensions = {
 const centreOf = (spec: CarSpec) => (spec.profile.tailX + spec.profile.noseX) / 2;
 const toWorldX = (spec: CarSpec, x: number) => (x - centreOf(spec)) * WORLD_SCALE;
 
+/** A point in spec units (x along the car, h above the floor) as metres, car centred on x = 0. */
+export const toWorldPoint = (spec: CarSpec, x: number, h: number): Vec2 => [
+  toWorldX(spec, x),
+  h * WORLD_SCALE,
+];
+
 export function carDimensions(spec: CarSpec): CarDimensions {
   const { profile: p, wheels } = spec;
   return {
