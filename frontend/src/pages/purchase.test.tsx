@@ -17,7 +17,9 @@ describe('purchase flow', () => {
     const { user, article, api } = await setup(5);
     await user.click(within(article).getByRole('button', { name: /buy this car/i }));
     const dialog = screen.getByRole('dialog', { name: 'Buy Honda City?' });
-    expect(within(dialog).getByText(/₹12,50,000/)).toBeInTheDocument();
+    expect(
+      within(dialog).getByText('You are buying one Honda City for ₹12,50,000.'),
+    ).toBeInTheDocument();
     expect(within(dialog).getByText(/simulated/i)).toBeInTheDocument();
     expect(api.state.orders).toHaveLength(0);
   });
