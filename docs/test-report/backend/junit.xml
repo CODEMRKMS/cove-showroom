@@ -1,0 +1,851 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites name="vitest tests" tests="383" failures="0" errors="0" time="73.592527">
+    <testsuite name="test/integration/admin.events.test.ts" timestamp="2026-10-24T20:05:51.767Z" hostname="shadabpc" tests="13" failures="0" errors="0" skipped="0" time="2.3798956">
+        <testcase classname="test/integration/admin.events.test.ts" name="GET /api/admin/events &gt; refuses a USER with 403 and anonymous callers with 401" time="0.5145107">
+        </testcase>
+        <testcase classname="test/integration/admin.events.test.ts" name="GET /api/admin/events &gt; returns an empty feed when nothing has happened yet" time="0.2016457">
+        </testcase>
+        <testcase classname="test/integration/admin.events.test.ts" name="GET /api/admin/events &gt; lists events newest first with the vehicle and who did it" time="0.1669235">
+        </testcase>
+        <testcase classname="test/integration/admin.events.test.ts" name="GET /api/admin/events &gt; exposes no email or password hash for the people involved" time="0.1602166">
+        </testcase>
+        <testcase classname="test/integration/admin.events.test.ts" name="GET /api/admin/events &gt; still names a vehicle that has since been soft-deleted" time="0.128323">
+        </testcase>
+        <testcase classname="test/integration/admin.events.test.ts" name="GET /api/admin/events &gt; records what admins and buyers actually do through the API, in order" time="0.2965401">
+        </testcase>
+        <testcase classname="test/integration/admin.events.test.ts" name="GET /api/admin/events &gt; limit &gt; defaults to 20 events and honours a smaller limit" time="0.2283597">
+        </testcase>
+        <testcase classname="test/integration/admin.events.test.ts" name="GET /api/admin/events &gt; limit &gt; keeps the newest events when it cuts the list" time="0.1400295">
+        </testcase>
+        <testcase classname="test/integration/admin.events.test.ts" name="GET /api/admin/events &gt; limit &gt; rejects 0 with 400" time="0.1183321">
+        </testcase>
+        <testcase classname="test/integration/admin.events.test.ts" name="GET /api/admin/events &gt; limit &gt; rejects 101 with 400" time="0.1031762">
+        </testcase>
+        <testcase classname="test/integration/admin.events.test.ts" name="GET /api/admin/events &gt; limit &gt; rejects a fraction with 400" time="0.1077688">
+        </testcase>
+        <testcase classname="test/integration/admin.events.test.ts" name="GET /api/admin/events &gt; limit &gt; rejects text with 400" time="0.0996601">
+        </testcase>
+        <testcase classname="test/integration/admin.events.test.ts" name="GET /api/admin/events &gt; limit &gt; rejects an unknown parameter with 400" time="0.1041604">
+        </testcase>
+    </testsuite>
+    <testsuite name="test/integration/auth.jwt-middleware.test.ts" timestamp="2026-10-24T20:05:51.824Z" hostname="shadabpc" tests="14" failures="0" errors="0" skipped="0" time="1.9876607">
+        <testcase classname="test/integration/auth.jwt-middleware.test.ts" name="GET /api/auth/me: access token verification &gt; returns the current user for a valid token" time="0.5986641">
+        </testcase>
+        <testcase classname="test/integration/auth.jwt-middleware.test.ts" name="GET /api/auth/me: access token verification &gt; takes the role from the database, not from the token" time="0.1962678">
+        </testcase>
+        <testcase classname="test/integration/auth.jwt-middleware.test.ts" name="GET /api/auth/me: access token verification &gt; rejects a request with no Authorization header" time="0.1043689">
+        </testcase>
+        <testcase classname="test/integration/auth.jwt-middleware.test.ts" name="GET /api/auth/me: access token verification &gt; rejects a request with an empty header" time="0.0935165">
+        </testcase>
+        <testcase classname="test/integration/auth.jwt-middleware.test.ts" name="GET /api/auth/me: access token verification &gt; rejects a request with the wrong scheme" time="0.0908215">
+        </testcase>
+        <testcase classname="test/integration/auth.jwt-middleware.test.ts" name="GET /api/auth/me: access token verification &gt; rejects a request with a Bearer scheme with no token" time="0.0904959">
+        </testcase>
+        <testcase classname="test/integration/auth.jwt-middleware.test.ts" name="GET /api/auth/me: access token verification &gt; rejects a request with a token that is not a JWT" time="0.0921295">
+        </testcase>
+        <testcase classname="test/integration/auth.jwt-middleware.test.ts" name="GET /api/auth/me: access token verification &gt; rejects a well-formed token that fails verification &gt; expired" time="0.1021389">
+        </testcase>
+        <testcase classname="test/integration/auth.jwt-middleware.test.ts" name="GET /api/auth/me: access token verification &gt; rejects a well-formed token that fails verification &gt; signed with a different secret" time="0.1116522">
+        </testcase>
+        <testcase classname="test/integration/auth.jwt-middleware.test.ts" name="GET /api/auth/me: access token verification &gt; rejects a well-formed token that fails verification &gt; issued for a different audience" time="0.102059">
+        </testcase>
+        <testcase classname="test/integration/auth.jwt-middleware.test.ts" name="GET /api/auth/me: access token verification &gt; rejects a well-formed token that fails verification &gt; issued by a different issuer" time="0.0967667">
+        </testcase>
+        <testcase classname="test/integration/auth.jwt-middleware.test.ts" name="GET /api/auth/me: access token verification &gt; rejects a well-formed token that fails verification &gt; signed with an unexpected algorithm (HS512)" time="0.0993516">
+        </testcase>
+        <testcase classname="test/integration/auth.jwt-middleware.test.ts" name="GET /api/auth/me: access token verification &gt; rejects a well-formed token that fails verification &gt; unsigned (alg none)" time="0.0977633">
+        </testcase>
+        <testcase classname="test/integration/auth.jwt-middleware.test.ts" name="GET /api/auth/me: access token verification &gt; rejects a valid token whose user no longer exists" time="0.1014248">
+        </testcase>
+    </testsuite>
+    <testsuite name="test/integration/auth.login.failure.test.ts" timestamp="2026-10-24T20:05:51.832Z" hostname="shadabpc" tests="2" failures="0" errors="0" skipped="0" time="1.0786315">
+        <testcase classname="test/integration/auth.login.failure.test.ts" name="POST /api/auth/login: failure &gt; answers 401 INVALID_CREDENTIALS for a wrong password" time="0.6901495">
+        </testcase>
+        <testcase classname="test/integration/auth.login.failure.test.ts" name="POST /api/auth/login: failure &gt; gives an unknown email exactly the same response as a wrong password" time="0.3789325">
+        </testcase>
+    </testsuite>
+    <testsuite name="test/integration/auth.login.rate-limit.test.ts" timestamp="2026-10-24T20:05:51.834Z" hostname="shadabpc" tests="2" failures="0" errors="0" skipped="0" time="1.7386783">
+        <testcase classname="test/integration/auth.login.rate-limit.test.ts" name="POST /api/auth/login: rate limit &gt; answers 429 RATE_LIMITED after too many failed attempts, even with the right password" time="0.9089248">
+        </testcase>
+        <testcase classname="test/integration/auth.login.rate-limit.test.ts" name="POST /api/auth/login: rate limit &gt; counts only failed attempts, so successful logins never lock anyone out" time="0.8158448">
+        </testcase>
+    </testsuite>
+    <testsuite name="test/integration/auth.login.test.ts" timestamp="2026-10-24T20:05:51.835Z" hostname="shadabpc" tests="1" failures="0" errors="0" skipped="0" time="0.747157">
+        <testcase classname="test/integration/auth.login.test.ts" name="POST /api/auth/login: success &gt; returns 200 with a signed access token and the public user" time="0.7379975">
+        </testcase>
+    </testsuite>
+    <testsuite name="test/integration/auth.logout.test.ts" timestamp="2026-10-24T20:05:51.836Z" hostname="shadabpc" tests="5" failures="0" errors="0" skipped="0" time="1.6365667">
+        <testcase classname="test/integration/auth.logout.test.ts" name="POST /api/auth/logout &gt; answers 204, clears the cookie and revokes the token" time="0.7174972">
+        </testcase>
+        <testcase classname="test/integration/auth.logout.test.ts" name="POST /api/auth/logout &gt; revokes the rest of the chain when called with an already-rotated token" time="0.3102259">
+        </testcase>
+        <testcase classname="test/integration/auth.logout.test.ts" name="POST /api/auth/logout &gt; leaves the user&apos;s other sessions signed in" time="0.4167192">
+        </testcase>
+        <testcase classname="test/integration/auth.logout.test.ts" name="POST /api/auth/logout &gt; is idempotent: no cookie still answers 204 and clears the cookie" time="0.0863116">
+        </testcase>
+        <testcase classname="test/integration/auth.logout.test.ts" name="POST /api/auth/logout &gt; is idempotent: an unknown token still answers 204 and clears the cookie" time="0.0948331">
+        </testcase>
+    </testsuite>
+    <testsuite name="test/integration/auth.refresh.reuse.test.ts" timestamp="2026-10-24T20:05:51.838Z" hostname="shadabpc" tests="5" failures="0" errors="0" skipped="0" time="1.7157949">
+        <testcase classname="test/integration/auth.refresh.reuse.test.ts" name="POST /api/auth/refresh: reuse detection &gt; revokes the whole chain when a retired token is presented again" time="0.7668901">
+        </testcase>
+        <testcase classname="test/integration/auth.refresh.reuse.test.ts" name="POST /api/auth/refresh: reuse detection &gt; does not touch another user&apos;s sessions" time="0.5252186">
+        </testcase>
+        <testcase classname="test/integration/auth.refresh.reuse.test.ts" name="POST /api/auth/refresh: invalid tokens &gt; rejects an expired token and does not rotate it" time="0.2136374">
+        </testcase>
+        <testcase classname="test/integration/auth.refresh.reuse.test.ts" name="POST /api/auth/refresh: invalid tokens &gt; rejects no cookie" time="0.0972012">
+        </testcase>
+        <testcase classname="test/integration/auth.refresh.reuse.test.ts" name="POST /api/auth/refresh: invalid tokens &gt; rejects an unknown token" time="0.1017057">
+        </testcase>
+    </testsuite>
+    <testsuite name="test/integration/auth.refresh.test.ts" timestamp="2026-10-24T20:05:51.840Z" hostname="shadabpc" tests="4" failures="0" errors="0" skipped="0" time="1.9275748">
+        <testcase classname="test/integration/auth.refresh.test.ts" name="refresh token cookie on login &gt; sets an httpOnly, SameSite=Lax cookie scoped to /api/auth, and stores only its hash" time="0.7086902">
+        </testcase>
+        <testcase classname="test/integration/auth.refresh.test.ts" name="refresh token cookie on login &gt; marks the cookie Secure in production" time="0.2968067">
+        </testcase>
+        <testcase classname="test/integration/auth.refresh.test.ts" name="POST /api/auth/refresh: rotation &gt; trades a valid refresh cookie for a new access token and a new refresh cookie" time="0.3859737">
+        </testcase>
+        <testcase classname="test/integration/auth.refresh.test.ts" name="POST /api/auth/refresh: rotation &gt; keeps working across several rotations" time="0.524933">
+        </testcase>
+    </testsuite>
+    <testsuite name="test/integration/auth.register.duplicate.test.ts" timestamp="2026-10-24T20:05:51.842Z" hostname="shadabpc" tests="2" failures="0" errors="0" skipped="0" time="1.2096156">
+        <testcase classname="test/integration/auth.register.duplicate.test.ts" name="POST /api/auth/register: duplicate email &gt; answers 409 EMAIL_TAKEN, ignoring email case, and keeps the original account" time="0.8055395">
+        </testcase>
+        <testcase classname="test/integration/auth.register.duplicate.test.ts" name="POST /api/auth/register: duplicate email &gt; lets exactly one of two simultaneous registrations win" time="0.3935287">
+        </testcase>
+    </testsuite>
+    <testsuite name="test/integration/auth.register.test.ts" timestamp="2026-10-24T20:05:51.844Z" hostname="shadabpc" tests="2" failures="0" errors="0" skipped="0" time="0.8903982">
+        <testcase classname="test/integration/auth.register.test.ts" name="POST /api/auth/register: success &gt; creates a USER and returns 201 with the public user fields" time="0.6140191">
+        </testcase>
+        <testcase classname="test/integration/auth.register.test.ts" name="POST /api/auth/register: success &gt; never returns the password or its hash, and stores an argon2id hash" time="0.2676745">
+        </testcase>
+    </testsuite>
+    <testsuite name="test/integration/auth.register.validation.test.ts" timestamp="2026-10-24T20:05:51.846Z" hostname="shadabpc" tests="6" failures="0" errors="0" skipped="0" time="0.9772418">
+        <testcase classname="test/integration/auth.register.validation.test.ts" name="POST /api/auth/register: validation &gt; rejects a password that is shorter than 10 characters" time="0.4834972">
+        </testcase>
+        <testcase classname="test/integration/auth.register.validation.test.ts" name="POST /api/auth/register: validation &gt; rejects a password that is a common password" time="0.0952378">
+        </testcase>
+        <testcase classname="test/integration/auth.register.validation.test.ts" name="POST /api/auth/register: validation &gt; rejects a password that is a common password in another case" time="0.0992077">
+        </testcase>
+        <testcase classname="test/integration/auth.register.validation.test.ts" name="POST /api/auth/register: validation &gt; rejects an unexpected field (role) instead of ignoring it" time="0.0979482">
+        </testcase>
+        <testcase classname="test/integration/auth.register.validation.test.ts" name="POST /api/auth/register: validation &gt; rejects an unexpected field (isAdmin) instead of ignoring it" time="0.101718">
+        </testcase>
+        <testcase classname="test/integration/auth.register.validation.test.ts" name="POST /api/auth/register: validation &gt; rejects a malformed email and a missing name, reporting each field" time="0.0906844">
+        </testcase>
+    </testsuite>
+    <testsuite name="test/integration/cors.test.ts" timestamp="2026-10-24T20:05:51.849Z" hostname="shadabpc" tests="6" failures="0" errors="0" skipped="0" time="0.8960113">
+        <testcase classname="test/integration/cors.test.ts" name="CORS allow-list &gt; echoes an allowed origin and allows credentials, so the refresh cookie can travel" time="0.4284462">
+        </testcase>
+        <testcase classname="test/integration/cors.test.ts" name="CORS allow-list &gt; sends no CORS headers to an origin that is not on the list" time="0.0973189">
+        </testcase>
+        <testcase classname="test/integration/cors.test.ts" name="CORS allow-list &gt; answers a preflight from an allowed origin with the methods and headers the SPA uses" time="0.090077">
+        </testcase>
+        <testcase classname="test/integration/cors.test.ts" name="CORS allow-list &gt; does not grant a preflight to an origin that is not on the list" time="0.0917973">
+        </testcase>
+        <testcase classname="test/integration/cors.test.ts" name="CORS allow-list &gt; lets requests with no Origin header through (curl, server to server)" time="0.0899169">
+        </testcase>
+        <testcase classname="test/integration/cors.test.ts" name="CORS allow-list &gt; exposes the request id header so a browser client can quote it" time="0.0895907">
+        </testcase>
+    </testsuite>
+    <testsuite name="test/integration/database.test.ts" timestamp="2026-10-24T20:05:51.852Z" hostname="shadabpc" tests="6" failures="0" errors="0" skipped="0" time="1.0440103">
+        <testcase classname="test/integration/database.test.ts" name="test database &gt; connects to PostgreSQL" time="0.3236065">
+        </testcase>
+        <testcase classname="test/integration/database.test.ts" name="test database &gt; has the migrated tables" time="0.0823569">
+        </testcase>
+        <testcase classname="test/integration/database.test.ts" name="test database &gt; rejects negative stock at the database level" time="0.1680345">
+        </testcase>
+        <testcase classname="test/integration/database.test.ts" name="test database &gt; rejects non-lowercase emails at the database level" time="0.1638101">
+        </testcase>
+        <testcase classname="test/integration/database.test.ts" name="test database &gt; persists factory data" time="0.1968778">
+        </testcase>
+        <testcase classname="test/integration/database.test.ts" name="test database &gt; starts every test with empty tables" time="0.1002124">
+        </testcase>
+    </testsuite>
+    <testsuite name="test/integration/error-envelope.test.ts" timestamp="2026-10-24T20:05:51.856Z" hostname="shadabpc" tests="19" failures="0" errors="0" skipped="0" time="2.5270733">
+        <testcase classname="test/integration/error-envelope.test.ts" name="error envelope &gt; every kind of error answers with the same body shape &gt; validation" time="0.4483003">
+        </testcase>
+        <testcase classname="test/integration/error-envelope.test.ts" name="error envelope &gt; every kind of error answers with the same body shape &gt; missing token" time="0.109589">
+        </testcase>
+        <testcase classname="test/integration/error-envelope.test.ts" name="error envelope &gt; every kind of error answers with the same body shape &gt; wrong role" time="0.2046">
+        </testcase>
+        <testcase classname="test/integration/error-envelope.test.ts" name="error envelope &gt; every kind of error answers with the same body shape &gt; missing vehicle" time="0.1283853">
+        </testcase>
+        <testcase classname="test/integration/error-envelope.test.ts" name="error envelope &gt; every kind of error answers with the same body shape &gt; out of stock" time="0.1710357">
+        </testcase>
+        <testcase classname="test/integration/error-envelope.test.ts" name="error envelope &gt; every kind of error answers with the same body shape &gt; unknown route" time="0.1082005">
+        </testcase>
+        <testcase classname="test/integration/error-envelope.test.ts" name="error envelope &gt; every kind of error answers with the same body shape &gt; unknown method on a known path" time="0.1008033">
+        </testcase>
+        <testcase classname="test/integration/error-envelope.test.ts" name="error envelope &gt; every kind of error answers with the same body shape &gt; malformed JSON" time="0.1003599">
+        </testcase>
+        <testcase classname="test/integration/error-envelope.test.ts" name="error envelope &gt; every kind of error answers with the same body shape &gt; oversized body" time="0.1041676">
+        </testcase>
+        <testcase classname="test/integration/error-envelope.test.ts" name="error envelope &gt; every kind of error answers with the same body shape &gt; unsupported charset" time="0.0995727">
+        </testcase>
+        <testcase classname="test/integration/error-envelope.test.ts" name="error envelope &gt; request ids &gt; generates one for every response, successful or not" time="0.1236503">
+        </testcase>
+        <testcase classname="test/integration/error-envelope.test.ts" name="error envelope &gt; request ids &gt; keeps a well-formed id sent by the caller, so a request can be traced end to end" time="0.0939437">
+        </testcase>
+        <testcase classname="test/integration/error-envelope.test.ts" name="error envelope &gt; request ids &gt; replaces one with spaces with a generated id" time="0.0929382">
+        </testcase>
+        <testcase classname="test/integration/error-envelope.test.ts" name="error envelope &gt; request ids &gt; replaces one with markup with a generated id" time="0.0950613">
+        </testcase>
+        <testcase classname="test/integration/error-envelope.test.ts" name="error envelope &gt; request ids &gt; replaces one that is too long with a generated id" time="0.0993519">
+        </testcase>
+        <testcase classname="test/integration/error-envelope.test.ts" name="error envelope &gt; unexpected failures &gt; answers 500 INTERNAL_ERROR with nothing internal in production mode" time="0.1162673">
+        </testcase>
+        <testcase classname="test/integration/error-envelope.test.ts" name="error envelope &gt; unexpected failures &gt; answers 500 INTERNAL_ERROR with nothing internal in development mode" time="0.1018954">
+        </testcase>
+        <testcase classname="test/integration/error-envelope.test.ts" name="error envelope &gt; unexpected failures &gt; logs the real error once with the request id, so the response id leads to the cause" time="0.1018275">
+        </testcase>
+        <testcase classname="test/integration/error-envelope.test.ts" name="error envelope &gt; unexpected failures &gt; does not log expected client errors as server errors" time="0.1125277">
+        </testcase>
+    </testsuite>
+    <testsuite name="test/integration/health.test.ts" timestamp="2026-10-24T20:05:51.865Z" hostname="shadabpc" tests="1" failures="0" errors="0" skipped="0" time="0.455462">
+        <testcase classname="test/integration/health.test.ts" name="GET /api/health &gt; answers 200 with status ok and needs no authentication" time="0.4470033">
+        </testcase>
+    </testsuite>
+    <testsuite name="test/integration/logging.test.ts" timestamp="2026-10-24T20:05:51.876Z" hostname="shadabpc" tests="7" failures="0" errors="0" skipped="0" time="1.5550351">
+        <testcase classname="test/integration/logging.test.ts" name="request logging (pino-http) &gt; writes one structured line per request: method, url, status, duration and the request id" time="0.4328108">
+        </testcase>
+        <testcase classname="test/integration/logging.test.ts" name="request logging (pino-http) &gt; picks the level from the outcome: info for 2xx, warn for 4xx, error for 5xx" time="0.2445402">
+        </testcase>
+        <testcase classname="test/integration/logging.test.ts" name="request logging (pino-http) &gt; redacts the Authorization and Cookie request headers" time="0.1237694">
+        </testcase>
+        <testcase classname="test/integration/logging.test.ts" name="request logging (pino-http) &gt; redacts the refresh token cookie the server sets on login" time="0.3280994">
+        </testcase>
+        <testcase classname="test/integration/logging.test.ts" name="request logging (pino-http) &gt; never writes request bodies, so passwords and tokens in JSON stay out of the log" time="0.203267">
+        </testcase>
+        <testcase classname="test/integration/logging.test.ts" name="request logging (pino-http) &gt; stays quiet for the liveness and readiness probes" time="0.1108416">
+        </testcase>
+        <testcase classname="test/integration/logging.test.ts" name="request logging (pino-http) &gt; logs an unexpected error with its stack and the request id, while the client sees neither" time="0.101163">
+        </testcase>
+    </testsuite>
+    <testsuite name="test/integration/openapi.test.ts" timestamp="2026-10-24T20:05:51.881Z" hostname="shadabpc" tests="21" failures="0" errors="0" skipped="0" time="2.9445015">
+        <testcase classname="test/integration/openapi.test.ts" name="serving the documentation &gt; serves the OpenAPI document as JSON without a token" time="0.3277661">
+        </testcase>
+        <testcase classname="test/integration/openapi.test.ts" name="serving the documentation &gt; serves the Swagger UI page at /api/docs/ without a token" time="0.0939268">
+        </testcase>
+        <testcase classname="test/integration/openapi.test.ts" name="serving the documentation &gt; does not describe any route that needs documenting but is missing, or the reverse" time="0.0829836">
+        </testcase>
+        <testcase classname="test/integration/openapi.test.ts" name="the document stays consistent with the access policy &gt; requires a bearer token on exactly the routes in the policy map and none of the public ones" time="0.0850258">
+        </testcase>
+        <testcase classname="test/integration/openapi.test.ts" name="the document stays consistent with the access policy &gt; marks admin-only operations with x-required-role ADMIN and no others" time="0.084382">
+        </testcase>
+        <testcase classname="test/integration/openapi.test.ts" name="the document stays consistent with the access policy &gt; documents 401 on every protected route and 403 only where a role is required" time="0.0820938">
+        </testcase>
+        <testcase classname="test/integration/openapi.test.ts" name="the document is well formed &gt; gives every operation a unique id, a summary and a tag" time="0.0830543">
+        </testcase>
+        <testcase classname="test/integration/openapi.test.ts" name="the document is well formed &gt; resolves every $ref" time="0.0994021">
+        </testcase>
+        <testcase classname="test/integration/openapi.test.ts" name="the document is well formed &gt; describes every error response with the Problem schema" time="0.0828138">
+        </testcase>
+        <testcase classname="test/integration/openapi.test.ts" name="the document is well formed &gt; declares the id parameter as a UUID and documents 400 and 404 for routes that take one" time="0.0830889">
+        </testcase>
+        <testcase classname="test/integration/openapi.test.ts" name="the document is well formed &gt; documents 409 OUT_OF_STOCK on purchase" time="0.0835747">
+        </testcase>
+        <testcase classname="test/integration/openapi.test.ts" name="the document is well formed &gt; lists the same categories and sort options the API accepts" time="0.0804077">
+        </testcase>
+        <testcase classname="test/integration/openapi.test.ts" name="documented request bodies match what the API requires &gt; CreateVehicleRequest lists exactly the fields the API reports as missing" time="0.2363204">
+        </testcase>
+        <testcase classname="test/integration/openapi.test.ts" name="documented request bodies match what the API requires &gt; RegisterRequest lists exactly the fields the API reports as missing" time="0.0909134">
+        </testcase>
+        <testcase classname="test/integration/openapi.test.ts" name="documented request bodies match what the API requires &gt; LoginRequest lists exactly the fields the API reports as missing" time="0.0904683">
+        </testcase>
+        <testcase classname="test/integration/openapi.test.ts" name="documented request bodies match what the API requires &gt; RestockRequest lists exactly the fields the API reports as missing" time="0.1021754">
+        </testcase>
+        <testcase classname="test/integration/openapi.test.ts" name="documented responses have the shape the API really returns &gt; Problem, FieldError and the validation envelope" time="0.0966326">
+        </testcase>
+        <testcase classname="test/integration/openapi.test.ts" name="documented responses have the shape the API really returns &gt; health and readiness" time="0.0999369">
+        </testcase>
+        <testcase classname="test/integration/openapi.test.ts" name="documented responses have the shape the API really returns &gt; register, login, refresh and me" time="0.3759717">
+        </testcase>
+        <testcase classname="test/integration/openapi.test.ts" name="documented responses have the shape the API really returns &gt; vehicles: create, get, list, search, update, restock" time="0.2472188">
+        </testcase>
+        <testcase classname="test/integration/openapi.test.ts" name="documented responses have the shape the API really returns &gt; purchase, my orders and the admin event feed" time="0.254619">
+        </testcase>
+    </testsuite>
+    <testsuite name="test/integration/orders.mine.test.ts" timestamp="2026-10-24T20:05:51.891Z" hostname="shadabpc" tests="12" failures="0" errors="0" skipped="0" time="2.0184646">
+        <testcase classname="test/integration/orders.mine.test.ts" name="GET /api/orders/mine &gt; requires a signed-in user" time="0.412477">
+        </testcase>
+        <testcase classname="test/integration/orders.mine.test.ts" name="GET /api/orders/mine &gt; returns an empty page for a user who has bought nothing" time="0.2413252">
+        </testcase>
+        <testcase classname="test/integration/orders.mine.test.ts" name="GET /api/orders/mine &gt; returns the orders with their price and name snapshots, newest first" time="0.1373149">
+        </testcase>
+        <testcase classname="test/integration/orders.mine.test.ts" name="GET /api/orders/mine &gt; never shows another user&apos;s orders, not even to an admin" time="0.1750701">
+        </testcase>
+        <testcase classname="test/integration/orders.mine.test.ts" name="GET /api/orders/mine &gt; keeps showing orders for a vehicle that was later soft-deleted" time="0.1296163">
+        </testcase>
+        <testcase classname="test/integration/orders.mine.test.ts" name="GET /api/orders/mine &gt; shows a purchase made through the API straight away" time="0.1855137">
+        </testcase>
+        <testcase classname="test/integration/orders.mine.test.ts" name="GET /api/orders/mine &gt; pagination &gt; slices pages and reports totals" time="0.1705916">
+        </testcase>
+        <testcase classname="test/integration/orders.mine.test.ts" name="GET /api/orders/mine &gt; pagination &gt; rejects page size above 50 with 400" time="0.1122523">
+        </testcase>
+        <testcase classname="test/integration/orders.mine.test.ts" name="GET /api/orders/mine &gt; pagination &gt; rejects page of 0 with 400" time="0.1159028">
+        </testcase>
+        <testcase classname="test/integration/orders.mine.test.ts" name="GET /api/orders/mine &gt; pagination &gt; rejects non-numeric page with 400" time="0.109916">
+        </testcase>
+        <testcase classname="test/integration/orders.mine.test.ts" name="GET /api/orders/mine &gt; pagination &gt; rejects a sort parameter, which orders do not support with 400" time="0.1141912">
+        </testcase>
+        <testcase classname="test/integration/orders.mine.test.ts" name="GET /api/orders/mine &gt; pagination &gt; rejects an unknown parameter with 400" time="0.1040882">
+        </testcase>
+    </testsuite>
+    <testsuite name="test/integration/rate-limit.global.test.ts" timestamp="2026-10-24T20:05:51.896Z" hostname="shadabpc" tests="5" failures="0" errors="0" skipped="0" time="1.2590741">
+        <testcase classname="test/integration/rate-limit.global.test.ts" name="global rate limit &gt; answers 429 RATE_LIMITED in the standard error envelope once the limit is spent" time="0.4370659">
+        </testcase>
+        <testcase classname="test/integration/rate-limit.global.test.ts" name="global rate limit &gt; reports the remaining budget in the standard RateLimit headers" time="0.0952215">
+        </testcase>
+        <testcase classname="test/integration/rate-limit.global.test.ts" name="global rate limit &gt; limits authenticated routes as well" time="0.2521521">
+        </testcase>
+        <testcase classname="test/integration/rate-limit.global.test.ts" name="global rate limit &gt; never limits the liveness and readiness probes" time="0.1523081">
+        </testcase>
+        <testcase classname="test/integration/rate-limit.global.test.ts" name="global rate limit &gt; keeps the tighter login limit separate from the global one" time="0.3121381">
+        </testcase>
+    </testsuite>
+    <testsuite name="test/integration/ready.test.ts" timestamp="2026-10-24T20:05:51.898Z" hostname="shadabpc" tests="4" failures="0" errors="0" skipped="0" time="0.7295078">
+        <testcase classname="test/integration/ready.test.ts" name="GET /api/ready &gt; answers 200 when the database answers, without needing a token" time="0.4209936">
+        </testcase>
+        <testcase classname="test/integration/ready.test.ts" name="GET /api/ready &gt; answers 503 NOT_READY in the standard envelope when the database cannot be reached" time="0.1051689">
+        </testcase>
+        <testcase classname="test/integration/ready.test.ts" name="GET /api/ready &gt; keeps connection details out of the response and in the server log" time="0.0984788">
+        </testcase>
+        <testcase classname="test/integration/ready.test.ts" name="GET /api/ready &gt; stays alive when the database is down: /api/health does not touch it" time="0.0954413">
+        </testcase>
+    </testsuite>
+    <testsuite name="test/integration/role-matrix.test.ts" timestamp="2026-10-24T20:05:51.901Z" hostname="shadabpc" tests="34" failures="0" errors="0" skipped="0" time="5.8913894">
+        <testcase classname="test/integration/role-matrix.test.ts" name="role matrix: every protected route &gt; GET /api/auth/me &gt; as anonymous" time="0.4629076">
+        </testcase>
+        <testcase classname="test/integration/role-matrix.test.ts" name="role matrix: every protected route &gt; GET /api/auth/me &gt; as USER" time="0.3279415">
+        </testcase>
+        <testcase classname="test/integration/role-matrix.test.ts" name="role matrix: every protected route &gt; GET /api/auth/me &gt; as ADMIN" time="0.1902977">
+        </testcase>
+        <testcase classname="test/integration/role-matrix.test.ts" name="role matrix: every protected route &gt; POST /api/vehicles &gt; as anonymous" time="0.090116">
+        </testcase>
+        <testcase classname="test/integration/role-matrix.test.ts" name="role matrix: every protected route &gt; POST /api/vehicles &gt; as USER" time="0.2063782">
+        </testcase>
+        <testcase classname="test/integration/role-matrix.test.ts" name="role matrix: every protected route &gt; POST /api/vehicles &gt; as ADMIN" time="0.1942014">
+        </testcase>
+        <testcase classname="test/integration/role-matrix.test.ts" name="role matrix: every protected route &gt; GET /api/vehicles &gt; as anonymous" time="0.0948783">
+        </testcase>
+        <testcase classname="test/integration/role-matrix.test.ts" name="role matrix: every protected route &gt; GET /api/vehicles &gt; as USER" time="0.1937159">
+        </testcase>
+        <testcase classname="test/integration/role-matrix.test.ts" name="role matrix: every protected route &gt; GET /api/vehicles &gt; as ADMIN" time="0.19154">
+        </testcase>
+        <testcase classname="test/integration/role-matrix.test.ts" name="role matrix: every protected route &gt; GET /api/vehicles/search &gt; as anonymous" time="0.0924638">
+        </testcase>
+        <testcase classname="test/integration/role-matrix.test.ts" name="role matrix: every protected route &gt; GET /api/vehicles/search &gt; as USER" time="0.1909699">
+        </testcase>
+        <testcase classname="test/integration/role-matrix.test.ts" name="role matrix: every protected route &gt; GET /api/vehicles/search &gt; as ADMIN" time="0.1891842">
+        </testcase>
+        <testcase classname="test/integration/role-matrix.test.ts" name="role matrix: every protected route &gt; GET /api/vehicles/:id &gt; as anonymous" time="0.1052959">
+        </testcase>
+        <testcase classname="test/integration/role-matrix.test.ts" name="role matrix: every protected route &gt; GET /api/vehicles/:id &gt; as USER" time="0.1856884">
+        </testcase>
+        <testcase classname="test/integration/role-matrix.test.ts" name="role matrix: every protected route &gt; GET /api/vehicles/:id &gt; as ADMIN" time="0.1920734">
+        </testcase>
+        <testcase classname="test/integration/role-matrix.test.ts" name="role matrix: every protected route &gt; PUT /api/vehicles/:id &gt; as anonymous" time="0.0892326">
+        </testcase>
+        <testcase classname="test/integration/role-matrix.test.ts" name="role matrix: every protected route &gt; PUT /api/vehicles/:id &gt; as USER" time="0.1878529">
+        </testcase>
+        <testcase classname="test/integration/role-matrix.test.ts" name="role matrix: every protected route &gt; PUT /api/vehicles/:id &gt; as ADMIN" time="0.2017535">
+        </testcase>
+        <testcase classname="test/integration/role-matrix.test.ts" name="role matrix: every protected route &gt; DELETE /api/vehicles/:id &gt; as anonymous" time="0.1159456">
+        </testcase>
+        <testcase classname="test/integration/role-matrix.test.ts" name="role matrix: every protected route &gt; DELETE /api/vehicles/:id &gt; as USER" time="0.210275">
+        </testcase>
+        <testcase classname="test/integration/role-matrix.test.ts" name="role matrix: every protected route &gt; DELETE /api/vehicles/:id &gt; as ADMIN" time="0.2009539">
+        </testcase>
+        <testcase classname="test/integration/role-matrix.test.ts" name="role matrix: every protected route &gt; POST /api/vehicles/:id/purchase &gt; as anonymous" time="0.0864474">
+        </testcase>
+        <testcase classname="test/integration/role-matrix.test.ts" name="role matrix: every protected route &gt; POST /api/vehicles/:id/purchase &gt; as USER" time="0.1948967">
+        </testcase>
+        <testcase classname="test/integration/role-matrix.test.ts" name="role matrix: every protected route &gt; POST /api/vehicles/:id/purchase &gt; as ADMIN" time="0.1883384">
+        </testcase>
+        <testcase classname="test/integration/role-matrix.test.ts" name="role matrix: every protected route &gt; POST /api/vehicles/:id/restock &gt; as anonymous" time="0.0869598">
+        </testcase>
+        <testcase classname="test/integration/role-matrix.test.ts" name="role matrix: every protected route &gt; POST /api/vehicles/:id/restock &gt; as USER" time="0.1879157">
+        </testcase>
+        <testcase classname="test/integration/role-matrix.test.ts" name="role matrix: every protected route &gt; POST /api/vehicles/:id/restock &gt; as ADMIN" time="0.188527">
+        </testcase>
+        <testcase classname="test/integration/role-matrix.test.ts" name="role matrix: every protected route &gt; GET /api/orders/mine &gt; as anonymous" time="0.0880468">
+        </testcase>
+        <testcase classname="test/integration/role-matrix.test.ts" name="role matrix: every protected route &gt; GET /api/orders/mine &gt; as USER" time="0.1827311">
+        </testcase>
+        <testcase classname="test/integration/role-matrix.test.ts" name="role matrix: every protected route &gt; GET /api/orders/mine &gt; as ADMIN" time="0.1965895">
+        </testcase>
+        <testcase classname="test/integration/role-matrix.test.ts" name="role matrix: every protected route &gt; GET /api/admin/events &gt; as anonymous" time="0.0889306">
+        </testcase>
+        <testcase classname="test/integration/role-matrix.test.ts" name="role matrix: every protected route &gt; GET /api/admin/events &gt; as USER" time="0.1901605">
+        </testcase>
+        <testcase classname="test/integration/role-matrix.test.ts" name="role matrix: every protected route &gt; GET /api/admin/events &gt; as ADMIN" time="0.2014781">
+        </testcase>
+        <testcase classname="test/integration/role-matrix.test.ts" name="role matrix: every protected route &gt; refuses to guard a route that has no entry in the policy map" time="0.0836233">
+        </testcase>
+    </testsuite>
+    <testsuite name="test/integration/route-policy.test.ts" timestamp="2026-10-24T20:05:51.915Z" hostname="shadabpc" tests="6" failures="0" errors="0" skipped="0" time="0.7863714">
+        <testcase classname="test/integration/route-policy.test.ts" name="route policy coverage &gt; finds the routes it is meant to check" time="0.333176">
+        </testcase>
+        <testcase classname="test/integration/route-policy.test.ts" name="route policy coverage &gt; guards every route that is not explicitly public with authorize() for its own key" time="0.0901167">
+        </testcase>
+        <testcase classname="test/integration/route-policy.test.ts" name="route policy coverage &gt; does not guard public routes" time="0.0824815">
+        </testcase>
+        <testcase classname="test/integration/route-policy.test.ts" name="route policy coverage &gt; never lists a public route in the policy map" time="0.1069176">
+        </testcase>
+        <testcase classname="test/integration/route-policy.test.ts" name="route policy coverage &gt; only registers routes that are in the policy map or the public list" time="0.0821189">
+        </testcase>
+        <testcase classname="test/integration/route-policy.test.ts" name="route policy coverage &gt; has a registered route for every entry in the policy map, so no rule is dead" time="0.0830084">
+        </testcase>
+    </testsuite>
+    <testsuite name="test/integration/security-headers.test.ts" timestamp="2026-10-24T20:05:51.918Z" hostname="shadabpc" tests="4" failures="0" errors="0" skipped="0" time="0.73817">
+        <testcase classname="test/integration/security-headers.test.ts" name="security headers (helmet) &gt; sends the standard hardening headers on API responses" time="0.4244285">
+        </testcase>
+        <testcase classname="test/integration/security-headers.test.ts" name="security headers (helmet) &gt; does not advertise the framework" time="0.0957865">
+        </testcase>
+        <testcase classname="test/integration/security-headers.test.ts" name="security headers (helmet) &gt; puts the headers on error responses too" time="0.1036586">
+        </testcase>
+        <testcase classname="test/integration/security-headers.test.ts" name="security headers (helmet) &gt; keeps Swagger UI working under the default content security policy: no inline scripts" time="0.1046276">
+        </testcase>
+    </testsuite>
+    <testsuite name="test/integration/seed.test.ts" timestamp="2026-10-24T20:05:51.920Z" hostname="shadabpc" tests="13" failures="0" errors="0" skipped="0" time="6.5603132">
+        <testcase classname="test/integration/seed.test.ts" name="seedDatabase &gt; vehicles &gt; creates 24 vehicles, three in each of the eight categories" time="0.7832082">
+        </testcase>
+        <testcase classname="test/integration/seed.test.ts" name="seedDatabase &gt; vehicles &gt; produces data the API itself would accept" time="0.3951768">
+        </testcase>
+        <testcase classname="test/integration/seed.test.ts" name="seedDatabase &gt; vehicles &gt; marks every listing as demo data in its description" time="0.3761256">
+        </testcase>
+        <testcase classname="test/integration/seed.test.ts" name="seedDatabase &gt; vehicles &gt; includes sold-out and low-stock vehicles so those UI states can be seen" time="0.407019">
+        </testcase>
+        <testcase classname="test/integration/seed.test.ts" name="seedDatabase &gt; vehicles &gt; records a CREATED event by the admin for each vehicle" time="0.4322093">
+        </testcase>
+        <testcase classname="test/integration/seed.test.ts" name="seedDatabase &gt; accounts &gt; creates the admin with the configured password stored as an argon2id hash" time="0.5080192">
+        </testcase>
+        <testcase classname="test/integration/seed.test.ts" name="seedDatabase &gt; accounts &gt; creates the demo user as a plain USER when one is configured" time="0.4934593">
+        </testcase>
+        <testcase classname="test/integration/seed.test.ts" name="seedDatabase &gt; accounts &gt; creates no demo user when none is configured" time="0.3205952">
+        </testcase>
+        <testcase classname="test/integration/seed.test.ts" name="seedDatabase &gt; accounts &gt; promotes an already registered account to admin and sets the configured password" time="0.4852661">
+        </testcase>
+        <testcase classname="test/integration/seed.test.ts" name="seedDatabase &gt; running it again &gt; adds nothing the second time: 24 vehicles, 24 events, one admin, one demo user" time="0.6204372">
+        </testcase>
+        <testcase classname="test/integration/seed.test.ts" name="seedDatabase &gt; running it again &gt; leaves existing vehicles as they are, such as stock that has since been sold" time="0.6619303">
+        </testcase>
+        <testcase classname="test/integration/seed.test.ts" name="seedDatabase &gt; running it again &gt; does not duplicate or revive a vehicle that was deleted after seeding" time="0.6439811">
+        </testcase>
+        <testcase classname="test/integration/seed.test.ts" name="seedDatabase &gt; running it again &gt; does not touch vehicles an admin added themselves" time="0.4196889">
+        </testcase>
+    </testsuite>
+    <testsuite name="test/integration/vehicles.create.test.ts" timestamp="2026-10-24T20:05:51.926Z" hostname="shadabpc" tests="21" failures="0" errors="0" skipped="0" time="2.8810818">
+        <testcase classname="test/integration/vehicles.create.test.ts" name="POST /api/vehicles &gt; lets an admin create a vehicle and returns it with a body style defaulted from the category" time="0.5935461">
+        </testcase>
+        <testcase classname="test/integration/vehicles.create.test.ts" name="POST /api/vehicles &gt; keeps an explicit body style and fills optional fields with defaults" time="0.1225291">
+        </testcase>
+        <testcase classname="test/integration/vehicles.create.test.ts" name="POST /api/vehicles &gt; records a CREATED inventory event for the acting admin" time="0.1270783">
+        </testcase>
+        <testcase classname="test/integration/vehicles.create.test.ts" name="POST /api/vehicles &gt; refuses a USER with 403 and anonymous callers with 401, creating nothing" time="0.1256619">
+        </testcase>
+        <testcase classname="test/integration/vehicles.create.test.ts" name="POST /api/vehicles &gt; rejects invalid input with 400 VALIDATION_ERROR naming the field &gt; empty make" time="0.1100753">
+        </testcase>
+        <testcase classname="test/integration/vehicles.create.test.ts" name="POST /api/vehicles &gt; rejects invalid input with 400 VALIDATION_ERROR naming the field &gt; blank make" time="0.1059568">
+        </testcase>
+        <testcase classname="test/integration/vehicles.create.test.ts" name="POST /api/vehicles &gt; rejects invalid input with 400 VALIDATION_ERROR naming the field &gt; empty model" time="0.1077345">
+        </testcase>
+        <testcase classname="test/integration/vehicles.create.test.ts" name="POST /api/vehicles &gt; rejects invalid input with 400 VALIDATION_ERROR naming the field &gt; unknown category" time="0.1136415">
+        </testcase>
+        <testcase classname="test/integration/vehicles.create.test.ts" name="POST /api/vehicles &gt; rejects invalid input with 400 VALIDATION_ERROR naming the field &gt; negative price" time="0.1134753">
+        </testcase>
+        <testcase classname="test/integration/vehicles.create.test.ts" name="POST /api/vehicles &gt; rejects invalid input with 400 VALIDATION_ERROR naming the field &gt; zero price" time="0.1113592">
+        </testcase>
+        <testcase classname="test/integration/vehicles.create.test.ts" name="POST /api/vehicles &gt; rejects invalid input with 400 VALIDATION_ERROR naming the field &gt; fractional price" time="0.1090167">
+        </testcase>
+        <testcase classname="test/integration/vehicles.create.test.ts" name="POST /api/vehicles &gt; rejects invalid input with 400 VALIDATION_ERROR naming the field &gt; price as a string" time="0.1106843">
+        </testcase>
+        <testcase classname="test/integration/vehicles.create.test.ts" name="POST /api/vehicles &gt; rejects invalid input with 400 VALIDATION_ERROR naming the field &gt; absurdly large price" time="0.1172235">
+        </testcase>
+        <testcase classname="test/integration/vehicles.create.test.ts" name="POST /api/vehicles &gt; rejects invalid input with 400 VALIDATION_ERROR naming the field &gt; fractional quantity" time="0.1111679">
+        </testcase>
+        <testcase classname="test/integration/vehicles.create.test.ts" name="POST /api/vehicles &gt; rejects invalid input with 400 VALIDATION_ERROR naming the field &gt; negative quantity" time="0.1081146">
+        </testcase>
+        <testcase classname="test/integration/vehicles.create.test.ts" name="POST /api/vehicles &gt; rejects invalid input with 400 VALIDATION_ERROR naming the field &gt; year in the distant past" time="0.1076537">
+        </testcase>
+        <testcase classname="test/integration/vehicles.create.test.ts" name="POST /api/vehicles &gt; rejects invalid input with 400 VALIDATION_ERROR naming the field &gt; colour that is not a hex code" time="0.1091347">
+        </testcase>
+        <testcase classname="test/integration/vehicles.create.test.ts" name="POST /api/vehicles &gt; rejects invalid input with 400 VALIDATION_ERROR naming the field &gt; unknown body style" time="0.1133696">
+        </testcase>
+        <testcase classname="test/integration/vehicles.create.test.ts" name="POST /api/vehicles &gt; rejects invalid input with 400 VALIDATION_ERROR naming the field &gt; client-supplied id" time="0.1080719">
+        </testcase>
+        <testcase classname="test/integration/vehicles.create.test.ts" name="POST /api/vehicles &gt; rejects invalid input with 400 VALIDATION_ERROR naming the field &gt; client-supplied deletedAt" time="0.1161528">
+        </testcase>
+        <testcase classname="test/integration/vehicles.create.test.ts" name="POST /api/vehicles &gt; rejects invalid input with 400 VALIDATION_ERROR naming the field &gt; missing required fields" time="0.1295383">
+        </testcase>
+    </testsuite>
+    <testsuite name="test/integration/vehicles.delete.test.ts" timestamp="2026-10-24T20:05:51.934Z" hostname="shadabpc" tests="7" failures="0" errors="0" skipped="0" time="1.7628734">
+        <testcase classname="test/integration/vehicles.delete.test.ts" name="DELETE /api/vehicles/:id &gt; soft-deletes: answers 204 with no body and keeps the row, marked with deletedAt" time="0.5617156">
+        </testcase>
+        <testcase classname="test/integration/vehicles.delete.test.ts" name="DELETE /api/vehicles/:id &gt; records a DELETED event with no stock change for the acting admin" time="0.1377268">
+        </testcase>
+        <testcase classname="test/integration/vehicles.delete.test.ts" name="DELETE /api/vehicles/:id &gt; hides the vehicle from the list, search and get, and blocks every action on it" time="0.3216837">
+        </testcase>
+        <testcase classname="test/integration/vehicles.delete.test.ts" name="DELETE /api/vehicles/:id &gt; keeps existing orders, with their price and name snapshots, after the vehicle is deleted" time="0.2021058">
+        </testcase>
+        <testcase classname="test/integration/vehicles.delete.test.ts" name="DELETE /api/vehicles/:id &gt; answers 404 when deleting it a second time, and writes only one event" time="0.1836051">
+        </testcase>
+        <testcase classname="test/integration/vehicles.delete.test.ts" name="DELETE /api/vehicles/:id &gt; answers 404 VEHICLE_NOT_FOUND for an unknown id and 400 for a non-UUID" time="0.1685007">
+        </testcase>
+        <testcase classname="test/integration/vehicles.delete.test.ts" name="DELETE /api/vehicles/:id &gt; refuses a USER with 403 and anonymous callers with 401, deleting nothing" time="0.1764632">
+        </testcase>
+    </testsuite>
+    <testsuite name="test/integration/vehicles.get.test.ts" timestamp="2026-10-24T20:05:51.937Z" hostname="shadabpc" tests="5" failures="0" errors="0" skipped="0" time="1.199467">
+        <testcase classname="test/integration/vehicles.get.test.ts" name="GET /api/vehicles/:id &gt; returns the vehicle to any signed-in user" time="0.6930892">
+        </testcase>
+        <testcase classname="test/integration/vehicles.get.test.ts" name="GET /api/vehicles/:id &gt; requires a signed-in user" time="0.1278222">
+        </testcase>
+        <testcase classname="test/integration/vehicles.get.test.ts" name="GET /api/vehicles/:id &gt; answers 404 VEHICLE_NOT_FOUND for an id that does not exist" time="0.1296098">
+        </testcase>
+        <testcase classname="test/integration/vehicles.get.test.ts" name="GET /api/vehicles/:id &gt; answers 404 for a soft-deleted vehicle" time="0.1274624">
+        </testcase>
+        <testcase classname="test/integration/vehicles.get.test.ts" name="GET /api/vehicles/:id &gt; answers 400 VALIDATION_ERROR for an id that is not a UUID, never a database error" time="0.1104869">
+        </testcase>
+    </testsuite>
+    <testsuite name="test/integration/vehicles.list.test.ts" timestamp="2026-10-24T20:05:51.940Z" hostname="shadabpc" tests="21" failures="0" errors="0" skipped="0" time="3.0653517">
+        <testcase classname="test/integration/vehicles.list.test.ts" name="GET /api/vehicles &gt; requires a signed-in user" time="0.4291453">
+        </testcase>
+        <testcase classname="test/integration/vehicles.list.test.ts" name="GET /api/vehicles &gt; returns data and pagination meta, with defaults of page 1 and 20 per page" time="0.2645225">
+        </testcase>
+        <testcase classname="test/integration/vehicles.list.test.ts" name="GET /api/vehicles &gt; returns an empty page with totalPages 0 when there are no vehicles" time="0.1203017">
+        </testcase>
+        <testcase classname="test/integration/vehicles.list.test.ts" name="GET /api/vehicles &gt; lets an admin list too" time="0.1131451">
+        </testcase>
+        <testcase classname="test/integration/vehicles.list.test.ts" name="GET /api/vehicles &gt; keeps sold-out vehicles visible so the UI can show them as sold out" time="0.1149662">
+        </testcase>
+        <testcase classname="test/integration/vehicles.list.test.ts" name="GET /api/vehicles &gt; hides soft-deleted vehicles and does not count them" time="0.1179079">
+        </testcase>
+        <testcase classname="test/integration/vehicles.list.test.ts" name="GET /api/vehicles &gt; pagination &gt; slices pages and reports totals" time="0.1573511">
+        </testcase>
+        <testcase classname="test/integration/vehicles.list.test.ts" name="GET /api/vehicles &gt; pagination &gt; answers a page past the end with an empty list, not an error" time="0.1220243">
+        </testcase>
+        <testcase classname="test/integration/vehicles.list.test.ts" name="GET /api/vehicles &gt; pagination &gt; accepts the maximum page size of 50" time="0.1172544">
+        </testcase>
+        <testcase classname="test/integration/vehicles.list.test.ts" name="GET /api/vehicles &gt; pagination &gt; rejects page size above 50 with 400" time="0.112983">
+        </testcase>
+        <testcase classname="test/integration/vehicles.list.test.ts" name="GET /api/vehicles &gt; pagination &gt; rejects page size of 0 with 400" time="0.1139944">
+        </testcase>
+        <testcase classname="test/integration/vehicles.list.test.ts" name="GET /api/vehicles &gt; pagination &gt; rejects page of 0 with 400" time="0.1077001">
+        </testcase>
+        <testcase classname="test/integration/vehicles.list.test.ts" name="GET /api/vehicles &gt; pagination &gt; rejects negative page with 400" time="0.1066239">
+        </testcase>
+        <testcase classname="test/integration/vehicles.list.test.ts" name="GET /api/vehicles &gt; pagination &gt; rejects non-numeric page with 400" time="0.106754">
+        </testcase>
+        <testcase classname="test/integration/vehicles.list.test.ts" name="GET /api/vehicles &gt; pagination &gt; rejects fractional page size with 400" time="0.1078578">
+        </testcase>
+        <testcase classname="test/integration/vehicles.list.test.ts" name="GET /api/vehicles &gt; pagination &gt; rejects unknown sort with 400" time="0.1115107">
+        </testcase>
+        <testcase classname="test/integration/vehicles.list.test.ts" name="GET /api/vehicles &gt; pagination &gt; rejects unknown query parameter with 400" time="0.1163175">
+        </testcase>
+        <testcase classname="test/integration/vehicles.list.test.ts" name="GET /api/vehicles &gt; pagination &gt; keeps pages stable when many vehicles share the sort value" time="0.176432">
+        </testcase>
+        <testcase classname="test/integration/vehicles.list.test.ts" name="GET /api/vehicles &gt; sorting &gt; sorts by price ascending and descending" time="0.1572164">
+        </testcase>
+        <testcase classname="test/integration/vehicles.list.test.ts" name="GET /api/vehicles &gt; sorting &gt; sorts by make alphabetically" time="0.1294732">
+        </testcase>
+        <testcase classname="test/integration/vehicles.list.test.ts" name="GET /api/vehicles &gt; sorting &gt; sorts newest first with -createdAt, which is also the default" time="0.1507423">
+        </testcase>
+    </testsuite>
+    <testsuite name="test/integration/vehicles.purchase.test.ts" timestamp="2026-10-24T20:05:51.948Z" hostname="shadabpc" tests="21" failures="0" errors="0" skipped="0" time="3.6415396">
+        <testcase classname="test/integration/vehicles.purchase.test.ts" name="POST /api/vehicles/:id/purchase &gt; buys one unit by default: stock drops by one and the response carries the vehicle and the order" time="0.6075644">
+        </testcase>
+        <testcase classname="test/integration/vehicles.purchase.test.ts" name="POST /api/vehicles/:id/purchase &gt; accepts an explicit quantity and totals it from the stored price" time="0.1736849">
+        </testcase>
+        <testcase classname="test/integration/vehicles.purchase.test.ts" name="POST /api/vehicles/:id/purchase &gt; lets the last units go: buying all remaining stock leaves exactly zero" time="0.1356556">
+        </testcase>
+        <testcase classname="test/integration/vehicles.purchase.test.ts" name="POST /api/vehicles/:id/purchase &gt; stores the order for the buyer and a PURCHASED event with a negative delta" time="0.1412026">
+        </testcase>
+        <testcase classname="test/integration/vehicles.purchase.test.ts" name="POST /api/vehicles/:id/purchase &gt; keeps the order price when the vehicle price changes afterwards" time="0.1408877">
+        </testcase>
+        <testcase classname="test/integration/vehicles.purchase.test.ts" name="POST /api/vehicles/:id/purchase &gt; lets an admin buy too" time="0.13284">
+        </testcase>
+        <testcase classname="test/integration/vehicles.purchase.test.ts" name="POST /api/vehicles/:id/purchase &gt; requires a signed-in user" time="0.1119379">
+        </testcase>
+        <testcase classname="test/integration/vehicles.purchase.test.ts" name="POST /api/vehicles/:id/purchase &gt; when there is not enough stock &gt; answers 409 OUT_OF_STOCK for a sold-out vehicle and records nothing" time="0.1331815">
+        </testcase>
+        <testcase classname="test/integration/vehicles.purchase.test.ts" name="POST /api/vehicles/:id/purchase &gt; when there is not enough stock &gt; answers 409 when the quantity asked for is more than the stock, leaving the stock alone" time="0.1311417">
+        </testcase>
+        <testcase classname="test/integration/vehicles.purchase.test.ts" name="POST /api/vehicles/:id/purchase &gt; when there is not enough stock &gt; uses the singular when one unit is left" time="0.1214126">
+        </testcase>
+        <testcase classname="test/integration/vehicles.purchase.test.ts" name="POST /api/vehicles/:id/purchase &gt; when the vehicle cannot be bought &gt; answers 404 VEHICLE_NOT_FOUND for an unknown id and for a soft-deleted vehicle" time="0.1644315">
+        </testcase>
+        <testcase classname="test/integration/vehicles.purchase.test.ts" name="POST /api/vehicles/:id/purchase &gt; when the vehicle cannot be bought &gt; answers 400 for an id that is not a UUID" time="0.119374">
+        </testcase>
+        <testcase classname="test/integration/vehicles.purchase.test.ts" name="POST /api/vehicles/:id/purchase &gt; rejects invalid bodies with 400 and changes nothing &gt; zero quantity" time="0.1192731">
+        </testcase>
+        <testcase classname="test/integration/vehicles.purchase.test.ts" name="POST /api/vehicles/:id/purchase &gt; rejects invalid bodies with 400 and changes nothing &gt; negative quantity" time="0.1236636">
+        </testcase>
+        <testcase classname="test/integration/vehicles.purchase.test.ts" name="POST /api/vehicles/:id/purchase &gt; rejects invalid bodies with 400 and changes nothing &gt; fractional quantity" time="0.1201429">
+        </testcase>
+        <testcase classname="test/integration/vehicles.purchase.test.ts" name="POST /api/vehicles/:id/purchase &gt; rejects invalid bodies with 400 and changes nothing &gt; quantity as a string" time="0.1159438">
+        </testcase>
+        <testcase classname="test/integration/vehicles.purchase.test.ts" name="POST /api/vehicles/:id/purchase &gt; rejects invalid bodies with 400 and changes nothing &gt; more than 10 in one purchase" time="0.1170912">
+        </testcase>
+        <testcase classname="test/integration/vehicles.purchase.test.ts" name="POST /api/vehicles/:id/purchase &gt; rejects invalid bodies with 400 and changes nothing &gt; a client-supplied price" time="0.1268961">
+        </testcase>
+        <testcase classname="test/integration/vehicles.purchase.test.ts" name="POST /api/vehicles/:id/purchase &gt; rejects invalid bodies with 400 and changes nothing &gt; a client-supplied userId" time="0.118736">
+        </testcase>
+        <testcase classname="test/integration/vehicles.purchase.test.ts" name="POST /api/vehicles/:id/purchase &gt; under concurrent purchases &gt; sells each of M units exactly once when N &gt; M buyers race for the last of them" time="0.4361272">
+        </testcase>
+        <testcase classname="test/integration/vehicles.purchase.test.ts" name="POST /api/vehicles/:id/purchase &gt; under concurrent purchases &gt; never oversells when buyers ask for more than one unit each" time="0.2371733">
+        </testcase>
+    </testsuite>
+    <testsuite name="test/integration/vehicles.restock.test.ts" timestamp="2026-10-24T20:05:51.960Z" hostname="shadabpc" tests="15" failures="0" errors="0" skipped="0" time="2.6571354">
+        <testcase classname="test/integration/vehicles.restock.test.ts" name="POST /api/vehicles/:id/restock &gt; adds the units and returns the updated vehicle" time="0.5869316">
+        </testcase>
+        <testcase classname="test/integration/vehicles.restock.test.ts" name="POST /api/vehicles/:id/restock &gt; records a RESTOCKED event with a positive delta for the acting admin" time="0.1342515">
+        </testcase>
+        <testcase classname="test/integration/vehicles.restock.test.ts" name="POST /api/vehicles/:id/restock &gt; puts a sold-out vehicle back on sale" time="0.1691733">
+        </testcase>
+        <testcase classname="test/integration/vehicles.restock.test.ts" name="POST /api/vehicles/:id/restock &gt; refuses a USER with 403 and anonymous callers with 401, changing nothing" time="0.1436246">
+        </testcase>
+        <testcase classname="test/integration/vehicles.restock.test.ts" name="POST /api/vehicles/:id/restock &gt; answers 404 VEHICLE_NOT_FOUND for an unknown id and for a soft-deleted vehicle" time="0.1521458">
+        </testcase>
+        <testcase classname="test/integration/vehicles.restock.test.ts" name="POST /api/vehicles/:id/restock &gt; answers 400 for an id that is not a UUID" time="0.1091307">
+        </testcase>
+        <testcase classname="test/integration/vehicles.restock.test.ts" name="POST /api/vehicles/:id/restock &gt; rejects invalid bodies with 400 and changes nothing &gt; no body at all" time="0.1192764">
+        </testcase>
+        <testcase classname="test/integration/vehicles.restock.test.ts" name="POST /api/vehicles/:id/restock &gt; rejects invalid bodies with 400 and changes nothing &gt; an empty body" time="0.1188615">
+        </testcase>
+        <testcase classname="test/integration/vehicles.restock.test.ts" name="POST /api/vehicles/:id/restock &gt; rejects invalid bodies with 400 and changes nothing &gt; zero units" time="0.1165355">
+        </testcase>
+        <testcase classname="test/integration/vehicles.restock.test.ts" name="POST /api/vehicles/:id/restock &gt; rejects invalid bodies with 400 and changes nothing &gt; negative units" time="0.1204377">
+        </testcase>
+        <testcase classname="test/integration/vehicles.restock.test.ts" name="POST /api/vehicles/:id/restock &gt; rejects invalid bodies with 400 and changes nothing &gt; fractional units" time="0.1184414">
+        </testcase>
+        <testcase classname="test/integration/vehicles.restock.test.ts" name="POST /api/vehicles/:id/restock &gt; rejects invalid bodies with 400 and changes nothing &gt; units as a string" time="0.1207471">
+        </testcase>
+        <testcase classname="test/integration/vehicles.restock.test.ts" name="POST /api/vehicles/:id/restock &gt; rejects invalid bodies with 400 and changes nothing &gt; more than 10,000 units in one go" time="0.1250384">
+        </testcase>
+        <testcase classname="test/integration/vehicles.restock.test.ts" name="POST /api/vehicles/:id/restock &gt; rejects invalid bodies with 400 and changes nothing &gt; an unknown field" time="0.1196999">
+        </testcase>
+        <testcase classname="test/integration/vehicles.restock.test.ts" name="POST /api/vehicles/:id/restock &gt; adds up concurrent restocks without losing any" time="0.3899521">
+        </testcase>
+    </testsuite>
+    <testsuite name="test/integration/vehicles.search.test.ts" timestamp="2026-10-24T20:05:51.966Z" hostname="shadabpc" tests="40" failures="0" errors="0" skipped="0" time="5.7653828">
+        <testcase classname="test/integration/vehicles.search.test.ts" name="GET /api/vehicles/search &gt; requires a signed-in user" time="0.5079555">
+        </testcase>
+        <testcase classname="test/integration/vehicles.search.test.ts" name="GET /api/vehicles/search &gt; is reachable as a route of its own, not read as a vehicle id" time="0.1878988">
+        </testcase>
+        <testcase classname="test/integration/vehicles.search.test.ts" name="GET /api/vehicles/search &gt; with no filters lists every live vehicle with pagination meta" time="0.1343876">
+        </testcase>
+        <testcase classname="test/integration/vehicles.search.test.ts" name="GET /api/vehicles/search &gt; q (make or model, case-insensitive) &gt; &quot;swift&quot; finds [&quot;Swift&quot;]" time="0.1480872">
+        </testcase>
+        <testcase classname="test/integration/vehicles.search.test.ts" name="GET /api/vehicles/search &gt; q (make or model, case-insensitive) &gt; &quot;SWIFT&quot; finds [&quot;Swift&quot;]" time="0.1285342">
+        </testcase>
+        <testcase classname="test/integration/vehicles.search.test.ts" name="GET /api/vehicles/search &gt; q (make or model, case-insensitive) &gt; &quot;SwIfT&quot; finds [&quot;Swift&quot;]" time="0.1401614">
+        </testcase>
+        <testcase classname="test/integration/vehicles.search.test.ts" name="GET /api/vehicles/search &gt; q (make or model, case-insensitive) &gt; &quot;hyun&quot; finds [&quot;Creta&quot;,&quot;Verna&quot;]" time="0.1323165">
+        </testcase>
+        <testcase classname="test/integration/vehicles.search.test.ts" name="GET /api/vehicles/search &gt; q (make or model, case-insensitive) &gt; &quot;nexon&quot; finds [&quot;Nexon EV&quot;]" time="0.1273498">
+        </testcase>
+        <testcase classname="test/integration/vehicles.search.test.ts" name="GET /api/vehicles/search &gt; q (make or model, case-insensitive) &gt; &quot;maruti swift&quot; finds [&quot;Swift&quot;]" time="0.1282648">
+        </testcase>
+        <testcase classname="test/integration/vehicles.search.test.ts" name="GET /api/vehicles/search &gt; q (make or model, case-insensitive) &gt; &quot;swift maruti&quot; finds [&quot;Swift&quot;]" time="0.1272796">
+        </testcase>
+        <testcase classname="test/integration/vehicles.search.test.ts" name="GET /api/vehicles/search &gt; q (make or model, case-insensitive) &gt; &quot;  tata  &quot; finds [&quot;Harrier&quot;,&quot;Nexon EV&quot;]" time="0.1279165">
+        </testcase>
+        <testcase classname="test/integration/vehicles.search.test.ts" name="GET /api/vehicles/search &gt; q (make or model, case-insensitive) &gt; treats % and _ as plain characters, not wildcards" time="0.1578489">
+        </testcase>
+        <testcase classname="test/integration/vehicles.search.test.ts" name="GET /api/vehicles/search &gt; q (make or model, case-insensitive) &gt; never returns soft-deleted vehicles" time="0.1253563">
+        </testcase>
+        <testcase classname="test/integration/vehicles.search.test.ts" name="GET /api/vehicles/search &gt; q (make or model, case-insensitive) &gt; rejects a blank q and one that is far too long" time="0.146668">
+        </testcase>
+        <testcase classname="test/integration/vehicles.search.test.ts" name="GET /api/vehicles/search &gt; make and model filters (whole value, case-insensitive) &gt; filters by make" time="0.1566482">
+        </testcase>
+        <testcase classname="test/integration/vehicles.search.test.ts" name="GET /api/vehicles/search &gt; make and model filters (whole value, case-insensitive) &gt; does not match part of a make" time="0.1330884">
+        </testcase>
+        <testcase classname="test/integration/vehicles.search.test.ts" name="GET /api/vehicles/search &gt; make and model filters (whole value, case-insensitive) &gt; filters by model" time="0.1272738">
+        </testcase>
+        <testcase classname="test/integration/vehicles.search.test.ts" name="GET /api/vehicles/search &gt; category &gt; filters by category" time="0.1513347">
+        </testcase>
+        <testcase classname="test/integration/vehicles.search.test.ts" name="GET /api/vehicles/search &gt; category &gt; answers an empty result, not an error, when nothing matches" time="0.1298627">
+        </testcase>
+        <testcase classname="test/integration/vehicles.search.test.ts" name="GET /api/vehicles/search &gt; category &gt; rejects an unknown category" time="0.1219546">
+        </testcase>
+        <testcase classname="test/integration/vehicles.search.test.ts" name="GET /api/vehicles/search &gt; price range (minor units, both ends inclusive) &gt; minPrice keeps vehicles at or above it" time="0.1358209">
+        </testcase>
+        <testcase classname="test/integration/vehicles.search.test.ts" name="GET /api/vehicles/search &gt; price range (minor units, both ends inclusive) &gt; maxPrice keeps vehicles at or below it" time="0.1287022">
+        </testcase>
+        <testcase classname="test/integration/vehicles.search.test.ts" name="GET /api/vehicles/search &gt; price range (minor units, both ends inclusive) &gt; equal bounds match a vehicle priced exactly there" time="0.126658">
+        </testcase>
+        <testcase classname="test/integration/vehicles.search.test.ts" name="GET /api/vehicles/search &gt; price range (minor units, both ends inclusive) &gt; one paisa outside the bounds excludes the vehicle" time="0.1287849">
+        </testcase>
+        <testcase classname="test/integration/vehicles.search.test.ts" name="GET /api/vehicles/search &gt; price range (minor units, both ends inclusive) &gt; rejects min greater than max, naming minPrice" time="0.1218459">
+        </testcase>
+        <testcase classname="test/integration/vehicles.search.test.ts" name="GET /api/vehicles/search &gt; price range (minor units, both ends inclusive) &gt; rejects negative minPrice" time="0.1264253">
+        </testcase>
+        <testcase classname="test/integration/vehicles.search.test.ts" name="GET /api/vehicles/search &gt; price range (minor units, both ends inclusive) &gt; rejects fractional maxPrice" time="0.1300515">
+        </testcase>
+        <testcase classname="test/integration/vehicles.search.test.ts" name="GET /api/vehicles/search &gt; price range (minor units, both ends inclusive) &gt; rejects non-numeric minPrice" time="0.1241582">
+        </testcase>
+        <testcase classname="test/integration/vehicles.search.test.ts" name="GET /api/vehicles/search &gt; price range (minor units, both ends inclusive) &gt; rejects empty maxPrice" time="0.1254983">
+        </testcase>
+        <testcase classname="test/integration/vehicles.search.test.ts" name="GET /api/vehicles/search &gt; inStock &gt; true keeps only vehicles with stock" time="0.1333984">
+        </testcase>
+        <testcase classname="test/integration/vehicles.search.test.ts" name="GET /api/vehicles/search &gt; inStock &gt; false keeps only sold-out vehicles" time="0.14123">
+        </testcase>
+        <testcase classname="test/integration/vehicles.search.test.ts" name="GET /api/vehicles/search &gt; inStock &gt; rejects anything else" time="0.1240413">
+        </testcase>
+        <testcase classname="test/integration/vehicles.search.test.ts" name="GET /api/vehicles/search &gt; filters combined &gt; q and category" time="0.1328829">
+        </testcase>
+        <testcase classname="test/integration/vehicles.search.test.ts" name="GET /api/vehicles/search &gt; filters combined &gt; make, inStock and maxPrice" time="0.1366694">
+        </testcase>
+        <testcase classname="test/integration/vehicles.search.test.ts" name="GET /api/vehicles/search &gt; filters combined &gt; every filter at once" time="0.1370847">
+        </testcase>
+        <testcase classname="test/integration/vehicles.search.test.ts" name="GET /api/vehicles/search &gt; filters combined &gt; filters that contradict each other give an empty result" time="0.1364222">
+        </testcase>
+        <testcase classname="test/integration/vehicles.search.test.ts" name="GET /api/vehicles/search &gt; sorting and pagination apply to the matches &gt; sorts by price descending" time="0.1369695">
+        </testcase>
+        <testcase classname="test/integration/vehicles.search.test.ts" name="GET /api/vehicles/search &gt; sorting and pagination apply to the matches &gt; pages through matches and totals only the matches" time="0.1398244">
+        </testcase>
+        <testcase classname="test/integration/vehicles.search.test.ts" name="GET /api/vehicles/search &gt; sorting and pagination apply to the matches &gt; rejects the same bad paging as the list" time="0.1226564">
+        </testcase>
+        <testcase classname="test/integration/vehicles.search.test.ts" name="GET /api/vehicles/search &gt; sorting and pagination apply to the matches &gt; rejects unknown query parameters" time="0.1245972">
+        </testcase>
+    </testsuite>
+    <testsuite name="test/integration/vehicles.update.test.ts" timestamp="2026-10-24T20:05:51.981Z" hostname="shadabpc" tests="16" failures="0" errors="0" skipped="0" time="2.4719214">
+        <testcase classname="test/integration/vehicles.update.test.ts" name="PUT /api/vehicles/:id &gt; updates only the fields sent and leaves the rest alone" time="0.5900384">
+        </testcase>
+        <testcase classname="test/integration/vehicles.update.test.ts" name="PUT /api/vehicles/:id &gt; updates several fields at once, trims text and replaces the colour list" time="0.1286566">
+        </testcase>
+        <testcase classname="test/integration/vehicles.update.test.ts" name="PUT /api/vehicles/:id &gt; clears the optional year and description when they are sent as null" time="0.1253819">
+        </testcase>
+        <testcase classname="test/integration/vehicles.update.test.ts" name="PUT /api/vehicles/:id &gt; records an UPDATED event with no stock change for the acting admin" time="0.1326448">
+        </testcase>
+        <testcase classname="test/integration/vehicles.update.test.ts" name="PUT /api/vehicles/:id &gt; refuses a USER with 403 and anonymous callers with 401, changing nothing" time="0.1285263">
+        </testcase>
+        <testcase classname="test/integration/vehicles.update.test.ts" name="PUT /api/vehicles/:id &gt; answers 404 VEHICLE_NOT_FOUND for an unknown id and for a soft-deleted vehicle" time="0.1375915">
+        </testcase>
+        <testcase classname="test/integration/vehicles.update.test.ts" name="PUT /api/vehicles/:id &gt; answers 400 for an id that is not a UUID" time="0.107464">
+        </testcase>
+        <testcase classname="test/integration/vehicles.update.test.ts" name="PUT /api/vehicles/:id &gt; rejects invalid input with 400 VALIDATION_ERROR and changes nothing &gt; empty body" time="0.1271065">
+        </testcase>
+        <testcase classname="test/integration/vehicles.update.test.ts" name="PUT /api/vehicles/:id &gt; rejects invalid input with 400 VALIDATION_ERROR and changes nothing &gt; blank make" time="0.1185233">
+        </testcase>
+        <testcase classname="test/integration/vehicles.update.test.ts" name="PUT /api/vehicles/:id &gt; rejects invalid input with 400 VALIDATION_ERROR and changes nothing &gt; negative price" time="0.1350551">
+        </testcase>
+        <testcase classname="test/integration/vehicles.update.test.ts" name="PUT /api/vehicles/:id &gt; rejects invalid input with 400 VALIDATION_ERROR and changes nothing &gt; fractional price" time="0.1210601">
+        </testcase>
+        <testcase classname="test/integration/vehicles.update.test.ts" name="PUT /api/vehicles/:id &gt; rejects invalid input with 400 VALIDATION_ERROR and changes nothing &gt; unknown category" time="0.1155">
+        </testcase>
+        <testcase classname="test/integration/vehicles.update.test.ts" name="PUT /api/vehicles/:id &gt; rejects invalid input with 400 VALIDATION_ERROR and changes nothing &gt; bad colour" time="0.1258664">
+        </testcase>
+        <testcase classname="test/integration/vehicles.update.test.ts" name="PUT /api/vehicles/:id &gt; rejects invalid input with 400 VALIDATION_ERROR and changes nothing &gt; quantity (use purchase or restock)" time="0.1214699">
+        </testcase>
+        <testcase classname="test/integration/vehicles.update.test.ts" name="PUT /api/vehicles/:id &gt; rejects invalid input with 400 VALIDATION_ERROR and changes nothing &gt; client-supplied id" time="0.1182076">
+        </testcase>
+        <testcase classname="test/integration/vehicles.update.test.ts" name="PUT /api/vehicles/:id &gt; rejects invalid input with 400 VALIDATION_ERROR and changes nothing &gt; client-supplied deletedAt" time="0.1271718">
+        </testcase>
+    </testsuite>
+    <testsuite name="test/unit/auth.service.login.test.ts" timestamp="2026-10-24T20:05:51.988Z" hostname="shadabpc" tests="1" failures="0" errors="0" skipped="0" time="0.3866422">
+        <testcase classname="test/unit/auth.service.login.test.ts" name="AuthService.login &gt; still performs one password verification when the email is unknown, so timing does not reveal which emails exist" time="0.377415">
+        </testcase>
+    </testsuite>
+    <testsuite name="test/unit/auth.service.refresh.test.ts" timestamp="2026-10-24T20:05:51.989Z" hostname="shadabpc" tests="1" failures="0" errors="0" skipped="0" time="0.3677503">
+        <testcase classname="test/unit/auth.service.refresh.test.ts" name="AuthService.refresh: losing a rotation race &gt; treats it as token reuse: revokes all of the user’s tokens and answers 401" time="0.3591637">
+        </testcase>
+    </testsuite>
+    <testsuite name="test/unit/authorize.test.ts" timestamp="2026-10-24T20:05:51.990Z" hostname="shadabpc" tests="1" failures="0" errors="0" skipped="0" time="0.3486704">
+        <testcase classname="test/unit/authorize.test.ts" name="authorize &gt; answers UNAUTHENTICATED when it runs before authenticate, instead of trusting a missing user" time="0.3383623">
+        </testcase>
+    </testsuite>
+    <testsuite name="test/unit/config.test.ts" timestamp="2026-10-24T20:05:51.991Z" hostname="shadabpc" tests="14" failures="0" errors="0" skipped="0" time="1.4510945">
+        <testcase classname="test/unit/config.test.ts" name="loadConfig &gt; returns typed config from a valid environment" time="0.3562439">
+        </testcase>
+        <testcase classname="test/unit/config.test.ts" name="loadConfig &gt; applies defaults for optional values" time="0.0922356">
+        </testcase>
+        <testcase classname="test/unit/config.test.ts" name="loadConfig &gt; fails fast and names the variable when the JWT secret is missing" time="0.090888">
+        </testcase>
+        <testcase classname="test/unit/config.test.ts" name="loadConfig &gt; rejects a JWT secret shorter than 32 characters" time="0.0857564">
+        </testcase>
+        <testcase classname="test/unit/config.test.ts" name="loadConfig &gt; fails when DATABASE_URL is missing" time="0.0837655">
+        </testcase>
+        <testcase classname="test/unit/config.test.ts" name="loadConfig &gt; rejects a PORT that is not a valid port number" time="0.0814102">
+        </testcase>
+        <testcase classname="test/unit/config.test.ts" name="loadConfig &gt; reports every problem at once, not just the first" time="0.0816381">
+        </testcase>
+        <testcase classname="test/unit/config.test.ts" name="loadConfig: hardening settings &gt; allows only the local Vite origin by default" time="0.0825181">
+        </testcase>
+        <testcase classname="test/unit/config.test.ts" name="loadConfig: hardening settings &gt; reads a comma-separated CORS allow-list and trims each entry" time="0.0830448">
+        </testcase>
+        <testcase classname="test/unit/config.test.ts" name="loadConfig: hardening settings &gt; rejects a wildcard origin: the API sends credentials, so the list must be explicit" time="0.0833222">
+        </testcase>
+        <testcase classname="test/unit/config.test.ts" name="loadConfig: hardening settings &gt; rejects an origin that is not a bare scheme://host[:port]" time="0.0821964">
+        </testcase>
+        <testcase classname="test/unit/config.test.ts" name="loadConfig: hardening settings &gt; has a global rate limit of 300 requests per minute by default" time="0.0796356">
+        </testcase>
+        <testcase classname="test/unit/config.test.ts" name="loadConfig: hardening settings &gt; lets the global rate limit be tuned from the environment" time="0.0801915">
+        </testcase>
+        <testcase classname="test/unit/config.test.ts" name="loadConfig: hardening settings &gt; logs at info by default, silent under test, and accepts LOG_LEVEL" time="0.0792999">
+        </testcase>
+    </testsuite>
+    <testsuite name="test/unit/error-handler.test.ts" timestamp="2026-10-24T20:05:51.997Z" hostname="shadabpc" tests="3" failures="0" errors="0" skipped="0" time="0.5876799">
+        <testcase classname="test/unit/error-handler.test.ts" name="createErrorHandler &gt; answers 500 for something that is not an Error at all, and logs it" time="0.3947058">
+        </testcase>
+        <testcase classname="test/unit/error-handler.test.ts" name="createErrorHandler &gt; hands the error on instead of writing a second response when headers are already sent" time="0.0901548">
+        </testcase>
+        <testcase classname="test/unit/error-handler.test.ts" name="notFoundHandler &gt; answers 404 ROUTE_NOT_FOUND without repeating the requested path" time="0.0936096">
+        </testcase>
+    </testsuite>
+    <testsuite name="test/unit/graceful-shutdown.test.ts" timestamp="2026-10-24T20:05:51.999Z" hostname="shadabpc" tests="8" failures="0" errors="0" skipped="0" time="1.230148">
+        <testcase classname="test/unit/graceful-shutdown.test.ts" name="createShutdown &gt; stops accepting connections, then runs the cleanup" time="0.3432298">
+        </testcase>
+        <testcase classname="test/unit/graceful-shutdown.test.ts" name="createShutdown &gt; lets a request that is already being served finish before it closes" time="0.2154684">
+        </testcase>
+        <testcase classname="test/unit/graceful-shutdown.test.ts" name="createShutdown &gt; runs the cleanup once however many times it is asked" time="0.0819983">
+        </testcase>
+        <testcase classname="test/unit/graceful-shutdown.test.ts" name="createShutdown &gt; cuts off a request that never ends once the timeout passes, and still cleans up" time="0.2567678">
+        </testcase>
+        <testcase classname="test/unit/graceful-shutdown.test.ts" name="createShutdown &gt; rejects, and logs, when the cleanup fails" time="0.0838905">
+        </testcase>
+        <testcase classname="test/unit/graceful-shutdown.test.ts" name="handleSignals &gt; shuts down and exits 0 on SIGTERM" time="0.0791922">
+        </testcase>
+        <testcase classname="test/unit/graceful-shutdown.test.ts" name="handleSignals &gt; shuts down and exits 0 on SIGINT" time="0.0794677">
+        </testcase>
+        <testcase classname="test/unit/graceful-shutdown.test.ts" name="handleSignals &gt; exits 1 when the shutdown fails" time="0.0811024">
+        </testcase>
+    </testsuite>
+    <testsuite name="test/unit/logger.test.ts" timestamp="2026-10-24T20:05:52.003Z" hostname="shadabpc" tests="4" failures="0" errors="0" skipped="0" time="0.6088191">
+        <testcase classname="test/unit/logger.test.ts" name="createLogger &gt; writes one JSON object per line with a numeric level and a message" time="0.3400495">
+        </testcase>
+        <testcase classname="test/unit/logger.test.ts" name="createLogger &gt; writes nothing below the configured level" time="0.0840509">
+        </testcase>
+        <testcase classname="test/unit/logger.test.ts" name="createLogger &gt; is silent when the level is silent" time="0.0848222">
+        </testcase>
+        <testcase classname="test/unit/logger.test.ts" name="createLogger &gt; redacts authorization and cookie headers wherever a request or response is logged" time="0.0903931">
+        </testcase>
+    </testsuite>
+    <testsuite name="test/unit/seed-config.test.ts" timestamp="2026-10-24T20:05:52.006Z" hostname="shadabpc" tests="10" failures="0" errors="0" skipped="0" time="1.1063168">
+        <testcase classname="test/unit/seed-config.test.ts" name="loadSeedConfig &gt; reads the admin account from ADMIN_EMAIL and ADMIN_PASSWORD, with the email normalised" time="0.3449524">
+        </testcase>
+        <testcase classname="test/unit/seed-config.test.ts" name="loadSeedConfig &gt; has no demo user unless one is configured" time="0.086605">
+        </testcase>
+        <testcase classname="test/unit/seed-config.test.ts" name="loadSeedConfig &gt; adds a demo user when both DEMO_USER_EMAIL and DEMO_USER_PASSWORD are set" time="0.086256">
+        </testcase>
+        <testcase classname="test/unit/seed-config.test.ts" name="loadSeedConfig &gt; fails naming every missing admin variable" time="0.0910171">
+        </testcase>
+        <testcase classname="test/unit/seed-config.test.ts" name="loadSeedConfig &gt; rejects an email that is not an email address" time="0.0830543">
+        </testcase>
+        <testcase classname="test/unit/seed-config.test.ts" name="loadSeedConfig &gt; applies the registration password policy to the admin password" time="0.0826018">
+        </testcase>
+        <testcase classname="test/unit/seed-config.test.ts" name="loadSeedConfig &gt; applies the same policy to the demo user password" time="0.0795742">
+        </testcase>
+        <testcase classname="test/unit/seed-config.test.ts" name="loadSeedConfig &gt; requires DEMO_USER_EMAIL and DEMO_USER_PASSWORD together" time="0.0821601">
+        </testcase>
+        <testcase classname="test/unit/seed-config.test.ts" name="loadSeedConfig &gt; refuses to use one email for both accounts" time="0.0789913">
+        </testcase>
+        <testcase classname="test/unit/seed-config.test.ts" name="loadSeedConfig &gt; never puts a password in the error message" time="0.0820629">
+        </testcase>
+    </testsuite>
+    <testsuite name="test/unit/smoke.test.ts" timestamp="2026-10-24T20:05:52.011Z" hostname="shadabpc" tests="1" failures="0" errors="0" skipped="0" time="0.3660536">
+        <testcase classname="test/unit/smoke.test.ts" name="test runner &gt; runs a trivial test" time="0.3573665">
+        </testcase>
+    </testsuite>
+</testsuites>
