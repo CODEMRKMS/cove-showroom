@@ -96,7 +96,7 @@ export function chaikin(points: readonly Vec2[], iterations: number): Vec2[] {
 
 const ARC_STEPS = 12;
 const ARCH_GAP_UNITS = 4;
-const FENDER_MARGIN_UNITS = 8;
+const FENDER_MARGIN_UNITS = 12;
 
 /**
  * The closed side profile in metres, going over the top from tail to nose and back along the sill.
