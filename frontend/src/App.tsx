@@ -1,12 +1,13 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useState, type ReactNode } from 'react';
-import { Navigate, Route, Routes } from 'react-router';
+import { Route, Routes } from 'react-router';
 import { ApiError } from './api/client';
 import { AuthProvider } from './auth/AuthContext';
 import { RequireAdmin, RequireAuth } from './auth/guards';
 import { Layout } from './components/Layout';
 import { ToastProvider } from './components/Toast';
 import { AdminPage } from './pages/AdminPage';
+import { LandingPage } from './pages/LandingPage';
 import { LoginPage } from './pages/LoginPage';
 import { NotFoundPage } from './pages/NotFoundPage';
 import { OrdersPage } from './pages/OrdersPage';
@@ -47,7 +48,7 @@ export function AppRoutes() {
   return (
     <Routes>
       <Route element={<Layout />}>
-        <Route path="/" element={<Navigate to="/showroom" replace />} />
+        <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route element={<RequireAuth />}>
