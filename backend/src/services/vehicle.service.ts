@@ -43,6 +43,11 @@ export class VehicleService {
     return vehicle;
   }
 
+  /** Soft delete: the row stays so orders and the ledger keep pointing at it. */
+  async delete(id: string, actorId: string): Promise<void> {
+    if (!(await this.vehicles.softDelete(id, actorId))) throw new VehicleNotFoundError();
+  }
+
   async get(id: string): Promise<Vehicle> {
     const vehicle = await this.vehicles.findById(id);
     if (!vehicle) throw new VehicleNotFoundError();

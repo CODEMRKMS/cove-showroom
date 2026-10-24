@@ -83,6 +83,21 @@ export class PrismaVehicleRepository implements VehicleRepository {
     });
   }
 
+  softDelete(id: string, actorId: string): Promise<boolean> {
+    return this.prisma.$transaction(async (tx) => {
+      const { count } = await tx.vehicle.updateMany({
+        where: { id, deletedAt: null },
+        data: { deletedAt: new Date() },
+      });
+      if (count === 0) return false;
+      const { quantity } = await tx.vehicle.findUniqueOrThrow({ where: { id } });
+      await tx.inventoryEvent.create({
+        data: { vehicleId: id, actorId, type: 'DELETED', delta: 0, quantityAfter: quantity },
+      });
+      return true;
+    });
+  }
+
   async findById(id: string): Promise<Vehicle | null> {
     const row = await this.prisma.vehicle.findFirst({ where: { id, deletedAt: null } });
     return row && toVehicle(row);

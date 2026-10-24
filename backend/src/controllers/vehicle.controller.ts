@@ -114,6 +114,12 @@ export class VehicleController {
     res.json(await this.vehicles.update(id, patch, req.user!.id));
   };
 
+  delete = async (req: Request, res: Response): Promise<void> => {
+    const { id } = parseWith(idParams, req.params);
+    await this.vehicles.delete(id, req.user!.id);
+    res.status(204).end();
+  };
+
   get = async (req: Request, res: Response): Promise<void> => {
     const { id } = parseWith(idParams, req.params);
     res.json(await this.vehicles.get(id));

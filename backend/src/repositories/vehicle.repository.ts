@@ -36,6 +36,8 @@ export interface VehicleRepository {
   create(vehicle: NewVehicle, actorId: string): Promise<Vehicle>;
   /** Applies the patch and writes an UPDATED event in one transaction. Null when there is no live vehicle with this id. */
   update(id: string, patch: VehiclePatch, actorId: string): Promise<Vehicle | null>;
+  /** Sets deletedAt and writes a DELETED event in one transaction. False when there is no live vehicle with this id. */
+  softDelete(id: string, actorId: string): Promise<boolean>;
   /** A vehicle that is not soft-deleted, or null. */
   findById(id: string): Promise<Vehicle | null>;
   /** One page of vehicles that are not soft-deleted and match the filter, in a stable order. */
