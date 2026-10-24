@@ -8,6 +8,7 @@ import { formatINR } from '../lib/money';
 import { stockState } from '../lib/stock';
 import { CarIllustration } from './CarIllustration';
 import { PaintPicker } from './PaintPicker';
+import { HoverTurnFrame } from '../studio/HoverTurn';
 import { PurchaseControl } from './PurchaseControl';
 import { btnQuiet } from './styles';
 
@@ -52,7 +53,9 @@ export function VehicleCard({ vehicle }: { vehicle: Vehicle }) {
     >
       {/* The car stands directly on the cove floor, with no frame around it. */}
       <div className="px-4 pt-5">
-        <CarIllustration spec={spec} className="h-auto w-full" />
+        <HoverTurnFrame spec={spec}>
+          <CarIllustration spec={spec} className="h-auto w-full" />
+        </HoverTurnFrame>
       </div>
       <div className="flex flex-1 flex-col gap-3 p-4 pt-2">
         <div className="flex items-baseline justify-between gap-2">

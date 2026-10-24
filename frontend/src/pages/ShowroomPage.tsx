@@ -16,6 +16,7 @@ import {
 } from '../lib/filters';
 import { apiErrorMessage } from '../lib/messages';
 import { useDocumentTitle } from '../lib/useDocumentTitle';
+import { HoverTurnProvider } from '../studio/HoverTurn';
 
 export function ShowroomPage() {
   useDocumentTitle('Showroom');
@@ -45,55 +46,57 @@ export function ShowroomPage() {
   const countText = total === undefined ? '' : `${total} ${total === 1 ? 'car' : 'cars'} found`;
 
   return (
-    <div className="flex flex-col gap-6">
-      <div>
-        <h1 className="font-display text-3xl">Showroom</h1>
-        <p className="mt-1 text-graphite">Pick a car, choose a paint, and buy it from stock.</p>
-      </div>
-
-      <FilterBar
-        filters={filters}
-        onChange={update}
-        onClear={clear}
-        showClear={search.data?.meta.total !== 0}
-      />
-
-      <p aria-live="polite" className="font-semibold text-graphite">
-        {invalidRange ? 'Fix the price range to see cars.' : countText}
-      </p>
-
-      {search.isError && !search.isPlaceholderData ? (
-        <div role="alert" className="rounded-card border border-sold bg-white/70 p-5">
-          <p className="font-semibold text-sold">{apiErrorMessage(search.error)}</p>
-          <button type="button" className={`${btnPrimary} mt-3`} onClick={() => search.refetch()}>
-            Try again
-          </button>
+    <HoverTurnProvider>
+      <div className="flex flex-col gap-6">
+        <div>
+          <h1 className="font-display text-3xl">Showroom</h1>
+          <p className="mt-1 text-graphite">Pick a car, choose a paint, and buy it from stock.</p>
         </div>
-      ) : search.isPending && !invalidRange ? (
-        <LoadingCards />
-      ) : search.data && search.data.meta.total === 0 ? (
-        <EmptyState filtered={hasActiveFilters(filters)} onClear={clear} />
-      ) : search.data ? (
-        <>
-          <ul
-            aria-label="Cars"
-            aria-busy={search.isFetching}
-            className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
-          >
-            {search.data.data.map((vehicle) => (
-              <li key={vehicle.id} className="flex">
-                <VehicleCard vehicle={vehicle} />
-              </li>
-            ))}
-          </ul>
-          <Pagination
-            page={search.data.meta.page}
-            totalPages={search.data.meta.totalPages}
-            onPage={(page) => update({ page })}
-          />
-        </>
-      ) : null}
-    </div>
+
+        <FilterBar
+          filters={filters}
+          onChange={update}
+          onClear={clear}
+          showClear={search.data?.meta.total !== 0}
+        />
+
+        <p aria-live="polite" className="font-semibold text-graphite">
+          {invalidRange ? 'Fix the price range to see cars.' : countText}
+        </p>
+
+        {search.isError && !search.isPlaceholderData ? (
+          <div role="alert" className="rounded-card border border-sold bg-white/70 p-5">
+            <p className="font-semibold text-sold">{apiErrorMessage(search.error)}</p>
+            <button type="button" className={`${btnPrimary} mt-3`} onClick={() => search.refetch()}>
+              Try again
+            </button>
+          </div>
+        ) : search.isPending && !invalidRange ? (
+          <LoadingCards />
+        ) : search.data && search.data.meta.total === 0 ? (
+          <EmptyState filtered={hasActiveFilters(filters)} onClear={clear} />
+        ) : search.data ? (
+          <>
+            <ul
+              aria-label="Cars"
+              aria-busy={search.isFetching}
+              className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
+            >
+              {search.data.data.map((vehicle) => (
+                <li key={vehicle.id} className="flex">
+                  <VehicleCard vehicle={vehicle} />
+                </li>
+              ))}
+            </ul>
+            <Pagination
+              page={search.data.meta.page}
+              totalPages={search.data.meta.totalPages}
+              onPage={(page) => update({ page })}
+            />
+          </>
+        ) : null}
+      </div>
+    </HoverTurnProvider>
   );
 }
 
