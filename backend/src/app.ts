@@ -3,6 +3,7 @@ import helmet from 'helmet';
 import { createContainer, type AppDeps } from './container.js';
 import { authRoutes } from './routes/auth.routes.js';
 import { createErrorHandler, notFoundHandler } from './middleware/error-handler.js';
+import { corsAllowList } from './middleware/cors.js';
 import { requestId } from './middleware/request-id.js';
 import { inventoryRoutes } from './routes/inventory.routes.js';
 import { adminRoutes } from './routes/admin.routes.js';
@@ -24,10 +25,12 @@ export function createApp(deps: AppDeps): Express {
     authenticate,
     pingDatabase,
   } = createContainer(deps);
+  const { config } = deps;
   const app = express();
   app.disable('x-powered-by');
   app.use(requestId);
   app.use(helmet());
+  app.use(corsAllowList(config.corsOrigins));
   app.use(express.json({ limit: '100kb' }));
   app.use('/api', healthRoutes(pingDatabase));
   app.use('/api', docsRoutes());
