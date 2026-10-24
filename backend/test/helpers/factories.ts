@@ -32,6 +32,7 @@ type VehicleOverrides = {
   quantity?: number;
   year?: number;
   deletedAt?: Date | null;
+  createdAt?: Date;
 };
 
 /** Persist a vehicle with sensible defaults. Price is in minor units (paise). */
@@ -52,6 +53,7 @@ export async function createVehicle(
       year: overrides.year ?? 2024,
       colorOptions: ['#1F5FBF', '#B42318'],
       deletedAt: overrides.deletedAt ?? null,
+      ...(overrides.createdAt && { createdAt: overrides.createdAt }),
     },
   });
 }
