@@ -1,14 +1,26 @@
-# PROMPTS
+# \# PROMPTS
 
-Raw, unedited AI chat logs (or public share links) for this project, as the kata requires.
-No AI-generated summaries belong in this file.
+# 
 
-Format: one section per phase. Paste the exported conversation or a public link under its heading.
+# Raw, unedited AI chat logs (or public share links) for this project, as the kata requires.
 
-## Phase 0: Plan
+# No AI-generated summaries belong in this file.
 
-TODO(me): paste raw chat or link
+# 
 
-## Phase 1: Foundation
+# Format: one section per phase. Each entry says which tool was used.
 
-TODO(me): paste raw chat or link
+# 
+
+# \## Phase 0: Plan
+
+# 
+
+# \### Advisor chat 1 (Claude, claude.ai)
+
+# https://claude.ai/share/f214ef42-db47-4817-82b1-b918f362a7ec
+
+# 
+
+# 
+
