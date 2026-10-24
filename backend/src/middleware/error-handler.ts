@@ -70,7 +70,8 @@ export function createErrorHandler(logger: ErrorLogger): ErrorRequestHandler {
     const problem = toProblem(err);
     if (problem.status >= 500) {
       logger.error('Unhandled error', {
-        requestId: req.id,
+        // pino-http widens the global req.id type; the requestId middleware always sets a string.
+        requestId: String(req.id),
         method: req.method,
         path: req.path,
         error: err,

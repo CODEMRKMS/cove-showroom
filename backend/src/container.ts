@@ -1,4 +1,5 @@
 import type { Config } from './config.js';
+import type { Logger } from './infrastructure/logger.js';
 import type { ErrorLogger } from './middleware/error-handler.js';
 import { createAuthenticate } from './middleware/authenticate.js';
 import { createLoginRateLimiter } from './middleware/rate-limit.js';
@@ -25,7 +26,9 @@ import { PrismaVehicleRepository } from './repositories/prisma-vehicle.repositor
 export type AppDeps = {
   config: Config;
   prisma: PrismaClient;
-  /** Where unexpected errors are recorded. Defaults to the console. */
+  /** Structured logger for access logs and errors. Defaults to one built from config.logLevel. */
+  log?: Logger;
+  /** Overrides where unexpected errors are recorded (tests pass a spy). Defaults to `log`. */
   logger?: ErrorLogger;
 };
 
