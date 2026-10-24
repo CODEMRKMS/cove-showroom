@@ -9,7 +9,11 @@ describe('axeViolations helper', () => {
   });
 
   it('reports nothing for an accessible snippet', async () => {
-    render(<img src="car.png" alt="A white sedan" />);
+    render(
+      <main>
+        <img src="car.png" alt="A white sedan" />
+      </main>,
+    );
     expect(await axeViolations()).toEqual([]);
   });
 });
