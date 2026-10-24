@@ -1,0 +1,7 @@
+KATA.md
+KATA.html
+*.html
+.env
+node_modules/
+dist/
+coverage/
