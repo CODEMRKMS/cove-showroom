@@ -1,4 +1,9 @@
-import type { Role, Category, BodyStyle } from '../../src/generated/prisma/client.js';
+import type {
+  Role,
+  Category,
+  BodyStyle,
+  InventoryEventType,
+} from '../../src/generated/prisma/client.js';
 import type { PrismaClient } from '../../src/generated/prisma/client.js';
 import { testPrisma } from './db.js';
 
@@ -79,6 +84,32 @@ export async function createOrder(overrides: OrderOverrides, prisma: PrismaClien
       unitPrice,
       totalPrice: unitPrice * BigInt(quantity),
       vehicleLabel: overrides.vehicleLabel ?? 'Make Model',
+      ...(overrides.createdAt && { createdAt: overrides.createdAt }),
+    },
+  });
+}
+
+type EventOverrides = {
+  vehicleId: string;
+  actorId: string;
+  type?: InventoryEventType;
+  delta?: number;
+  quantityAfter?: number;
+  createdAt?: Date;
+};
+
+/** Persist a ledger entry directly, with a chosen timestamp. */
+export async function createInventoryEvent(
+  overrides: EventOverrides,
+  prisma: PrismaClient = testPrisma(),
+) {
+  return prisma.inventoryEvent.create({
+    data: {
+      vehicleId: overrides.vehicleId,
+      actorId: overrides.actorId,
+      type: overrides.type ?? 'RESTOCKED',
+      delta: overrides.delta ?? 1,
+      quantityAfter: overrides.quantityAfter ?? 1,
       ...(overrides.createdAt && { createdAt: overrides.createdAt }),
     },
   });
