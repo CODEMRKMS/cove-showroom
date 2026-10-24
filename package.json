@@ -12,6 +12,7 @@
     "lint": "npm --prefix backend run lint && npm --prefix frontend run lint",
     "typecheck": "npm --prefix backend run typecheck && npm --prefix frontend run typecheck",
     "db:migrate": "npm --prefix backend run db:migrate",
+    "db:deploy": "npm --prefix backend run db:deploy",
     "db:reset": "npm --prefix backend run db:reset",
     "db:seed": "npm --prefix backend run db:seed",
     "dev:backend": "npm --prefix backend run dev",
