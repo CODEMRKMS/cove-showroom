@@ -66,6 +66,7 @@ function stubDevice({
 }
 
 beforeEach(() => {
+  sessionStorage.clear();
   scene.throwOnRender = false;
   scene.props = null;
 });
@@ -120,6 +121,42 @@ describe('CarViewer hotspots', () => {
     await screen.findByTestId('scene');
     expect(sceneProps().hotspots).toEqual(hotspots);
     expect(sceneProps().overlay?.current).toBeInstanceOf(HTMLDivElement);
+  });
+});
+
+describe('CarViewer intro', () => {
+  it('plays the clay-to-render intro once per session and lets the visitor skip it', async () => {
+    stubDevice();
+    const user = userEvent.setup();
+    const { unmount } = render(<CarViewer spec={spec} intro />);
+    await screen.findByTestId('scene');
+    expect(sceneProps().intro).toBe(true);
+    expect(screen.queryByRole('button', { name: /skip intro/i })).not.toBeInTheDocument();
+    act(() => sceneProps().onReady());
+    await user.click(screen.getByRole('button', { name: /skip intro/i }));
+    expect(sceneProps().intro).toBe(false);
+    expect(screen.queryByRole('button', { name: /skip intro/i })).not.toBeInTheDocument();
+    unmount();
+
+    render(<CarViewer spec={spec} intro />);
+    await screen.findByTestId('scene');
+    expect(sceneProps().intro).toBe(false);
+  });
+
+  it('ends by itself when the scene says the intro is over', async () => {
+    stubDevice();
+    render(<CarViewer spec={spec} intro />);
+    await screen.findByTestId('scene');
+    act(() => sceneProps().onReady());
+    act(() => sceneProps().onIntroDone?.());
+    expect(screen.queryByRole('button', { name: /skip intro/i })).not.toBeInTheDocument();
+  });
+
+  it('does nothing unless the page asks for it', async () => {
+    stubDevice();
+    render(<CarViewer spec={spec} />);
+    await screen.findByTestId('scene');
+    expect(sceneProps().intro).toBe(false);
   });
 });
 
