@@ -15,14 +15,29 @@ export function Modal({ title, onClose, children }: Props) {
   const titleId = useId();
   const panel = useRef<HTMLDivElement>(null);
   const body = useRef<HTMLDivElement>(null);
+  const backdrop = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const opener = document.activeElement as HTMLElement | null;
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
+    // Everything behind the dialog is hidden from assistive technology and cannot take focus.
+    const behind = [...document.body.children].filter((el) => el !== backdrop.current);
+    const saved = behind.map(
+      (el) => [el, el.getAttribute('aria-hidden'), el.hasAttribute('inert')] as const,
+    );
+    behind.forEach((el) => {
+      el.setAttribute('aria-hidden', 'true');
+      el.setAttribute('inert', '');
+    });
     const first = body.current?.querySelector<HTMLElement>(FOCUSABLE);
     (first ?? panel.current)?.focus();
     return () => {
       document.body.style.overflow = previousOverflow;
+      saved.forEach(([el, hidden, wasInert]) => {
+        if (hidden === null) el.removeAttribute('aria-hidden');
+        else el.setAttribute('aria-hidden', hidden);
+        if (!wasInert) el.removeAttribute('inert');
+      });
       opener?.focus();
     };
   }, []);
@@ -49,6 +64,7 @@ export function Modal({ title, onClose, children }: Props) {
 
   return createPortal(
     <div
+      ref={backdrop}
       data-testid="modal-backdrop"
       className="fixed inset-0 z-50 flex items-end justify-center bg-ink/50 p-0 sm:items-center sm:p-4"
       onMouseDown={(event) => {

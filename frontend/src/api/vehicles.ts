@@ -54,6 +54,7 @@ export function useBuyVehicle() {
     },
     onSettled: () => {
       void queryClient.invalidateQueries({ queryKey: VEHICLES });
+      void queryClient.invalidateQueries({ queryKey: ['inventory'] });
       void queryClient.invalidateQueries({ queryKey: ['orders'] });
     },
   });

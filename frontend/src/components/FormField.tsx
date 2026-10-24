@@ -1,4 +1,10 @@
-import { useId, useState, type InputHTMLAttributes } from 'react';
+import {
+  useId,
+  useState,
+  type InputHTMLAttributes,
+  type SelectHTMLAttributes,
+  type TextareaHTMLAttributes,
+} from 'react';
 import { field, label as labelClass } from './styles';
 
 type Props = Omit<
@@ -66,6 +72,79 @@ export function FormField({
           {error}
         </p>
       )}
+    </div>
+  );
+}
+
+type ShellProps = {
+  label: string;
+  hint?: string | undefined;
+  error?: string | undefined;
+};
+
+/** Hint and error ids, and the aria props that link them to a control. */
+function useDescribed({ hint, error }: Pick<ShellProps, 'hint' | 'error'>) {
+  const id = useId();
+  const describedBy = [hint && `${id}-hint`, error && `${id}-error`].filter(Boolean).join(' ');
+  return {
+    id,
+    control: {
+      id,
+      'aria-invalid': error ? (true as const) : undefined,
+      'aria-describedby': describedBy || undefined,
+    },
+    notes: (
+      <>
+        {hint && (
+          <p id={`${id}-hint`} className="mt-1 text-sm text-graphite">
+            {hint}
+          </p>
+        )}
+        {error && (
+          <p id={`${id}-error`} className="mt-1 text-sm font-semibold text-sold">
+            {error}
+          </p>
+        )}
+      </>
+    ),
+  };
+}
+
+export function SelectField({
+  label,
+  hint,
+  error,
+  children,
+  ...rest
+}: ShellProps & Omit<SelectHTMLAttributes<HTMLSelectElement>, 'id'>) {
+  const { id, control, notes } = useDescribed({ hint, error });
+  return (
+    <div>
+      <label htmlFor={id} className={labelClass}>
+        {label}
+      </label>
+      <select {...rest} {...control} className={field}>
+        {children}
+      </select>
+      {notes}
+    </div>
+  );
+}
+
+export function TextAreaField({
+  label,
+  hint,
+  error,
+  ...rest
+}: ShellProps & Omit<TextareaHTMLAttributes<HTMLTextAreaElement>, 'id'>) {
+  const { id, control, notes } = useDescribed({ hint, error });
+  return (
+    <div>
+      <label htmlFor={id} className={labelClass}>
+        {label}
+      </label>
+      <textarea {...rest} {...control} rows={3} className={`${field} py-2`} />
+      {notes}
     </div>
   );
 }

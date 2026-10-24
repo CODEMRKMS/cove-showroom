@@ -46,11 +46,17 @@ export function VehicleCard({ vehicle }: { vehicle: Vehicle }) {
   const name = `${vehicle.make} ${vehicle.model}`;
 
   function confirmPurchase() {
+    // The dialog closes first: while it is open, the page behind it (and the toasts) is hidden from
+    // screen readers, so a toast raised now would not be announced.
     buy.mutate(vehicle, {
-      onSuccess: ({ order }) =>
-        toast.success(`Bought ${order.vehicleLabel} for ${formatINR(order.totalPrice)}.`),
-      onError: (error) => toast.error(apiErrorMessage(error)),
-      onSettled: () => setConfirming(false),
+      onSuccess: ({ order }) => {
+        setConfirming(false);
+        toast.success(`Bought ${order.vehicleLabel} for ${formatINR(order.totalPrice)}.`);
+      },
+      onError: (error) => {
+        setConfirming(false);
+        toast.error(apiErrorMessage(error));
+      },
     });
   }
 
