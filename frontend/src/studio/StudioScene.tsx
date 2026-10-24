@@ -177,10 +177,20 @@ export default function StudioScene({
   const watching = useWatching(wrapper);
   const [turning, setTurning] = useState(autoRotate);
   const [epoch, setEpoch] = useState(0);
+  // While the context is gone the effect passes hold dead GPU objects, so they are removed and rebuilt after.
+  const [contextLost, setContextLost] = useState(false);
   const [lights, setLights] = useState<Mesh[]>([]);
   const dims = useMemo(() => carDimensions(spec), [spec]);
 
   // Callbacks live in refs so the long-lived canvas listeners always call the latest ones.
+  const alive = useRef(true);
+  useEffect(() => {
+    alive.current = true;
+    return () => {
+      // Unmounting makes react-three-fiber force a context loss; that one must not be reported.
+      alive.current = false;
+    };
+  }, []);
   const callbacks = useRef({ onContextLost, onContextRestored });
   useEffect(() => {
     callbacks.current = { onContextLost, onContextRestored };
@@ -194,7 +204,6 @@ export default function StudioScene({
   return (
     <div ref={wrapper} className="size-full">
       <Canvas
-        key={epoch}
         frameloop={watching ? 'demand' : 'never'}
         dpr={dpr}
         camera={{ fov: FOV, near: 0.1, far: 80 }}
@@ -212,16 +221,21 @@ export default function StudioScene({
           canvas.addEventListener('webglcontextlost', (event) => {
             // Without preventDefault the browser never offers to restore the context.
             event.preventDefault();
+            if (!alive.current) return;
+            setContextLost(true);
             callbacks.current.onContextLost();
           });
           canvas.addEventListener('webglcontextrestored', () => {
+            if (!alive.current) return;
+            setContextLost(false);
             setEpoch((n) => n + 1);
             callbacks.current.onContextRestored();
             invalidate();
           });
         }}
       >
-        <StudioLights tier={tier} />
+        {/* Keyed by epoch: after a restored context the baked environment and shadow are gone and must be redrawn. */}
+        <StudioLights key={`env-${epoch}`} tier={tier} />
         <CarModel
           spec={spec}
           paint={spec.paint}
@@ -231,6 +245,7 @@ export default function StudioScene({
           onLightMeshes={setLights}
         />
         <ContactShadows
+          key={`shadow-${epoch}`}
           position={[0, 0.002, 0]}
           opacity={0.5}
           scale={14}
@@ -255,9 +270,9 @@ export default function StudioScene({
         />
         {hotspots && overlay && <Hotspots spec={spec} hotspots={hotspots} overlay={overlay} />}
         <Rig dims={dims} view={view} nudge={nudge} moment={moment} onUserMove={stopTurning} />
-        {high && lights.length > 0 && (
+        {high && !contextLost && lights.length > 0 && (
           <Suspense fallback={null}>
-            <PostFX lights={lights} />
+            <PostFX key={`fx-${epoch}`} lights={lights} />
           </Suspense>
         )}
         <Ready onReady={onReady} />
