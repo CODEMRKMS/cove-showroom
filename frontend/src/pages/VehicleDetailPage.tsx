@@ -1,4 +1,4 @@
-import { useState, type CSSProperties } from 'react';
+import { useState } from 'react';
 import { Link, useParams } from 'react-router';
 import { ApiError } from '../api/client';
 import { useVehicle } from '../api/vehicles';
@@ -12,6 +12,7 @@ import { CATEGORY_LABELS } from '../lib/labels';
 import { apiErrorMessage } from '../lib/messages';
 import { formatINR } from '../lib/money';
 import { useDocumentTitle } from '../lib/useDocumentTitle';
+import { usePageAccent } from '../lib/usePageAccent';
 import { CarViewer } from '../studio/CarViewer';
 import type { Hotspot } from '../studio/types';
 
@@ -28,6 +29,8 @@ export function VehicleDetailPage() {
   const [paint, setPaint] = useState<string | undefined>(undefined);
   const vehicle = query.data;
   useDocumentTitle(vehicle ? `${vehicle.make} ${vehicle.model}` : 'Car');
+  const { accent, ink } = pickAccent(vehicle ? buildCarSpec(vehicle, paint).paint : undefined);
+  usePageAccent(accent, ink);
 
   if (query.isPending) {
     return (
@@ -52,7 +55,6 @@ export function VehicleDetailPage() {
   }
 
   const spec = buildCarSpec(vehicle, paint);
-  const { accent, ink } = pickAccent(spec.paint);
   const name = `${vehicle.make} ${vehicle.model}`;
   const bodyLabel = CATEGORY_LABELS[vehicle.bodyStyle];
   const hotspots: Hotspot[] = [
@@ -85,10 +87,7 @@ export function VehicleDetailPage() {
   ];
 
   return (
-    <div
-      style={{ '--accent': accent, '--accent-ink': ink } as CSSProperties}
-      className="flex flex-col gap-6"
-    >
+    <div className="flex flex-col gap-6">
       <BackLink />
       <div className="grid gap-8 lg:grid-cols-5">
         <div className="lg:col-span-3">

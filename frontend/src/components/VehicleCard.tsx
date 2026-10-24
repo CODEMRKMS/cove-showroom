@@ -30,7 +30,7 @@ export function VehicleCard({ vehicle }: { vehicle: Vehicle }) {
     <article
       aria-labelledby={headingId}
       style={{ '--accent': accent, '--accent-ink': ink } as CSSProperties}
-      className="flex w-full flex-col rounded-card bg-floor/60 shadow-cove"
+      className="accent-scope flex w-full flex-col rounded-card bg-floor/60 shadow-cove"
     >
       {/* The car stands directly on the cove floor, with no frame around it. */}
       <div className="px-4 pt-5">

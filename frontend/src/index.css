@@ -33,9 +33,31 @@
   --shadow-lift: -14px 24px 36px -16px rgb(28 33 39 / 0.34);
 }
 
+/* Registered as colours so the browser can animate them when the paint (and so the accent) changes. */
+@property --accent {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #1d4ed8;
+}
+@property --accent-ink {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #ffffff;
+}
+
 :root {
   --accent: #1d4ed8;
   --accent-ink: #ffffff;
+  transition:
+    --accent 450ms ease,
+    --accent-ink 450ms ease;
+}
+
+/* A card or section that sets its own --accent eases to it the same way. */
+.accent-scope {
+  transition:
+    --accent 450ms ease,
+    --accent-ink 450ms ease;
 }
 
 html {
