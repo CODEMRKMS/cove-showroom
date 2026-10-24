@@ -7,12 +7,13 @@ import { PurchaseControl } from '../components/PurchaseControl';
 import { btnQuiet } from '../components/styles';
 import { StockText } from '../components/VehicleCard';
 import { pickAccent } from '../lib/accent';
-import { buildCarSpec } from '../lib/carSpec';
+import { buildCarSpec, describeColour } from '../lib/carSpec';
 import { CATEGORY_LABELS } from '../lib/labels';
 import { apiErrorMessage } from '../lib/messages';
 import { formatINR } from '../lib/money';
 import { useDocumentTitle } from '../lib/useDocumentTitle';
 import { CarViewer } from '../studio/CarViewer';
+import type { Hotspot } from '../studio/types';
 
 const BackLink = () => (
   <Link to="/showroom" className="inline-flex min-h-11 items-center font-semibold underline">
@@ -54,6 +55,26 @@ export function VehicleDetailPage() {
   const { accent, ink } = pickAccent(spec.paint);
   const name = `${vehicle.make} ${vehicle.model}`;
   const bodyLabel = CATEGORY_LABELS[vehicle.bodyStyle];
+  const hotspots: Hotspot[] = [
+    {
+      id: 'body',
+      label: 'Body',
+      text: `${bodyLabel}${vehicle.year ? `, ${vehicle.year}` : ''}.`,
+    },
+    {
+      id: 'paint',
+      label: 'Paint',
+      text: `Shown in ${describeColour(spec.paint)}. ${vehicle.colorOptions.length} paint ${vehicle.colorOptions.length === 1 ? 'option' : 'options'} in all.`,
+    },
+    {
+      id: 'stock',
+      label: 'Stock and price',
+      text:
+        vehicle.quantity > 0
+          ? `${vehicle.quantity} in stock at ${formatINR(vehicle.price)}.`
+          : `Sold out. Listed at ${formatINR(vehicle.price)}.`,
+    },
+  ];
   const specs: [string, string][] = [
     ['Category', CATEGORY_LABELS[vehicle.category]],
     ...(vehicle.bodyStyle !== vehicle.category
@@ -71,7 +92,7 @@ export function VehicleDetailPage() {
       <BackLink />
       <div className="grid gap-8 lg:grid-cols-5">
         <div className="lg:col-span-3">
-          <CarViewer spec={spec} interactive aspect="16 / 10" />
+          <CarViewer spec={spec} interactive hotspots={hotspots} aspect="16 / 10" />
         </div>
         <div className="flex flex-col gap-4 lg:col-span-2">
           <div>

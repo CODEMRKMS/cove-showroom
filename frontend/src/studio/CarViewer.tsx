@@ -4,6 +4,7 @@ import {
   lazy,
   useEffect,
   useId,
+  useRef,
   useState,
   type KeyboardEvent,
   type ReactNode,
@@ -18,7 +19,7 @@ import {
   readEnvironment,
   type Tier,
 } from './quality';
-import { STUDIO_VIEWS, VIEW_LABELS, type StudioView } from './types';
+import { STUDIO_VIEWS, VIEW_LABELS, type Hotspot, type StudioView } from './types';
 import { hasWebGL } from './webgl';
 
 // The scene (three.js and friends) is its own chunk: nothing else may import it statically.
@@ -54,6 +55,8 @@ type Props = {
   /** Show the View select and let the arrow keys turn the car. */
   interactive?: boolean;
   autoRotate?: boolean;
+  /** Spec markers drawn on the car in 3D. The SVG fallback shows none; the page lists the same facts. */
+  hotspots?: Hotspot[];
   /** CSS aspect-ratio of the stage, as "width / height". The SVG poster is centred inside it. */
   aspect?: string;
 };
@@ -68,6 +71,7 @@ export function CarViewer({
   className = '',
   interactive = false,
   autoRotate = true,
+  hotspots,
   aspect = '400 / 176',
 }: Props) {
   const [decision, setDecision] = useState<Decision>({ status: 'pending' });
@@ -77,6 +81,7 @@ export function CarViewer({
   const [view, setView] = useState<StudioView>('orbit');
   const [nudge, setNudge] = useState(0);
   const viewId = useId();
+  const overlay = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -139,6 +144,8 @@ export function CarViewer({
                     view={view}
                     nudge={nudge}
                     autoRotate={autoRotate}
+                    hotspots={hotspots}
+                    overlay={overlay}
                     onReady={() => setReady(true)}
                     onContextLost={() => setLost(true)}
                     onContextRestored={() => setLost(false)}
@@ -146,6 +153,7 @@ export function CarViewer({
                 </Suspense>
               </SceneBoundary>
             </div>
+            <div ref={overlay} className="pointer-events-none absolute inset-0 overflow-hidden" />
           </div>
         )}
       </div>

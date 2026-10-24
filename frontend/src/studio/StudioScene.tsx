@@ -6,6 +6,7 @@ import { ACESFilmicToneMapping, Vector3 } from 'three';
 import type { OrbitControls as OrbitControlsImpl } from 'three-stdlib';
 import { carDimensions, type CarDimensions } from '../lib/carGeometry';
 import { CarModel } from './CarModel';
+import { Hotspots } from './Hotspots';
 import type { Tier } from './quality';
 import type { SceneProps, StudioView } from './types';
 import { viewPose } from './viewPose';
@@ -174,6 +175,8 @@ export default function StudioScene({
   view,
   nudge,
   autoRotate,
+  hotspots,
+  overlay,
   onReady,
   onContextLost,
   onContextRestored,
@@ -249,6 +252,7 @@ export default function StudioScene({
           autoRotateSpeed={0.9}
           onStart={stopTurning}
         />
+        {hotspots && overlay && <Hotspots spec={spec} hotspots={hotspots} overlay={overlay} />}
         <Rig dims={dims} view={view} nudge={nudge} onUserMove={stopTurning} />
         <Ready onReady={onReady} />
       </Canvas>

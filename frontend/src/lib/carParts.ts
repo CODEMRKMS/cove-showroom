@@ -1,5 +1,5 @@
 import type { BodyStyle } from '../api/types';
-import { WORLD_SCALE, toWorldPoint, wheelPositions, type Vec2 } from './carGeometry';
+import { WORLD_SCALE, carDimensions, toWorldPoint, wheelPositions, type Vec2 } from './carGeometry';
 import type { CarSpec } from './carSpec';
 
 /** Where the smaller parts of the 3D car go, in metres on the same axes as carGeometry. Pure, no three.js. */
@@ -67,4 +67,33 @@ export function lightPositions(spec: CarSpec): {
   const [headX, headY] = toWorldPoint(spec, p.noseX, (p.hoodHeight - 10 + bumperTop) / 2);
   const [tailX, tailY] = toWorldPoint(spec, p.tailX, (p.trunkHeight + bumperTop) / 2);
   return { head: { x: headX, y: headY }, tail: { x: tailX, y: tailY } };
+}
+
+export type HotspotId = 'body' | 'paint' | 'stock';
+export type Anchor = {
+  id: HotspotId;
+  position: [number, number, number];
+  /** Outward direction of the surface the marker sits on; markers facing away from the camera fade out. */
+  normal: [number, number, number];
+};
+
+/** Where the three spec markers sit: on the roof, on the right flank, and on the tail. */
+export function hotspotAnchors(spec: CarSpec): [Anchor, Anchor, Anchor] {
+  const p = spec.profile;
+  const { length, width, height } = carDimensions(spec);
+  const [roofX] = toWorldPoint(spec, (p.rearGlassTopX + p.windscreenTopX) / 2, 0);
+  const [doorX] = toWorldPoint(spec, (p.rearGlassBaseX + p.windscreenBaseX) / 2, 0);
+  return [
+    { id: 'body', position: [roofX, height + 0.02, 0], normal: [0, 1, 0] },
+    {
+      id: 'paint',
+      position: [doorX, p.beltHeight * WORLD_SCALE - 0.12, width / 2],
+      normal: [0, 0, 1],
+    },
+    {
+      id: 'stock',
+      position: [-length / 2, p.trunkHeight * WORLD_SCALE - 0.1, 0],
+      normal: [-1, 0, 0],
+    },
+  ];
 }

@@ -112,6 +112,17 @@ describe('CarViewer with WebGL', () => {
   });
 });
 
+describe('CarViewer hotspots', () => {
+  it('hands the markers and an overlay element to the scene', async () => {
+    stubDevice();
+    const hotspots = [{ id: 'body' as const, label: 'Body', text: 'Sedan, 2025' }];
+    render(<CarViewer spec={spec} hotspots={hotspots} />);
+    await screen.findByTestId('scene');
+    expect(sceneProps().hotspots).toEqual(hotspots);
+    expect(sceneProps().overlay?.current).toBeInstanceOf(HTMLDivElement);
+  });
+});
+
 describe('CarViewer fallbacks to the SVG car', () => {
   async function staysSvg() {
     expect(svgCar()).toBeInTheDocument();
