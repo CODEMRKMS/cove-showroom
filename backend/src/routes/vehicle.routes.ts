@@ -6,6 +6,7 @@ import { authorize } from '../middleware/authorize.js';
 export function vehicleRoutes(controller: VehicleController, authenticate: RequestHandler): Router {
   const router = Router();
   router.get('/', authenticate, authorize('GET /api/vehicles'), controller.list);
+  router.get('/:id', authenticate, authorize('GET /api/vehicles/:id'), controller.get);
   router.post('/', authenticate, authorize('POST /api/vehicles'), controller.create);
   return router;
 }

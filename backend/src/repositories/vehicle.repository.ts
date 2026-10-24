@@ -17,6 +17,8 @@ export type NewVehicle = {
 export interface VehicleRepository {
   /** Stores the vehicle and a CREATED inventory event for `actorId` in one transaction. */
   create(vehicle: NewVehicle, actorId: string): Promise<Vehicle>;
+  /** A vehicle that is not soft-deleted, or null. */
+  findById(id: string): Promise<Vehicle | null>;
   /** One page of vehicles that are not soft-deleted, in a stable order. */
   findMany(request: PageRequest): Promise<PageResult<Vehicle>>;
 }

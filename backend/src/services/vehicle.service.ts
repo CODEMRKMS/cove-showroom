@@ -1,3 +1,4 @@
+import { VehicleNotFoundError } from '../domain/errors.js';
 import type { PageRequest, Paginated } from '../domain/pagination.js';
 import type { BodyStyle, Category, Vehicle } from '../domain/vehicle.js';
 import type { VehicleRepository } from '../repositories/vehicle.repository.js';
@@ -28,6 +29,12 @@ export class VehicleService {
       },
       actorId,
     );
+  }
+
+  async get(id: string): Promise<Vehicle> {
+    const vehicle = await this.vehicles.findById(id);
+    if (!vehicle) throw new VehicleNotFoundError();
+    return vehicle;
   }
 
   async list(request: PageRequest): Promise<Paginated<Vehicle>> {

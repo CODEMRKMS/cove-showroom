@@ -49,6 +49,11 @@ export class PrismaVehicleRepository implements VehicleRepository {
     });
   }
 
+  async findById(id: string): Promise<Vehicle | null> {
+    const row = await this.prisma.vehicle.findFirst({ where: { id, deletedAt: null } });
+    return row && toVehicle(row);
+  }
+
   async findMany({ page, pageSize, sort }: PageRequest): Promise<PageResult<Vehicle>> {
     const where = { deletedAt: null };
     const [rows, total] = await this.prisma.$transaction([

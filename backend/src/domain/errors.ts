@@ -48,3 +48,9 @@ export class EmailTakenError extends AppError {
     super(409, 'EMAIL_TAKEN', 'An account with this email already exists.');
   }
 }
+
+export class VehicleNotFoundError extends AppError {
+  constructor() {
+    super(404, 'VEHICLE_NOT_FOUND', 'No vehicle with this id.');
+  }
+}

@@ -38,6 +38,8 @@ const listQuery = z
   })
   .strict();
 
+const idParams = z.object({ id: z.uuid() }).strict();
+
 /** Parses HTTP input and shapes HTTP output; business rules live in the service. */
 export class VehicleController {
   constructor(private readonly vehicles: VehicleService) {}
@@ -46,6 +48,11 @@ export class VehicleController {
     const input = parseWith(createBody, req.body);
     // authenticate has run, so req.user is set.
     res.status(201).json(await this.vehicles.create(input, req.user!.id));
+  };
+
+  get = async (req: Request, res: Response): Promise<void> => {
+    const { id } = parseWith(idParams, req.params);
+    res.json(await this.vehicles.get(id));
   };
 
   list = async (req: Request, res: Response): Promise<void> => {
