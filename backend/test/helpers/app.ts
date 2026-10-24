@@ -12,6 +12,8 @@ export function testConfig(overrides: Record<string, string> = {}): Config {
     NODE_ENV: 'test',
     DATABASE_URL: getTestDatabaseUrl(),
     JWT_ACCESS_SECRET: TEST_JWT_SECRET,
+    // Tests that switch NODE_ENV (cookie flags) would otherwise print access logs; logging tests capture their own.
+    LOG_LEVEL: 'silent',
     ...overrides,
   });
 }
