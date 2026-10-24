@@ -46,3 +46,18 @@ Source of truth: `KATA.md` (the official kata) wins over `MASTER_PROMPT.md`. If 
 - Backend: `routes -> controllers -> services -> repositories`; services depend on repository interfaces; one composition root (`container.ts`); `createApp(deps)` factory.
 - Tests run against a real PostgreSQL test database. No in-memory DB anywhere.
 - Money stored as integer minor units. Role rules come from one policy map, not scattered `if`s.
+
+## Overrides to MASTER_PROMPT.md (these win over that file)
+
+Recorded 24 Oct 2026. Where MASTER_PROMPT.md disagrees with these, follow these.
+
+1. **No Docker anywhere locally.** Do not create `docker-compose.yml`. Local PostgreSQL 16 runs natively on Windows (`cove_dev`, `cove_test`). CI may use a GitHub Actions `postgres` service container.
+2. **`POST /vehicles` and `PUT /vehicles/:id` are admin-only.** Record both in one ADR, citing the kata's "(For Admin Users) Forms/UI to add, update, and delete vehicles" line. All role rules live in a single policy map.
+3. **Integration tests run serially** (no file parallelism) against `cove_test`, with table truncation between tests.
+4. **Frontend dev uses a Vite proxy to `/api`**, so the refresh-token cookie is same-origin.
+5. **`.gitignore` does not ignore `*.html`** (the frontend needs `index.html`). `KATA.md` and `KATA.html` stay ignored explicitly.
+6. **Never run `git commit`.** Stage, show the check output and the proposed message, wait for the user.
+
+Environment notes: the user creates `backend/.env` (`DATABASE_URL`, `DATABASE_URL_TEST`); Claude only maintains `backend/.env.example` with placeholder values.
+
+Scope cuts if behind, in this order: dark mode, legal/SEO extras, admin events feed, refresh-token rotation (fall back to a single access JWT), Swagger last. Never cut a kata requirement.
