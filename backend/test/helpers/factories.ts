@@ -57,3 +57,29 @@ export async function createVehicle(
     },
   });
 }
+
+type OrderOverrides = {
+  userId: string;
+  vehicleId: string;
+  quantity?: number;
+  unitPrice?: bigint;
+  vehicleLabel?: string;
+  createdAt?: Date;
+};
+
+/** Persist an order with its snapshots, bypassing the purchase flow. Prices are in minor units. */
+export async function createOrder(overrides: OrderOverrides, prisma: PrismaClient = testPrisma()) {
+  const quantity = overrides.quantity ?? 1;
+  const unitPrice = overrides.unitPrice ?? 1_000_000_00n;
+  return prisma.order.create({
+    data: {
+      userId: overrides.userId,
+      vehicleId: overrides.vehicleId,
+      quantity,
+      unitPrice,
+      totalPrice: unitPrice * BigInt(quantity),
+      vehicleLabel: overrides.vehicleLabel ?? 'Make Model',
+      ...(overrides.createdAt && { createdAt: overrides.createdAt }),
+    },
+  });
+}
