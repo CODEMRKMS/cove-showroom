@@ -60,3 +60,9 @@ export class OutOfStockError extends AppError {
     super(409, 'OUT_OF_STOCK', `Only ${available} ${available === 1 ? 'unit' : 'units'} left.`);
   }
 }
+
+export class RouteNotFoundError extends AppError {
+  constructor() {
+    super(404, 'ROUTE_NOT_FOUND', 'No such route.');
+  }
+}

@@ -1,4 +1,5 @@
 import type { Config } from './config.js';
+import type { ErrorLogger } from './middleware/error-handler.js';
 import { createAuthenticate } from './middleware/authenticate.js';
 import { createLoginRateLimiter } from './middleware/rate-limit.js';
 import { AuthController } from './controllers/auth.controller.js';
@@ -15,7 +16,12 @@ import { PrismaInventoryRepository } from './repositories/prisma-inventory.repos
 import { VehicleController } from './controllers/vehicle.controller.js';
 import { PrismaVehicleRepository } from './repositories/prisma-vehicle.repository.js';
 
-export type AppDeps = { config: Config; prisma: PrismaClient };
+export type AppDeps = {
+  config: Config;
+  prisma: PrismaClient;
+  /** Where unexpected errors are recorded. Defaults to the console. */
+  logger?: ErrorLogger;
+};
 
 /** Composition root: the only place concrete classes are chosen and wired. */
 export function createContainer({ config, prisma }: AppDeps) {
