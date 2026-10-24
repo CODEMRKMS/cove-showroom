@@ -3,6 +3,13 @@
 @import '@fontsource/instrument-sans/600.css';
 @import 'tailwindcss';
 
+/* The accent follows the paint of the car in focus. `inline` makes utilities read var(--accent) at the
+   element that uses them, so a card that sets --accent re-tints itself (a plain @theme would freeze it at :root). */
+@theme inline {
+  --color-accent: var(--accent);
+  --color-accent-ink: var(--accent-ink);
+}
+
 /* Design tokens: see docs/design.md. Names describe the studio, not the role. */
 @theme {
   --color-wall: #efeae2;
@@ -14,8 +21,6 @@
   --color-stock: #166534;
   --color-low: #92400e;
   --color-sold: #b42318;
-  --color-accent: var(--accent);
-  --color-accent-ink: var(--accent-ink);
 
   --font-display: 'Bricolage Grotesque', ui-sans-serif, system-ui, sans-serif;
   --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif;
