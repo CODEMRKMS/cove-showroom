@@ -124,6 +124,24 @@ describe('CarViewer hotspots', () => {
   });
 });
 
+describe('CarViewer purchase moment', () => {
+  it('passes a moment counter to the scene that rises with each purchase', async () => {
+    stubDevice();
+    const { rerender } = render(<CarViewer spec={spec} moment={0} />);
+    await screen.findByTestId('scene');
+    expect(sceneProps().moment).toBe(0);
+    rerender(<CarViewer spec={spec} moment={1} />);
+    expect(sceneProps().moment).toBe(1);
+  });
+
+  it('defaults to no moment', async () => {
+    stubDevice();
+    render(<CarViewer spec={spec} />);
+    await screen.findByTestId('scene');
+    expect(sceneProps().moment).toBe(0);
+  });
+});
+
 describe('CarViewer intro', () => {
   it('plays the clay-to-render intro once per session and lets the visitor skip it', async () => {
     stubDevice();

@@ -129,3 +129,33 @@ describe('page accent follows the paint', () => {
     }
   });
 });
+
+describe('purchase moment', () => {
+  it('shows a plain confirmation with the price paid and the stock left, and a link to the orders', async () => {
+    const { user } = await open();
+    expect(screen.queryByRole('region', { name: /purchase complete/i })).not.toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: /buy this car/i }));
+    const dialog = await screen.findByRole('dialog');
+    await user.click(within(dialog).getByRole('button', { name: /^buy for/i }));
+    const panel = await screen.findByRole('region', { name: /purchase complete/i });
+    expect(within(panel).getByText(/Honda City/)).toBeInTheDocument();
+    expect(within(panel).getByText(formatINR(city.price), { exact: false })).toBeInTheDocument();
+    expect(within(panel).getByText(/4 left in stock/)).toBeInTheDocument();
+    expect(within(panel).getByRole('link', { name: /view my orders/i })).toHaveAttribute(
+      'href',
+      '/orders',
+    );
+  });
+
+  it('does not show the confirmation when the purchase is refused', async () => {
+    const fake = api();
+    const { user } = renderApp('/vehicles/car-city', { api: fake, signedInAs: asha });
+    await screen.findByRole('heading', { level: 1 });
+    fake.state.vehicles[0]!.quantity = 0;
+    await user.click(screen.getByRole('button', { name: /buy this car/i }));
+    const dialog = await screen.findByRole('dialog');
+    await user.click(within(dialog).getByRole('button', { name: /^buy for/i }));
+    await screen.findAllByText(/units left/i);
+    expect(screen.queryByRole('region', { name: /purchase complete/i })).not.toBeInTheDocument();
+  });
+});
