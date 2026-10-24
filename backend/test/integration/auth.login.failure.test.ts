@@ -7,6 +7,12 @@ async function login(body: Record<string, unknown>) {
   return request(buildTestApp()).post('/api/auth/login').send(body);
 }
 
+function withoutRequestId(body: Record<string, unknown>): Record<string, unknown> {
+  const copy = { ...body };
+  delete copy['requestId'];
+  return copy;
+}
+
 describe('POST /api/auth/login: failure', () => {
   it('answers 401 INVALID_CREDENTIALS for a wrong password', async () => {
     await createUserWithPassword({ email: 'erin@example.com' });
@@ -26,6 +32,7 @@ describe('POST /api/auth/login: failure', () => {
 
     expect(unknownEmail.status).toBe(401);
     expect(wrongPassword.status).toBe(401);
-    expect(unknownEmail.body).toEqual(wrongPassword.body);
+    // Everything but the per-request id must be identical.
+    expect(withoutRequestId(unknownEmail.body)).toEqual(withoutRequestId(wrongPassword.body));
   });
 });
