@@ -120,7 +120,9 @@ describe('bodyOutline', () => {
         expect(y).toBeGreaterThanOrEqual(d.clearance - 1e-6);
         expect(y).toBeLessThanOrEqual(d.height + 1e-6);
       }
-      expect(Math.max(...outline.map(([, y]) => y))).toBeCloseTo(d.height, 1);
+      // An open car's windscreen frame is separate glass, so only closed roofs reach the full height.
+      if (style !== 'CONVERTIBLE')
+        expect(Math.max(...outline.map(([, y]) => y))).toBeCloseTo(d.height, 1);
     },
   );
 
