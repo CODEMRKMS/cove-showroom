@@ -1,5 +1,5 @@
 import { VehicleNotFoundError } from '../domain/errors.js';
-import type { PageRequest, Paginated } from '../domain/pagination.js';
+import { paginate, type PageRequest, type Paginated } from '../domain/pagination.js';
 import type { BodyStyle, Category, Vehicle } from '../domain/vehicle.js';
 import type {
   VehicleFilter,
@@ -65,15 +65,6 @@ export class VehicleService {
   }
 
   private async page(request: PageRequest, filter?: VehicleFilter): Promise<Paginated<Vehicle>> {
-    const { items, total } = await this.vehicles.findMany(request, filter);
-    return {
-      data: items,
-      meta: {
-        page: request.page,
-        pageSize: request.pageSize,
-        total,
-        totalPages: Math.ceil(total / request.pageSize),
-      },
-    };
+    return paginate(await this.vehicles.findMany(request, filter), request);
   }
 }

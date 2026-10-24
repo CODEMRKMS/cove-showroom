@@ -10,6 +10,9 @@ import { AuthService } from './services/auth.service.js';
 import { Argon2PasswordHasher } from './services/password-hasher.js';
 import { JwtTokenService } from './services/token-service.js';
 import { VehicleService } from './services/vehicle.service.js';
+import { OrderController } from './controllers/order.controller.js';
+import { PrismaOrderRepository } from './repositories/prisma-order.repository.js';
+import { OrderService } from './services/order.service.js';
 import { InventoryService } from './services/inventory.service.js';
 import { InventoryController } from './controllers/inventory.controller.js';
 import { PrismaInventoryRepository } from './repositories/prisma-inventory.repository.js';
@@ -41,6 +44,7 @@ export function createContainer({ config, prisma }: AppDeps) {
     },
     vehicleController: new VehicleController(vehicleService),
     inventoryController: new InventoryController(inventoryService),
+    orderController: new OrderController(new OrderService(new PrismaOrderRepository(prisma))),
     authController: new AuthController(authService, {
       secure: config.nodeEnv === 'production',
       maxAgeMs: config.refreshTtlSeconds * 1000,

@@ -4,6 +4,7 @@ import { authRoutes } from './routes/auth.routes.js';
 import { createErrorHandler, notFoundHandler } from './middleware/error-handler.js';
 import { requestId } from './middleware/request-id.js';
 import { inventoryRoutes } from './routes/inventory.routes.js';
+import { orderRoutes } from './routes/order.routes.js';
 import { vehicleRoutes } from './routes/vehicle.routes.js';
 import { healthRoutes } from './routes/health.routes.js';
 
@@ -14,6 +15,7 @@ export function createApp(deps: AppDeps): Express {
     authController,
     vehicleController,
     inventoryController,
+    orderController,
     loginRateLimiter,
     authenticate,
     pingDatabase,
@@ -26,6 +28,7 @@ export function createApp(deps: AppDeps): Express {
   app.use('/api/auth', authRoutes(authController, loginRateLimiter, authenticate));
   app.use('/api/vehicles', vehicleRoutes(vehicleController, authenticate));
   app.use('/api/vehicles', inventoryRoutes(inventoryController, authenticate));
+  app.use('/api/orders', orderRoutes(orderController, authenticate));
   app.use(notFoundHandler);
   app.use(createErrorHandler(deps.logger ?? console));
   return app;
