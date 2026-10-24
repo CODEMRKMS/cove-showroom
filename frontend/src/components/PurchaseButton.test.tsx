@@ -4,7 +4,9 @@ import { PurchaseButton } from './PurchaseButton';
 
 const setup = (props: Partial<Parameters<typeof PurchaseButton>[0]> = {}) => {
   const onPurchase = vi.fn();
-  render(<PurchaseButton vehicleName="Honda City" quantity={5} onPurchase={onPurchase} {...props} />);
+  render(
+    <PurchaseButton vehicleName="Honda City" quantity={5} onPurchase={onPurchase} {...props} />,
+  );
   return { onPurchase, user: userEvent.setup() };
 };
 

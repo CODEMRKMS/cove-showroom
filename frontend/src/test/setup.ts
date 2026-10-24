@@ -9,6 +9,6 @@ globalThis.fetch = (input, init) =>
     : nodeFetch(input, init);
 
 // A request nobody mocked is a test bug, so fail loudly instead of reaching the network.
-beforeAll(() => server.listen({ onUnhandledRequest: 'error' }));
+beforeAll(() => server.listen({ onUnhandledFrame: 'error' }));
 afterEach(() => server.resetHandlers());
 afterAll(() => server.close());

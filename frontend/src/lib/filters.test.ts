@@ -39,9 +39,9 @@ describe('parseFilters', () => {
   });
 
   it('ignores values it does not understand instead of failing', () => {
-    expect(parse('category=BOAT&minPrice=abc&maxPrice=-4&inStock=maybe&sort=colour&page=0')).toEqual(
-      DEFAULT_FILTERS,
-    );
+    expect(
+      parse('category=BOAT&minPrice=abc&maxPrice=-4&inStock=maybe&sort=colour&page=0'),
+    ).toEqual(DEFAULT_FILTERS);
     expect(parse('page=2.5').page).toBe(1);
     expect(parse('page=abc').page).toBe(1);
   });

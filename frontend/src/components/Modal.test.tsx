@@ -4,7 +4,13 @@ import { useState } from 'react';
 import { ConfirmDialog } from './ConfirmDialog';
 import { Modal } from './Modal';
 
-function Harness({ onConfirm = vi.fn(), busy = false }: { onConfirm?: () => void; busy?: boolean }) {
+function Harness({
+  onConfirm = vi.fn(),
+  busy = false,
+}: {
+  onConfirm?: () => void;
+  busy?: boolean;
+}) {
   const [open, setOpen] = useState(false);
   return (
     <>
