@@ -1,4 +1,5 @@
 import type { Config } from './config.js';
+import { createAuthenticate } from './middleware/authenticate.js';
 import { createLoginRateLimiter } from './middleware/rate-limit.js';
 import { AuthController } from './controllers/auth.controller.js';
 import type { PrismaClient } from './generated/prisma/client.js';
@@ -19,6 +20,7 @@ export function createContainer({ config, prisma }: AppDeps) {
   );
   return {
     authController: new AuthController(authService),
+    authenticate: createAuthenticate(authService),
     loginRateLimiter: createLoginRateLimiter(config.authRateLimit),
   };
 }

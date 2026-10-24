@@ -15,6 +15,7 @@ export const errorHandler: ErrorRequestHandler = (err, _req, res, next) => {
     next(err);
     return;
   }
+  if (err.status === 401) res.setHeader('WWW-Authenticate', 'Bearer');
   res.status(err.status).json({
     type: 'about:blank',
     title: TITLES[err.status] ?? 'Error',

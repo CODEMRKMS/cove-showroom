@@ -6,6 +6,10 @@ import type { UserRecord } from '../domain/user.js';
 export class PrismaUserRepository implements UserRepository {
   constructor(private readonly prisma: PrismaClient) {}
 
+  findById(id: string): Promise<UserRecord | null> {
+    return this.prisma.user.findUnique({ where: { id } });
+  }
+
   findByEmail(email: string): Promise<UserRecord | null> {
     return this.prisma.user.findUnique({ where: { email } });
   }

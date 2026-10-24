@@ -25,6 +25,12 @@ export class InvalidCredentialsError extends AppError {
   }
 }
 
+export class UnauthenticatedError extends AppError {
+  constructor() {
+    super(401, 'UNAUTHENTICATED', 'Sign in to continue.');
+  }
+}
+
 export class RateLimitedError extends AppError {
   constructor() {
     super(429, 'RATE_LIMITED', 'Too many failed attempts. Try again later.');

@@ -1,4 +1,4 @@
-import { InvalidCredentialsError } from '../domain/errors.js';
+import { InvalidCredentialsError, UnauthenticatedError } from '../domain/errors.js';
 import { toPublicUser, type PublicUser } from '../domain/user.js';
 import type { UserRepository } from '../repositories/user.repository.js';
 import type { PasswordHasher } from './password-hasher.js';
@@ -50,5 +50,12 @@ export class AuthService {
     const publicUser = toPublicUser(user);
     const { token, expiresIn } = this.tokens.signAccessToken(publicUser);
     return { accessToken: token, tokenType: 'Bearer', expiresIn, user: publicUser };
+  }
+
+  /** Resolves an access token to the current user. The role always comes from the database. */
+  async authenticate(accessToken: string): Promise<PublicUser> {
+    const user = await this.users.findById(this.tokens.verifyAccessToken(accessToken));
+    if (!user) throw new UnauthenticatedError();
+    return toPublicUser(user);
   }
 }

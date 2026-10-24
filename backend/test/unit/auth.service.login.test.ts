@@ -7,13 +7,14 @@ import type { TokenService } from '../../src/services/token-service.js';
 function buildService() {
   const users: UserRepository = {
     create: vi.fn(),
+    findById: vi.fn(),
     findByEmail: vi.fn().mockResolvedValue(null),
   };
   const hasher: PasswordHasher = {
     hash: vi.fn(),
     verify: vi.fn().mockResolvedValue(false),
   };
-  const tokens: TokenService = { signAccessToken: vi.fn() };
+  const tokens: TokenService = { signAccessToken: vi.fn(), verifyAccessToken: vi.fn() };
   return { service: new AuthService(users, hasher, tokens), hasher };
 }
 
