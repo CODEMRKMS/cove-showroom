@@ -9,5 +9,6 @@ export type NewUser = {
 
 /** Persistence contract for users. Services depend on this, not on Prisma. */
 export interface UserRepository {
+  /** @throws EmailTakenError when the email is already registered. */
   create(user: NewUser): Promise<UserRecord>;
 }
