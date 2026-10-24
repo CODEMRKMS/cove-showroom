@@ -10,3 +10,10 @@ Choices made unattended on `feat/3d-studio`, newest last. Each picks the more co
    the spec's scroll-scrub is not in the 12-item task list and would hijack scroll.
 2. **Landing page loads while the session check runs.** Signed-out visitors see the page at once
    (real DOM, good LCP); a signed-in visitor is redirected once the session resolves.
+3. **Tier thresholds** (studio/quality.ts) are judgement calls, not measured on real devices. High
+   needs a non-mobile device with at least 8 GB, 8 cores and a frame probe at or under 20 ms. Low is
+   Save-Data, at most 2 GB, at most 2 cores, a phone with at most 4 cores, or a probe over 30 ms.
+   Browsers that hide memory or cores (Safari, Firefox) never reach high: they get medium.
+   DPR caps: high 1.5, medium 1.25, low 1.
+4. **Reduced motion means the SVG car, not a still 3D car.** The brief lists it in the fallback chain,
+   and the SVG has no motion at all, so it is the conservative reading.

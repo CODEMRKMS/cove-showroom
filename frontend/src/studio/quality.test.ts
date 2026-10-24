@@ -1,4 +1,11 @@
-import { chooseTier, dprFor, fallbackReason, readEnvironment, type DeviceInfo } from './quality';
+import {
+  chooseTier,
+  dprFor,
+  fallbackReason,
+  probeFrameTime,
+  readEnvironment,
+  type DeviceInfo,
+} from './quality';
 
 const desktop: DeviceInfo = {
   devicePixelRatio: 2,
@@ -33,8 +40,7 @@ describe('chooseTier', () => {
   });
 
   it('copes with browsers that hide memory, core count and the probe', () => {
-    const { deviceMemory, hardwareConcurrency, frameMs, ...rest } = desktop;
-    (void deviceMemory, hardwareConcurrency, frameMs);
+    const rest: DeviceInfo = { devicePixelRatio: 2, saveData: false, mobile: false };
     expect(chooseTier(rest)).toBe('medium');
   });
 
@@ -119,5 +125,24 @@ describe('readEnvironment', () => {
     expect(env.saveData).toBe(false);
     expect(env.reducedMotion).toBe(false);
     expect(env.mobile).toBe(false);
+  });
+});
+
+describe('probeFrameTime', () => {
+  afterEach(() => vi.unstubAllGlobals());
+
+  it('averages the gap between animation frames', async () => {
+    let now = 100;
+    vi.stubGlobal('requestAnimationFrame', (callback: (time: number) => void) => {
+      now += 16;
+      setTimeout(() => callback(now), 0);
+      return 0;
+    });
+    expect(await probeFrameTime(5)).toBeCloseTo(16);
+  });
+
+  it('resolves null when there is no requestAnimationFrame', async () => {
+    vi.stubGlobal('requestAnimationFrame', undefined);
+    expect(await probeFrameTime()).toBeNull();
   });
 });
