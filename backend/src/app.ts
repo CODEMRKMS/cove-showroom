@@ -7,12 +7,12 @@ import { healthRoutes } from './routes/health.routes.js';
 // App factory: tests and server.ts build the app the same way, from the same
 // infrastructure dependencies. Concrete wiring happens in container.ts.
 export function createApp(deps: AppDeps): Express {
-  const { authController } = createContainer(deps);
+  const { authController, loginRateLimiter } = createContainer(deps);
   const app = express();
   app.disable('x-powered-by');
   app.use(express.json({ limit: '100kb' }));
   app.use('/api', healthRoutes());
-  app.use('/api/auth', authRoutes(authController));
+  app.use('/api/auth', authRoutes(authController, loginRateLimiter));
   app.use(errorHandler);
   return app;
 }

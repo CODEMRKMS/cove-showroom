@@ -8,6 +8,8 @@ const envSchema = z.object({
   DATABASE_URL: z.string().min(1),
   JWT_ACCESS_SECRET: z.string().min(32, 'must be at least 32 characters'),
   JWT_ACCESS_TTL_SECONDS: z.coerce.number().int().positive().default(900),
+  AUTH_RATE_LIMIT_MAX: z.coerce.number().int().positive().default(10),
+  AUTH_RATE_LIMIT_WINDOW_SECONDS: z.coerce.number().int().positive().default(900),
   JWT_ISSUER: z.string().min(1).default('cove-api'),
   JWT_AUDIENCE: z.string().min(1).default('cove-web'),
 });
@@ -16,6 +18,8 @@ export type Config = {
   nodeEnv: 'development' | 'test' | 'production';
   port: number;
   databaseUrl: string;
+  /** Failed login attempts allowed per client IP within the window. */
+  authRateLimit: { max: number; windowSeconds: number };
   jwt: {
     accessSecret: string;
     accessTtlSeconds: number;
@@ -43,6 +47,10 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): Config {
     nodeEnv: e.NODE_ENV,
     port: e.PORT,
     databaseUrl: e.DATABASE_URL,
+    authRateLimit: {
+      max: e.AUTH_RATE_LIMIT_MAX,
+      windowSeconds: e.AUTH_RATE_LIMIT_WINDOW_SECONDS,
+    },
     jwt: {
       accessSecret: e.JWT_ACCESS_SECRET,
       accessTtlSeconds: e.JWT_ACCESS_TTL_SECONDS,

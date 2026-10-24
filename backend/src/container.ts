@@ -1,4 +1,5 @@
 import type { Config } from './config.js';
+import { createLoginRateLimiter } from './middleware/rate-limit.js';
 import { AuthController } from './controllers/auth.controller.js';
 import type { PrismaClient } from './generated/prisma/client.js';
 import { PrismaUserRepository } from './repositories/prisma-user.repository.js';
@@ -16,5 +17,8 @@ export function createContainer({ config, prisma }: AppDeps) {
     new Argon2PasswordHasher(),
     new JwtTokenService(config.jwt),
   );
-  return { authController: new AuthController(authService) };
+  return {
+    authController: new AuthController(authService),
+    loginRateLimiter: createLoginRateLimiter(config.authRateLimit),
+  };
 }

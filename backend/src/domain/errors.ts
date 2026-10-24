@@ -25,6 +25,12 @@ export class InvalidCredentialsError extends AppError {
   }
 }
 
+export class RateLimitedError extends AppError {
+  constructor() {
+    super(429, 'RATE_LIMITED', 'Too many failed attempts. Try again later.');
+  }
+}
+
 export class EmailTakenError extends AppError {
   constructor() {
     super(409, 'EMAIL_TAKEN', 'An account with this email already exists.');
