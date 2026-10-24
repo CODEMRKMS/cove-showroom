@@ -2,7 +2,7 @@ import express, { type Express } from 'express';
 import request from 'supertest';
 import { describe, expect, it } from 'vitest';
 import { createContainer } from '../../src/container.js';
-import { errorHandler } from '../../src/middleware/error-handler.js';
+import { createErrorHandler } from '../../src/middleware/error-handler.js';
 import { authorize } from '../../src/middleware/authorize.js';
 import { testConfig } from '../helpers/app.js';
 import { createUserWithPassword, signTestToken } from '../helpers/auth.js';
@@ -40,7 +40,7 @@ function buildGuardedApp(): Express {
       res.json({ ok: true });
     });
   }
-  app.use(errorHandler);
+  app.use(createErrorHandler(console));
   return app;
 }
 

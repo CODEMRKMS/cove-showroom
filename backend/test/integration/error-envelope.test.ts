@@ -175,7 +175,7 @@ describe('error envelope', () => {
         config: testConfig({ NODE_ENV: nodeEnv }),
         prisma: brokenDatabase(),
         logger,
-      } as Parameters<typeof createApp>[0]);
+      });
       const res = await request(app).get('/api/vehicles').set('Authorization', authorization);
       return { res, logger };
     }
@@ -225,7 +225,7 @@ describe('error envelope', () => {
         config: testConfig(),
         prisma: testPrisma(),
         logger,
-      } as Parameters<typeof createApp>[0]);
+      });
 
       await request(app).get('/api/auth/me');
       await request(app).get('/api/nope');

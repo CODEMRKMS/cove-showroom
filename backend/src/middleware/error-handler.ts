@@ -93,6 +93,3 @@ export function createErrorHandler(logger: ErrorLogger): ErrorRequestHandler {
     });
   };
 }
-
-/** Console-backed handler for callers that do not inject a logger (kept for the role matrix test). */
-export const errorHandler = createErrorHandler(console);
