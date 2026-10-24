@@ -1,4 +1,5 @@
 import { screen, waitFor, within } from '@testing-library/react';
+import { contrastRatio, pickAccent } from '../lib/accent';
 import { formatINR } from '../lib/money';
 import { axeViolations } from '../test/axe';
 import { createFakeApi, makeUser, makeVehicle } from '../test/fakeApi';
@@ -99,5 +100,32 @@ describe('showroom cards link to the detail page', () => {
     const link = within(card).getByRole('link', { name: /view details/i });
     expect(link).toHaveAttribute('href', '/vehicles/car-city');
     await waitFor(() => expect(link).toBeVisible());
+  });
+});
+
+describe('page accent follows the paint', () => {
+  const rootAccent = () => document.documentElement.style.getPropertyValue('--accent');
+
+  it('sets the accent for the first paint, moves it with the choice, and clears it on leaving', async () => {
+    const { user, unmount } = await open();
+    expect(rootAccent()).toBe(pickAccent('#f2f2f2').accent);
+    await user.click(screen.getByRole('radio', { name: 'Black' }));
+    expect(rootAccent()).toBe(pickAccent('#1b1b1b').accent);
+    unmount();
+    expect(rootAccent()).toBe('');
+  });
+
+  it('uses a darker shade when the paint is too light to read as text', async () => {
+    const pale = makeVehicle({ id: 'car-pale', colorOptions: ['#FFF200'] });
+    renderApp('/vehicles/car-pale', {
+      api: createFakeApi({ vehicles: [pale] }),
+      signedInAs: asha,
+    });
+    await screen.findByRole('heading', { level: 1 });
+    const accent = rootAccent();
+    expect(accent).not.toBe('#fff200');
+    for (const surface of ['#efeae2', '#e2dbd0']) {
+      expect(contrastRatio(accent, surface)).toBeGreaterThanOrEqual(4.5);
+    }
   });
 });
