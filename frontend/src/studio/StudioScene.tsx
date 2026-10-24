@@ -175,6 +175,8 @@ export default function StudioScene({
   view,
   nudge,
   autoRotate,
+  intro,
+  onIntroDone,
   hotspots,
   overlay,
   onReady,
@@ -211,6 +213,7 @@ export default function StudioScene({
           powerPreference: high ? 'high-performance' : 'default',
         }}
         onCreated={({ gl, invalidate }) => {
+          gl.localClippingEnabled = true;
           gl.toneMapping = ACESFilmicToneMapping;
           gl.toneMappingExposure = 1;
           gl.setClearColor(0x000000, 0);
@@ -228,7 +231,7 @@ export default function StudioScene({
         }}
       >
         <StudioLights tier={tier} />
-        <CarModel spec={spec} paint={spec.paint} />
+        <CarModel spec={spec} paint={spec.paint} intro={intro} onIntroDone={onIntroDone} />
         <ContactShadows
           position={[0, 0.002, 0]}
           opacity={0.5}
@@ -248,7 +251,7 @@ export default function StudioScene({
           maxPolarAngle={Math.PI / 2 - 0.03}
           minDistance={reach * 0.5}
           maxDistance={reach * 1.8}
-          autoRotate={turning}
+          autoRotate={turning && !intro}
           autoRotateSpeed={0.9}
           onStart={stopTurning}
         />

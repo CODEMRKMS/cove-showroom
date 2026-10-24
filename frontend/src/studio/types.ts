@@ -27,6 +27,9 @@ export type SceneProps = {
   /** Signed count of 15-degree keyboard turns; the scene applies the change since its last render. */
   nudge: number;
   autoRotate: boolean;
+  /** Play the clay-to-render reveal. The scene finishes it at once when this turns false. */
+  intro: boolean;
+  onIntroDone?: () => void;
   hotspots?: Hotspot[];
   /** DOM element the markers are drawn into, outside the role="img" stage so their buttons stay reachable. */
   overlay?: RefObject<HTMLDivElement | null>;

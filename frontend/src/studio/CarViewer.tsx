@@ -19,6 +19,7 @@ import {
   readEnvironment,
   type Tier,
 } from './quality';
+import { shouldPlayIntro } from './intro';
 import { STUDIO_VIEWS, VIEW_LABELS, type Hotspot, type StudioView } from './types';
 import { hasWebGL } from './webgl';
 
@@ -26,7 +27,9 @@ import { hasWebGL } from './webgl';
 const StudioScene = lazy(() => import('./StudioScene'));
 
 type Decision =
-  { status: 'pending' } | { status: 'svg' } | { status: '3d'; tier: Tier; dpr: number };
+  | { status: 'pending' }
+  | { status: 'svg' }
+  | { status: '3d'; tier: Tier; dpr: number; intro: boolean };
 
 // One frame-time probe per page load, shared by every viewer on it.
 let probe: Promise<number | null> | undefined;
@@ -57,6 +60,8 @@ type Props = {
   autoRotate?: boolean;
   /** Spec markers drawn on the car in 3D. The SVG fallback shows none; the page lists the same facts. */
   hotspots?: Hotspot[];
+  /** Play the clay-to-render reveal, once per browser session. */
+  intro?: boolean;
   /** CSS aspect-ratio of the stage, as "width / height". The SVG poster is centred inside it. */
   aspect?: string;
 };
@@ -72,6 +77,7 @@ export function CarViewer({
   interactive = false,
   autoRotate = true,
   hotspots,
+  intro = false,
   aspect = '400 / 176',
 }: Props) {
   const [decision, setDecision] = useState<Decision>({ status: 'pending' });
@@ -80,6 +86,7 @@ export function CarViewer({
   const [failed, setFailed] = useState(false);
   const [view, setView] = useState<StudioView>('orbit');
   const [nudge, setNudge] = useState(0);
+  const [introOver, setIntroOver] = useState(false);
   const viewId = useId();
   const overlay = useRef<HTMLDivElement>(null);
 
@@ -95,16 +102,24 @@ export function CarViewer({
       setDecision(
         blocked || fallbackReason({ ...env, webgl, tier })
           ? { status: 'svg' }
-          : { status: '3d', tier, dpr: dprFor(tier, env.devicePixelRatio) },
+          : {
+              status: '3d',
+              tier,
+              dpr: dprFor(tier, env.devicePixelRatio),
+              intro: intro && shouldPlayIntro({ reducedMotion: env.reducedMotion }),
+            },
       );
     });
     return () => {
       cancelled = true;
     };
+    // The decision is made once, on mount: a later change of `intro` must not re-run the frame probe.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const scene = decision.status === '3d' && !failed;
   const showing3d = scene && ready && !lost;
+  const introActive = decision.status === '3d' && decision.intro && !introOver;
 
   function onKeyDown(event: KeyboardEvent) {
     if (event.key === 'ArrowRight') setNudge((n) => n + 1);
@@ -114,7 +129,7 @@ export function CarViewer({
   }
 
   return (
-    <div className={className}>
+    <div className={`relative ${className}`}>
       <div className="relative w-full" style={{ aspectRatio: aspect }}>
         {!showing3d && (
           <div className="absolute inset-0 flex items-center justify-center">
@@ -144,6 +159,8 @@ export function CarViewer({
                     view={view}
                     nudge={nudge}
                     autoRotate={autoRotate}
+                    intro={introActive}
+                    onIntroDone={() => setIntroOver(true)}
                     hotspots={hotspots}
                     overlay={overlay}
                     onReady={() => setReady(true)}
@@ -157,6 +174,15 @@ export function CarViewer({
           </div>
         )}
       </div>
+      {introActive && showing3d && (
+        <button
+          type="button"
+          onClick={() => setIntroOver(true)}
+          className="absolute right-2 bottom-2 inline-flex min-h-11 items-center rounded-control bg-ink/85 px-4 font-semibold text-white"
+        >
+          Skip intro
+        </button>
+      )}
       {interactive && showing3d && (
         <div className="mt-2 flex items-center gap-2">
           <label htmlFor={viewId} className="font-semibold">

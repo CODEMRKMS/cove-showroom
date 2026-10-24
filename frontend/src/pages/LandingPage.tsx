@@ -47,7 +47,7 @@ export function LandingPage() {
             inventory up to date.
           </p>
         </div>
-        <CarViewer spec={HERO_CAR} className="w-full max-w-3xl" aspect="16 / 8" />
+        <CarViewer spec={HERO_CAR} className="w-full max-w-3xl" aspect="16 / 8" intro />
         <div className="flex flex-wrap justify-center gap-3">
           <Link to="/login" className={btnPrimary}>
             Sign in
