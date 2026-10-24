@@ -6,6 +6,7 @@ import { buildTestApp } from '../helpers/app.js';
 // The only routes allowed to skip authorize(). Everything else must be guarded by the policy map.
 const PUBLIC_ROUTES = [
   'GET /api/health',
+  'GET /api/ready',
   'POST /api/auth/register',
   'POST /api/auth/login',
   'POST /api/auth/refresh',
