@@ -16,6 +16,12 @@ export default defineConfig({
       // Not counted: bootstrap, generated client, config/seed (nothing to unit test).
       exclude: ['src/server.ts', 'src/generated/**', 'prisma/**'],
       reporter: ['text', 'text-summary', 'json-summary', 'html'],
+      // Fail the run under 90% for the layers that hold the rules. Middleware joins
+      // once the error envelope lands (Phase 3, item 17) and its last branches are covered.
+      thresholds: {
+        'src/services/**': { statements: 90, branches: 90, functions: 90, lines: 90 },
+        'src/controllers/**': { statements: 90, branches: 90, functions: 90, lines: 90 },
+      },
     },
   },
 });
