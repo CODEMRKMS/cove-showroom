@@ -20,7 +20,7 @@ vi.mock('./StudioScene', () => ({
 }));
 // The real probe waits for twenty animation frames.
 vi.mock('./quality', async (importOriginal) => ({
-  ...(await importOriginal<typeof import('./quality')>()),
+  ...(await importOriginal<Record<string, unknown>>()),
   probeFrameTime: () => Promise.resolve(8),
 }));
 
@@ -57,6 +57,7 @@ function stubDevice({
     addEventListener: () => {},
     removeEventListener: () => {},
   }));
+  vi.stubGlobal('devicePixelRatio', 2);
   vi.stubGlobal('navigator', {
     hardwareConcurrency: cores,
     deviceMemory: memory,
