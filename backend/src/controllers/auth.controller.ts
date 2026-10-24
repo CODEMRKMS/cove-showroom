@@ -19,6 +19,8 @@ const registerBody = z
   })
   .strict();
 
+const loginBody = z.object({ email: z.string(), password: z.string() }).strict();
+
 /** Parses HTTP input and shapes HTTP output; business rules live in the service. */
 export class AuthController {
   constructor(private readonly auth: AuthService) {}
@@ -26,5 +28,10 @@ export class AuthController {
   register = async (req: Request, res: Response): Promise<void> => {
     const input = parseWith(registerBody, req.body);
     res.status(201).json(await this.auth.register(input));
+  };
+
+  login = async (req: Request, res: Response): Promise<void> => {
+    const input = parseWith(loginBody, req.body);
+    res.status(200).json(await this.auth.login(input));
   };
 }

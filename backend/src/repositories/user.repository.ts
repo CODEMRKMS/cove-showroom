@@ -11,4 +11,6 @@ export type NewUser = {
 export interface UserRepository {
   /** @throws EmailTakenError when the email is already registered. */
   create(user: NewUser): Promise<UserRecord>;
+  /** `email` must already be normalised (lowercase). */
+  findByEmail(email: string): Promise<UserRecord | null>;
 }

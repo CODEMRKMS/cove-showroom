@@ -6,6 +6,10 @@ import type { UserRecord } from '../domain/user.js';
 export class PrismaUserRepository implements UserRepository {
   constructor(private readonly prisma: PrismaClient) {}
 
+  findByEmail(email: string): Promise<UserRecord | null> {
+    return this.prisma.user.findUnique({ where: { email } });
+  }
+
   async create(user: NewUser): Promise<UserRecord> {
     try {
       return await this.prisma.user.create({ data: user });
