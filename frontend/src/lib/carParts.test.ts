@@ -1,7 +1,7 @@
 import { CATEGORIES } from '../api/types';
 import { buildCarSpec } from './carSpec';
 import { carDimensions, wheelPositions } from './carGeometry';
-import { doorSeams, greenhouse, lightPositions, windowSlabs } from './carParts';
+import { doorSeams, greenhouse, hotspotAnchors, lightPositions, windowSlabs } from './carParts';
 
 const specFor = (bodyStyle: (typeof CATEGORIES)[number]) =>
   buildCarSpec({ make: 'Cove', model: 'Test', year: 2026, bodyStyle, colorOptions: ['#c0392b'] });
@@ -86,5 +86,32 @@ describe('lightPositions', () => {
     expect(head.y).toBeLessThan(d.height);
     expect(tail.y).toBeGreaterThan(d.clearance);
     expect(tail.y).toBeLessThan(d.height);
+  });
+});
+
+describe('hotspotAnchors', () => {
+  it.each(CATEGORIES)(
+    '%s has three distinct anchors on the car, each with a unit normal',
+    (style) => {
+      const spec = specFor(style);
+      const d = carDimensions(spec);
+      const anchors = hotspotAnchors(spec);
+      expect(anchors.map((a) => a.id)).toEqual(['body', 'paint', 'stock']);
+      for (const { position, normal } of anchors) {
+        expect(Math.abs(position[0])).toBeLessThanOrEqual(d.length / 2 + 1e-6);
+        expect(position[1]).toBeGreaterThan(0);
+        expect(position[1]).toBeLessThanOrEqual(d.height + 0.05);
+        expect(Math.abs(position[2])).toBeLessThanOrEqual(d.width / 2 + 1e-6);
+        expect(Math.hypot(...normal)).toBeCloseTo(1);
+      }
+    },
+  );
+
+  it('puts the paint note on the right flank, the body note on the roof and the stock note at the tail', () => {
+    const [body, paint, stock] = hotspotAnchors(specFor('SEDAN'));
+    expect(body!.normal).toEqual([0, 1, 0]);
+    expect(paint!.normal).toEqual([0, 0, 1]);
+    expect(stock!.normal).toEqual([-1, 0, 0]);
+    expect(stock!.position[0]).toBeLessThan(0);
   });
 });
