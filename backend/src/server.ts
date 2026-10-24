@@ -1,11 +1,16 @@
 import 'dotenv/config';
 import { createApp } from './app.js';
+import { loadConfig } from './config.js';
+import { createPrismaClient } from './infrastructure/prisma.js';
 
-// Bootstrap only. Validated config and graceful shutdown arrive with the
-// config module (Phase 2).
-const port = Number(process.env['PORT'] ?? 3000);
-const server = createApp().listen(port, () => {
-  console.log(`API listening on http://localhost:${port}`);
+// Bootstrap only. Graceful shutdown arrives with the hardening work.
+const config = loadConfig();
+const prisma = createPrismaClient(config.databaseUrl);
+const server = createApp({ config, prisma }).listen(config.port, () => {
+  console.log(`API listening on http://localhost:${config.port}`);
 });
 
-process.on('SIGTERM', () => server.close());
+process.on('SIGTERM', () => {
+  server.close();
+  void prisma.$disconnect();
+});
