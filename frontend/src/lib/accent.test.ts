@@ -26,7 +26,7 @@ describe('contrastRatio', () => {
 describe('pickAccent', () => {
   it('keeps a paint that is already dark enough', () => {
     expect(pickAccent('#1B1B1B').accent).toBe('#1b1b1b');
-    expect(pickAccent('#1F5FBF').accent).toBe('#1f5fbf');
+    expect(pickAccent('#1D4ED8').accent).toBe('#1d4ed8');
   });
 
   it('darkens a paint that is too light until text on both surfaces reaches 4.5:1', () => {
@@ -36,7 +36,15 @@ describe('pickAccent', () => {
   });
 
   it('guarantees 4.5:1 on both surfaces for every colour it returns', () => {
-    for (const paint of ['#E6B422', '#8FA3B3', '#7A8B99', '#B42318', '#2F4F4F', '#F2F2F2', '#FFFF00']) {
+    for (const paint of [
+      '#E6B422',
+      '#8FA3B3',
+      '#7A8B99',
+      '#B42318',
+      '#2F4F4F',
+      '#F2F2F2',
+      '#FFFF00',
+    ]) {
       const { accent } = pickAccent(paint);
       expect(contrastRatio(accent, WALL), paint).toBeGreaterThanOrEqual(4.5);
       expect(contrastRatio(accent, FLOOR), paint).toBeGreaterThanOrEqual(4.5);
