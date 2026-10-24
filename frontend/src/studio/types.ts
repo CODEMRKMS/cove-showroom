@@ -29,6 +29,8 @@ export type SceneProps = {
   autoRotate: boolean;
   /** Play the clay-to-render reveal. The scene finishes it at once when this turns false. */
   intro: boolean;
+  /** Rises by one for every purchase; each rise plays the camera pull-back and light sweep. */
+  moment: number;
   onIntroDone?: () => void;
   hotspots?: Hotspot[];
   /** DOM element the markers are drawn into, outside the role="img" stage so their buttons stay reachable. */

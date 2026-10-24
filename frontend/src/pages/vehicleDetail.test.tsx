@@ -27,7 +27,8 @@ const nexon = makeVehicle({
   quantity: 0,
   colorOptions: ['#1F5FBF'],
 });
-const api = () => createFakeApi({ vehicles: [city, nexon] });
+// Copies, so a purchase in one test never changes the stock another test sees.
+const api = () => createFakeApi({ vehicles: [{ ...city }, { ...nexon }] });
 
 const open = async (id = 'car-city') => {
   const view = renderApp(`/vehicles/${id}`, { api: api(), signedInAs: asha });

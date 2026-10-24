@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, useParams } from 'react-router';
 import { ApiError } from '../api/client';
+import type { Order } from '../api/types';
 import { useVehicle } from '../api/vehicles';
 import { PaintPicker } from '../components/PaintPicker';
 import { PurchaseControl } from '../components/PurchaseControl';
@@ -27,6 +28,8 @@ export function VehicleDetailPage() {
   const { id } = useParams();
   const query = useVehicle(id);
   const [paint, setPaint] = useState<string | undefined>(undefined);
+  // How many purchases this visit made. It drives the 3D moment and the confirmation panel.
+  const [bought, setBought] = useState<Order[]>([]);
   const vehicle = query.data;
   useDocumentTitle(vehicle ? `${vehicle.make} ${vehicle.model}` : 'Car');
   const { accent, ink } = pickAccent(vehicle ? buildCarSpec(vehicle, paint).paint : undefined);
@@ -77,6 +80,7 @@ export function VehicleDetailPage() {
           : `Sold out. Listed at ${formatINR(vehicle.price)}.`,
     },
   ];
+  const lastOrder = bought.at(-1);
   const specs: [string, string][] = [
     ['Category', CATEGORY_LABELS[vehicle.category]],
     ...(vehicle.bodyStyle !== vehicle.category
@@ -91,7 +95,13 @@ export function VehicleDetailPage() {
       <BackLink />
       <div className="grid gap-8 lg:grid-cols-5">
         <div className="lg:col-span-3">
-          <CarViewer spec={spec} interactive hotspots={hotspots} aspect="16 / 10" />
+          <CarViewer
+            spec={spec}
+            interactive
+            hotspots={hotspots}
+            moment={bought.length}
+            aspect="16 / 10"
+          />
         </div>
         <div className="flex flex-col gap-4 lg:col-span-2">
           <div>
@@ -101,16 +111,43 @@ export function VehicleDetailPage() {
           <p className="font-display text-3xl text-accent tabular-nums">
             {formatINR(vehicle.price)}
           </p>
-          <StockText quantity={vehicle.quantity} />
+          <StockText quantity={vehicle.quantity} tick={bought.length > 0} />
           {vehicle.colorOptions.length > 1 && (
             <PaintPicker colours={vehicle.colorOptions} selected={spec.paint} onSelect={setPaint} />
           )}
           <div className="flex flex-col gap-2">
-            <PurchaseControl vehicle={vehicle} />
+            <PurchaseControl
+              vehicle={vehicle}
+              onPurchased={(order) => setBought((orders) => [...orders, order])}
+            />
             <Link to="/showroom" className={btnQuiet}>
               Keep browsing
             </Link>
           </div>
+          {lastOrder && (
+            <section
+              aria-labelledby="purchase-complete"
+              className="moment-fade rounded-card border border-stock bg-white/60 p-4"
+            >
+              <h2 id="purchase-complete" className="font-display text-lg">
+                Purchase complete
+              </h2>
+              <p className="mt-1">
+                Bought {lastOrder.vehicleLabel} for {formatINR(lastOrder.totalPrice)}.
+              </p>
+              <p className="text-graphite">
+                {vehicle.quantity > 0
+                  ? `${vehicle.quantity} left in stock.`
+                  : 'That was the last one in stock.'}
+              </p>
+              <Link
+                to="/orders"
+                className="mt-2 inline-flex min-h-11 items-center font-semibold underline"
+              >
+                View my orders
+              </Link>
+            </section>
+          )}
           <ul
             aria-label="Specifications"
             className="mt-2 divide-y divide-line/30 border-y border-line/30"

@@ -9,6 +9,7 @@ import { CarModel } from './CarModel';
 import { Hotspots } from './Hotspots';
 import type { Tier } from './quality';
 import type { SceneProps, StudioView } from './types';
+import { momentState, pullScale } from './moment';
 import { viewPose } from './viewPose';
 
 const FOV = 35;
@@ -23,11 +24,13 @@ function Rig({
   dims,
   view,
   nudge,
+  moment,
   onUserMove,
 }: {
   dims: CarDimensions;
   view: StudioView;
   nudge: number;
+  moment: number;
   onUserMove: () => void;
 }) {
   const { camera, invalidate, size } = useThree();
@@ -37,6 +40,8 @@ function Rig({
   const goal = useRef<{ position: Vector3; target: Vector3 } | null>(null);
   const placed = useRef<string | null>(null);
   const lastNudge = useRef(nudge);
+  const lastMoment = useRef(moment);
+  const pulse = useRef<{ startedAt: number | null; offset: Vector3 } | null>(null);
 
   useEffect(() => {
     const key = `${view}:${dims.length}`;
@@ -70,6 +75,16 @@ function Rig({
     invalidate();
   }, [camera, controls, invalidate, nudge, onUserMove]);
 
+  // A purchase: ease the camera back along its own line of sight and return it. Orbiting is paused meanwhile.
+  useEffect(() => {
+    if (moment === lastMoment.current || !controls) return;
+    lastMoment.current = moment;
+    goal.current = null;
+    pulse.current = { startedAt: null, offset: camera.position.clone().sub(controls.target) };
+    controls.enabled = false;
+    invalidate();
+  }, [camera, controls, invalidate, moment]);
+
   useEffect(() => {
     if (!controls) return;
     const cancel = () => (goal.current = null);
@@ -79,7 +94,20 @@ function Rig({
     return () => controls.removeEventListener('start', cancel);
   }, [controls]);
 
-  useFrame((_, delta) => {
+  useFrame(({ clock }, delta) => {
+    const active = pulse.current;
+    if (active && controls) {
+      active.startedAt ??= clock.elapsedTime;
+      const at = momentState((clock.elapsedTime - active.startedAt) * 1000);
+      camera.position.copy(controls.target).addScaledVector(active.offset, pullScale(at.pull));
+      controls.update();
+      if (at.done) {
+        pulse.current = null;
+        controls.enabled = true;
+      }
+      invalidate();
+      return;
+    }
     const g = goal.current;
     if (!g || !controls) return;
     const mix = 1 - Math.exp(-GLIDE_RATE * Math.min(delta, 0.1));
@@ -176,6 +204,7 @@ export default function StudioScene({
   nudge,
   autoRotate,
   intro,
+  moment,
   onIntroDone,
   hotspots,
   overlay,
@@ -231,7 +260,13 @@ export default function StudioScene({
         }}
       >
         <StudioLights tier={tier} />
-        <CarModel spec={spec} paint={spec.paint} intro={intro} onIntroDone={onIntroDone} />
+        <CarModel
+          spec={spec}
+          paint={spec.paint}
+          intro={intro}
+          moment={moment}
+          onIntroDone={onIntroDone}
+        />
         <ContactShadows
           position={[0, 0.002, 0]}
           opacity={0.5}
@@ -256,7 +291,7 @@ export default function StudioScene({
           onStart={stopTurning}
         />
         {hotspots && overlay && <Hotspots spec={spec} hotspots={hotspots} overlay={overlay} />}
-        <Rig dims={dims} view={view} nudge={nudge} onUserMove={stopTurning} />
+        <Rig dims={dims} view={view} nudge={nudge} moment={moment} onUserMove={stopTurning} />
         <Ready onReady={onReady} />
       </Canvas>
     </div>

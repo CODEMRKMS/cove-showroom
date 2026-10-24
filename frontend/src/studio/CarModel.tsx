@@ -30,6 +30,7 @@ import {
   buildTyreGeometry,
 } from './geometry';
 import { introState, sweepX } from './intro';
+import { momentState } from './moment';
 import {
   acquireMaterials,
   createClayMaterial,
@@ -74,6 +75,8 @@ type Props = {
   spin?: number;
   /** Play the clay-to-render reveal. Turning this off finishes it at once. */
   intro?: boolean;
+  /** Rises by one per purchase; each rise sweeps a soft light over the car. */
+  moment?: number;
   onIntroDone?: () => void;
 };
 
@@ -113,6 +116,7 @@ export function CarModel({
   lightsOn = true,
   spin = 0,
   intro = false,
+  moment = 0,
   onIntroDone,
 }: Props) {
   const invalidate = useThree((state) => state.invalidate);
@@ -229,6 +233,7 @@ export function CarModel({
   const clayGroup = useRef<Group>(null);
   const sweepMesh = useRef<Mesh>(null);
   const introRef = useRef({ startedAt: null as number | null, finished: !intro });
+  const flash = useRef({ moment, startedAt: null as number | null, running: false });
 
   // Slice the real car from the first frame, so it never flashes complete before the clay look.
   useEffect(() => {
@@ -288,6 +293,23 @@ export function CarModel({
       invalidate();
     }
 
+    const lightning = flash.current;
+    if (moment !== lightning.moment) {
+      lightning.moment = moment;
+      lightning.startedAt = null;
+      lightning.running = true;
+    }
+    if (lightning.running) {
+      lightning.startedAt ??= clock.elapsedTime;
+      const at = momentState((clock.elapsedTime - lightning.startedAt) * 1000);
+      if (sweepMesh.current) {
+        sweepMesh.current.visible = at.sweep !== null;
+        if (at.sweep !== null) sweepMesh.current.position.x = sweepX(at.sweep, dims.length);
+      }
+      if (at.done) lightning.running = false;
+      invalidate();
+    }
+
     const state = introRef.current;
     if (!state.finished) {
       state.startedAt ??= clock.elapsedTime;
@@ -314,17 +336,17 @@ export function CarModel({
           <mesh geometry={parts.body} material={clay.wire} scale={1.002} />
         </group>
       )}
-      {intro && (
-        <mesh
-          ref={sweepMesh}
-          material={sweepMaterial}
-          rotation={[0, Math.PI / 2, 0]}
-          position={[-dims.length / 2 - 0.3, dims.height * 0.5, 0]}
-          renderOrder={5}
-        >
-          <planeGeometry args={[dims.width * 1.6, dims.height * 1.8]} />
-        </mesh>
-      )}
+      {/* The light band. Hidden until the intro or a purchase moves it across the car. */}
+      <mesh
+        ref={sweepMesh}
+        visible={false}
+        material={sweepMaterial}
+        rotation={[0, Math.PI / 2, 0]}
+        position={[-dims.length / 2 - 0.3, dims.height * 0.5, 0]}
+        renderOrder={5}
+      >
+        <planeGeometry args={[dims.width * 1.6, dims.height * 1.8]} />
+      </mesh>
     </group>
   );
 }

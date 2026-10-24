@@ -62,6 +62,8 @@ type Props = {
   hotspots?: Hotspot[];
   /** Play the clay-to-render reveal, once per browser session. */
   intro?: boolean;
+  /** A counter the page raises after each purchase. Each rise plays the purchase moment in 3D. */
+  moment?: number;
   /** CSS aspect-ratio of the stage, as "width / height". The SVG poster is centred inside it. */
   aspect?: string;
 };
@@ -78,6 +80,7 @@ export function CarViewer({
   autoRotate = true,
   hotspots,
   intro = false,
+  moment = 0,
   aspect = '400 / 176',
 }: Props) {
   const [decision, setDecision] = useState<Decision>({ status: 'pending' });
@@ -160,6 +163,7 @@ export function CarViewer({
                     nudge={nudge}
                     autoRotate={autoRotate}
                     intro={introActive}
+                    moment={moment}
                     onIntroDone={() => setIntroOver(true)}
                     hotspots={hotspots}
                     overlay={overlay}

@@ -11,11 +11,29 @@ import { PaintPicker } from './PaintPicker';
 import { PurchaseControl } from './PurchaseControl';
 import { btnQuiet } from './styles';
 
-export function StockText({ quantity }: { quantity: number }) {
+/** Stock in words. With `tick`, a change of count slides the new line in, so a purchase is seen to count down. */
+export function StockText({ quantity, tick = false }: { quantity: number; tick?: boolean }) {
   const state = stockState(quantity);
-  if (state === 'sold-out') return <p className="font-semibold text-sold">Sold out</p>;
-  if (state === 'low') return <p className="font-semibold text-low">Low stock: {quantity} left</p>;
-  return <p className="font-semibold text-stock">{quantity} in stock</p>;
+  const motion = tick ? ' tick-in' : '';
+  if (state === 'sold-out') {
+    return (
+      <p key={quantity} className={`font-semibold text-sold${motion}`}>
+        Sold out
+      </p>
+    );
+  }
+  if (state === 'low') {
+    return (
+      <p key={quantity} className={`font-semibold text-low${motion}`}>
+        Low stock: {quantity} left
+      </p>
+    );
+  }
+  return (
+    <p key={quantity} className={`font-semibold text-stock${motion}`}>
+      {quantity} in stock
+    </p>
+  );
 }
 
 /** One car in the showroom: illustration, facts, paint choice and the guarded Buy button. */

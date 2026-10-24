@@ -81,11 +81,48 @@ body {
   outline-offset: 2px;
 }
 
+/* The stock count slides in when a purchase changes it; the confirmation panel fades in. */
+@keyframes tick-in {
+  from {
+    transform: translateY(-70%);
+    opacity: 0;
+  }
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}
+.tick-in {
+  animation: tick-in 450ms ease-out both;
+}
+@keyframes moment-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.moment-fade {
+  animation: moment-fade 450ms ease-out both;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
   *::after {
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
+  }
+}
+
+/* Reduced motion keeps one gentle thing: the confirmation fades in (opacity only, no movement), so the
+   message does not just pop. It comes after the blanket rule above, and so wins. */
+@media (prefers-reduced-motion: reduce) {
+  .moment-fade {
+    animation-duration: 300ms !important;
+  }
+  .tick-in {
+    animation: none !important;
   }
 }
