@@ -19,6 +19,12 @@ export class ValidationError extends AppError {
   }
 }
 
+export class InvalidCredentialsError extends AppError {
+  constructor() {
+    super(401, 'INVALID_CREDENTIALS', 'Email or password is incorrect.');
+  }
+}
+
 export class EmailTakenError extends AppError {
   constructor() {
     super(409, 'EMAIL_TAKEN', 'An account with this email already exists.');

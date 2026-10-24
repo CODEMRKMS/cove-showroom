@@ -1,7 +1,7 @@
 import type { ErrorRequestHandler } from 'express';
 import { AppError } from '../domain/errors.js';
 
-const TITLES: Record<number, string> = { 400: 'Bad Request', 409: 'Conflict' };
+const TITLES: Record<number, string> = { 400: 'Bad Request', 401: 'Unauthorized', 409: 'Conflict' };
 
 // Maps deliberate domain errors to the JSON error body. Anything else falls
 // through to Express's default 500 handler. The full envelope arrives in Phase 3.

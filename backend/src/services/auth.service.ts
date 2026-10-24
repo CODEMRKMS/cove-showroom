@@ -1,7 +1,14 @@
+import { InvalidCredentialsError } from '../domain/errors.js';
 import { toPublicUser, type PublicUser } from '../domain/user.js';
 import type { UserRepository } from '../repositories/user.repository.js';
 import type { PasswordHasher } from './password-hasher.js';
 import type { TokenService } from './token-service.js';
+
+// A real argon2id hash of a throwaway password. Verifying against it when the
+// email is unknown makes that path cost the same as a wrong password.
+// Regenerate it if the hashing parameters ever change.
+const PLACEHOLDER_HASH =
+  '$argon2id$v=19$m=65536,p=4,t=3$gFifOKvU2PpxEbgOhE8Khg$tlUB2viu+onEEaSjjJIo9gQwCqEVadhCeHErGAewgXo';
 
 export type RegisterInput = { email: string; password: string; name: string };
 
@@ -34,10 +41,12 @@ export class AuthService {
 
   async login(input: LoginInput): Promise<LoginResult> {
     const user = await this.users.findByEmail(input.email.trim().toLowerCase());
-    // Failure handling is refined in the next cycle; until then it denies with a generic error.
-    if (!user || !(await this.hasher.verify(user.passwordHash, input.password))) {
-      throw new Error('Invalid credentials');
-    }
+    const passwordMatches = await this.hasher.verify(
+      user?.passwordHash ?? PLACEHOLDER_HASH,
+      input.password,
+    );
+    // Same error for an unknown email and a wrong password.
+    if (!user || !passwordMatches) throw new InvalidCredentialsError();
     const publicUser = toPublicUser(user);
     const { token, expiresIn } = this.tokens.signAccessToken(publicUser);
     return { accessToken: token, tokenType: 'Bearer', expiresIn, user: publicUser };
