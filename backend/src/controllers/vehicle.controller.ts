@@ -2,6 +2,7 @@ import type { Request, Response } from 'express';
 import { z } from 'zod';
 import { MAX_PAGE_SIZE, SORT_OPTIONS } from '../domain/pagination.js';
 import { CATEGORIES } from '../domain/vehicle.js';
+import { idParams } from '../http/params.js';
 import { parseWith } from '../http/validate.js';
 import type { VehicleService } from '../services/vehicle.service.js';
 
@@ -96,8 +97,6 @@ const searchQuery = z
       });
     }
   });
-
-const idParams = z.object({ id: z.uuid() }).strict();
 
 /** Parses HTTP input and shapes HTTP output; business rules live in the service. */
 export class VehicleController {

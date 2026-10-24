@@ -9,6 +9,9 @@ import { AuthService } from './services/auth.service.js';
 import { Argon2PasswordHasher } from './services/password-hasher.js';
 import { JwtTokenService } from './services/token-service.js';
 import { VehicleService } from './services/vehicle.service.js';
+import { InventoryService } from './services/inventory.service.js';
+import { InventoryController } from './controllers/inventory.controller.js';
+import { PrismaInventoryRepository } from './repositories/prisma-inventory.repository.js';
 import { VehicleController } from './controllers/vehicle.controller.js';
 import { PrismaVehicleRepository } from './repositories/prisma-vehicle.repository.js';
 
@@ -25,8 +28,10 @@ export function createContainer({ config, prisma }: AppDeps) {
     { refreshTtlSeconds: config.refreshTtlSeconds },
   );
   const vehicleService = new VehicleService(new PrismaVehicleRepository(prisma));
+  const inventoryService = new InventoryService(new PrismaInventoryRepository(prisma));
   return {
     vehicleController: new VehicleController(vehicleService),
+    inventoryController: new InventoryController(inventoryService),
     authController: new AuthController(authService, {
       secure: config.nodeEnv === 'production',
       maxAgeMs: config.refreshTtlSeconds * 1000,

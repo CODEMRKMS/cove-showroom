@@ -1,31 +1,13 @@
 import type { PageRequest, PageResult, VehicleSort } from '../domain/pagination.js';
 import type { Vehicle } from '../domain/vehicle.js';
-import type { Prisma, PrismaClient, Vehicle as VehicleRow } from '../generated/prisma/client.js';
+import type { Prisma, PrismaClient } from '../generated/prisma/client.js';
+import { toVehicle } from './prisma-mappers.js';
 import type {
   NewVehicle,
   VehicleFilter,
   VehiclePatch,
   VehicleRepository,
 } from './vehicle.repository.js';
-
-// Prices are BigInt in the database and number everywhere else. That is safe
-// because the API caps them far below 2^53.
-function toVehicle(row: VehicleRow): Vehicle {
-  return {
-    id: row.id,
-    make: row.make,
-    model: row.model,
-    category: row.category,
-    price: Number(row.price),
-    quantity: row.quantity,
-    year: row.year,
-    bodyStyle: row.bodyStyle,
-    colorOptions: row.colorOptions,
-    description: row.description,
-    createdAt: row.createdAt,
-    updatedAt: row.updatedAt,
-  };
-}
 
 // Every order ends with id so rows with equal sort values still page deterministically.
 const ORDER_BY: Record<VehicleSort, Prisma.VehicleOrderByWithRelationInput[]> = {

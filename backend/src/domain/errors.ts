@@ -54,3 +54,9 @@ export class VehicleNotFoundError extends AppError {
     super(404, 'VEHICLE_NOT_FOUND', 'No vehicle with this id.');
   }
 }
+
+export class OutOfStockError extends AppError {
+  constructor(available: number) {
+    super(409, 'OUT_OF_STOCK', `Only ${available} ${available === 1 ? 'unit' : 'units'} left.`);
+  }
+}
