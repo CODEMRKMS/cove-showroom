@@ -91,7 +91,7 @@ describe('GET /api/vehicles/search', () => {
   it('with no filters lists every live vehicle with pagination meta', async () => {
     const res = await search();
 
-    expect(models(res)).toEqual(['Dzire', 'Swift', 'Creta', 'Verna', 'Nexon EV', 'Harrier']);
+    expect(models(res)).toEqual(['Creta', 'Verna', 'Dzire', 'Swift', 'Harrier', 'Nexon EV']);
     expect(res.body.meta).toEqual({ page: 1, pageSize: 20, total: 6, totalPages: 1 });
   });
 
@@ -104,7 +104,7 @@ describe('GET /api/vehicles/search', () => {
       ['nexon', ['Nexon EV']],
       ['maruti swift', ['Swift']],
       ['swift maruti', ['Swift']],
-      ['  tata  ', ['Nexon EV', 'Harrier']],
+      ['  tata  ', ['Harrier', 'Nexon EV']],
     ])('%j finds %j', async (q, expected) => {
       const res = await search({ q });
 
@@ -173,13 +173,13 @@ describe('GET /api/vehicles/search', () => {
     it('minPrice keeps vehicles at or above it', async () => {
       const res = await search({ minPrice: paise(1_300_000) });
 
-      expect(models(res)).toEqual(['Creta', 'Verna', 'Nexon EV', 'Harrier']);
+      expect(models(res)).toEqual(['Creta', 'Verna', 'Harrier', 'Nexon EV']);
     });
 
     it('maxPrice keeps vehicles at or below it', async () => {
       const res = await search({ maxPrice: paise(1_300_000) });
 
-      expect(models(res)).toEqual(['Dzire', 'Swift', 'Verna']);
+      expect(models(res)).toEqual(['Verna', 'Dzire', 'Swift']);
     });
 
     it('equal bounds match a vehicle priced exactly there', async () => {
@@ -222,7 +222,7 @@ describe('GET /api/vehicles/search', () => {
     it('true keeps only vehicles with stock', async () => {
       const res = await search({ inStock: 'true' });
 
-      expect(models(res)).toEqual(['Swift', 'Creta', 'Verna', 'Nexon EV']);
+      expect(models(res)).toEqual(['Creta', 'Verna', 'Swift', 'Nexon EV']);
     });
 
     it('false keeps only sold-out vehicles', async () => {
