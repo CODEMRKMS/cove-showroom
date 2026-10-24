@@ -1,4 +1,5 @@
 import { useId, useState, type CSSProperties } from 'react';
+import { Link } from 'react-router';
 import type { Vehicle } from '../api/types';
 import { pickAccent } from '../lib/accent';
 import { buildCarSpec } from '../lib/carSpec';
@@ -8,6 +9,7 @@ import { stockState } from '../lib/stock';
 import { CarIllustration } from './CarIllustration';
 import { PaintPicker } from './PaintPicker';
 import { PurchaseControl } from './PurchaseControl';
+import { btnQuiet } from './styles';
 
 export function StockText({ quantity }: { quantity: number }) {
   const state = stockState(quantity);
@@ -49,8 +51,11 @@ export function VehicleCard({ vehicle }: { vehicle: Vehicle }) {
           <PaintPicker colours={vehicle.colorOptions} selected={spec.paint} onSelect={setPaint} />
         )}
 
-        <div className="mt-auto pt-1">
+        <div className="mt-auto flex flex-col gap-2 pt-1">
           <PurchaseControl vehicle={vehicle} />
+          <Link to={`/vehicles/${vehicle.id}`} className={btnQuiet}>
+            View details <span className="sr-only">({name})</span>
+          </Link>
         </div>
       </div>
     </article>
