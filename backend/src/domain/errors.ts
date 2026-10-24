@@ -38,8 +38,8 @@ export class ForbiddenError extends AppError {
 }
 
 export class RateLimitedError extends AppError {
-  constructor() {
-    super(429, 'RATE_LIMITED', 'Too many failed attempts. Try again later.');
+  constructor(detail = 'Too many failed attempts. Try again later.') {
+    super(429, 'RATE_LIMITED', detail);
   }
 }
 

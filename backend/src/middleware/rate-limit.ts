@@ -22,3 +22,23 @@ export function createLoginRateLimiter({
     handler: (_req, _res, next) => next(new RateLimitedError()),
   });
 }
+
+/**
+ * Ceiling for every client on the whole API, so one address cannot hammer any route. The probes
+ * are exempt: an orchestrator must always be able to ask whether the process is alive. Same
+ * in-memory store caveat as the login limiter.
+ */
+export function createGlobalRateLimiter({
+  max,
+  windowSeconds,
+}: Config['rateLimit']): RequestHandler {
+  return rateLimit({
+    windowMs: windowSeconds * 1000,
+    limit: max,
+    skip: (req) => req.path === '/health' || req.path === '/ready',
+    standardHeaders: 'draft-7',
+    legacyHeaders: false,
+    handler: (_req, _res, next) =>
+      next(new RateLimitedError('Too many requests. Slow down and try again shortly.')),
+  });
+}
