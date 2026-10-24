@@ -65,6 +65,8 @@ export function createFakeApi(initial: { vehicles?: Vehicle[]; accounts?: Accoun
     searchDelayMs: 0,
     /** Add a delay (ms) to logins, to see the busy state. */
     loginDelayMs: 0,
+    /** Add a delay (ms) to the orders list, to see its loading state. */
+    ordersDelayMs: 0,
     /** Make the next N vehicle searches fail with a 500. */
     failSearches: 0,
   };
@@ -282,7 +284,8 @@ export function createFakeApi(initial: { vehicles?: Vehicle[]; accounts?: Accoun
 
     http.get(
       '/api/orders/mine',
-      guard(null, (user) => {
+      guard(null, async (user) => {
+        if (state.ordersDelayMs) await new Promise((r) => setTimeout(r, state.ordersDelayMs));
         const mine = state.orders.filter((o) => o.userId === user.id);
         const body: Page<Order> = {
           data: mine,
