@@ -4,15 +4,17 @@
   "private": true,
   "description": "Cove: car dealership inventory system (TDD kata)",
   "scripts": {
-    "setup": "npm --prefix backend ci && npm --prefix backend run db:generate",
     "dev": "npm --prefix backend run dev",
-    "build": "npm --prefix backend run build",
-    "test": "npm --prefix backend test",
-    "test:coverage": "npm --prefix backend run test:coverage",
-    "lint": "npm --prefix backend run lint",
-    "typecheck": "npm --prefix backend run typecheck",
+    "setup": "npm --prefix backend ci && npm --prefix backend run db:generate && npm --prefix frontend ci",
+    "build": "npm --prefix backend run build && npm --prefix frontend run build",
+    "test": "npm --prefix backend test && npm --prefix frontend test",
+    "test:coverage": "npm --prefix backend run test:coverage && npm --prefix frontend run test:coverage",
+    "lint": "npm --prefix backend run lint && npm --prefix frontend run lint",
+    "typecheck": "npm --prefix backend run typecheck && npm --prefix frontend run typecheck",
     "db:migrate": "npm --prefix backend run db:migrate",
     "db:reset": "npm --prefix backend run db:reset",
-    "db:seed": "npm --prefix backend run db:seed"
+    "db:seed": "npm --prefix backend run db:seed",
+    "dev:backend": "npm --prefix backend run dev",
+    "dev:frontend": "npm --prefix frontend run dev"
   }
 }
