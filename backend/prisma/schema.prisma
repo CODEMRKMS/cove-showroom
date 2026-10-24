@@ -1,0 +1,138 @@
+// Domain model for the dealership. Money is stored as integer minor units
+// (paise) in BigInt columns: a 4 crore car is 4_000_000_000 paise, which
+// overflows a 32-bit Int. Repositories convert to `number` at the boundary.
+//
+// Constraints Prisma cannot express (CHECK) live in the init migration SQL.
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum Category {
+  HATCHBACK
+  SEDAN
+  SUV
+  COUPE
+  CONVERTIBLE
+  TRUCK
+  EV
+  SPORTS
+}
+
+// Which body template the car illustration uses. Defaults from the category
+// in the service layer.
+enum BodyStyle {
+  HATCHBACK
+  SEDAN
+  SUV
+  COUPE
+  CONVERTIBLE
+  TRUCK
+  EV
+  SPORTS
+}
+
+enum InventoryEventType {
+  CREATED
+  UPDATED
+  PURCHASED
+  RESTOCKED
+  DELETED
+}
+
+model User {
+  id           String   @id @default(uuid()) @db.Uuid
+  email        String   @unique // stored lowercased (CHECK in migration)
+  passwordHash String
+  name         String
+  role         Role     @default(USER)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  orders        Order[]
+  events        InventoryEvent[]
+  refreshTokens RefreshToken[]
+}
+
+model Vehicle {
+  id           String    @id @default(uuid()) @db.Uuid
+  make         String
+  model        String
+  category     Category
+  price        BigInt // minor units
+  quantity     Int // CHECK quantity >= 0 in migration
+  year         Int?
+  bodyStyle    BodyStyle
+  colorOptions String[] // hex colours, e.g. "#1F5FBF"
+  description  String?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  deletedAt    DateTime? // soft delete
+
+  orders Order[]
+  events InventoryEvent[]
+
+  @@index([make, model])
+  @@index([category])
+  @@index([price])
+}
+
+// Prices are snapshotted so history survives later edits or soft deletes.
+model Order {
+  id           String   @id @default(uuid()) @db.Uuid
+  userId       String   @db.Uuid
+  vehicleId    String   @db.Uuid
+  quantity     Int
+  unitPrice    BigInt
+  totalPrice   BigInt
+  vehicleLabel String // snapshot of "Make Model"
+  createdAt    DateTime @default(now())
+
+  user    User    @relation(fields: [userId], references: [id])
+  vehicle Vehicle @relation(fields: [vehicleId], references: [id])
+
+  @@index([userId, createdAt])
+}
+
+// Append-only audit ledger.
+model InventoryEvent {
+  id            String             @id @default(uuid()) @db.Uuid
+  vehicleId     String             @db.Uuid
+  actorId       String             @db.Uuid
+  type          InventoryEventType
+  delta         Int
+  quantityAfter Int
+  createdAt     DateTime           @default(now())
+
+  vehicle Vehicle @relation(fields: [vehicleId], references: [id])
+  actor   User    @relation(fields: [actorId], references: [id])
+
+  @@index([createdAt])
+  @@index([vehicleId])
+}
+
+model RefreshToken {
+  id           String    @id @default(uuid()) @db.Uuid
+  userId       String    @db.Uuid
+  tokenHash    String    @unique // SHA-256 of the opaque token, never the token itself
+  expiresAt    DateTime
+  revokedAt    DateTime?
+  replacedById String?   @unique @db.Uuid
+  createdAt    DateTime  @default(now())
+
+  user       User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  replacedBy RefreshToken? @relation("TokenRotation", fields: [replacedById], references: [id])
+  replaces   RefreshToken? @relation("TokenRotation")
+
+  @@index([userId])
+}
