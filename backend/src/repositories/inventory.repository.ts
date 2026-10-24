@@ -3,6 +3,8 @@ import type { Vehicle } from '../domain/vehicle.js';
 
 export type PurchaseRequest = { vehicleId: string; userId: string; quantity: number };
 
+export type RestockRequest = { vehicleId: string; actorId: string; quantity: number };
+
 export type PurchaseResult = { vehicle: Vehicle; order: Order };
 
 /** Persistence contract for stock changes. Each method is one atomic unit of work. */
@@ -13,4 +15,9 @@ export interface InventoryRepository {
    * @throws OutOfStockError when fewer than `quantity` units remain.
    */
   purchase(request: PurchaseRequest): Promise<PurchaseResult>;
+  /**
+   * Adds `quantity` units and writes a RESTOCKED event for `actorId`, atomically.
+   * @throws VehicleNotFoundError when there is no live vehicle with this id.
+   */
+  restock(request: RestockRequest): Promise<Vehicle>;
 }

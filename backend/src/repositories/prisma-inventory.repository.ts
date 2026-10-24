@@ -1,9 +1,11 @@
 import { OutOfStockError, VehicleNotFoundError } from '../domain/errors.js';
+import type { Vehicle } from '../domain/vehicle.js';
 import type { PrismaClient } from '../generated/prisma/client.js';
 import type {
   InventoryRepository,
   PurchaseRequest,
   PurchaseResult,
+  RestockRequest,
 } from './inventory.repository.js';
 import { toOrder, toVehicle } from './prisma-mappers.js';
 
@@ -51,6 +53,29 @@ export class PrismaInventoryRepository implements InventoryRepository {
         },
       });
       return { vehicle: toVehicle(vehicle), order: toOrder(order) };
+    });
+  }
+
+  restock({ vehicleId, actorId, quantity }: RestockRequest): Promise<Vehicle> {
+    return this.prisma.$transaction(async (tx) => {
+      // An atomic increment, so simultaneous restocks add up instead of overwriting each other.
+      const { count } = await tx.vehicle.updateMany({
+        where: { id: vehicleId, deletedAt: null },
+        data: { quantity: { increment: quantity } },
+      });
+      if (count === 0) throw new VehicleNotFoundError();
+
+      const vehicle = await tx.vehicle.findUniqueOrThrow({ where: { id: vehicleId } });
+      await tx.inventoryEvent.create({
+        data: {
+          vehicleId,
+          actorId,
+          type: 'RESTOCKED',
+          delta: quantity,
+          quantityAfter: vehicle.quantity,
+        },
+      });
+      return toVehicle(vehicle);
     });
   }
 }

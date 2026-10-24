@@ -11,6 +11,12 @@ const purchaseBody = z
   .object({ quantity: z.number().int().min(1).max(MAX_PURCHASE_QUANTITY).default(1) })
   .strict();
 
+const MAX_RESTOCK_QUANTITY = 10_000;
+
+const restockBody = z
+  .object({ quantity: z.number().int().min(1).max(MAX_RESTOCK_QUANTITY) })
+  .strict();
+
 /** Parses HTTP input and shapes HTTP output; stock rules live in the repository transaction. */
 export class InventoryController {
   constructor(private readonly inventory: InventoryService) {}
@@ -19,5 +25,11 @@ export class InventoryController {
     const { id } = parseWith(idParams, req.params);
     const { quantity } = parseWith(purchaseBody, req.body ?? {});
     res.json(await this.inventory.purchase(id, req.user!.id, quantity));
+  };
+
+  restock = async (req: Request, res: Response): Promise<void> => {
+    const { id } = parseWith(idParams, req.params);
+    const { quantity } = parseWith(restockBody, req.body ?? {});
+    res.json(await this.inventory.restock(id, req.user!.id, quantity));
   };
 }

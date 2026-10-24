@@ -14,5 +14,11 @@ export function inventoryRoutes(
     authorize('POST /api/vehicles/:id/purchase'),
     controller.purchase,
   );
+  router.post(
+    '/:id/restock',
+    authenticate,
+    authorize('POST /api/vehicles/:id/restock'),
+    controller.restock,
+  );
   return router;
 }
