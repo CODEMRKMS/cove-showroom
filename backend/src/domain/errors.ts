@@ -66,3 +66,11 @@ export class RouteNotFoundError extends AppError {
     super(404, 'ROUTE_NOT_FOUND', 'No such route.');
   }
 }
+
+export class NotReadyError extends AppError {
+  constructor(cause: unknown) {
+    super(503, 'NOT_READY', 'The service is not ready to take requests. Try again shortly.');
+    // Kept for the server log only; the error handler never sends it to the client.
+    this.cause = cause;
+  }
+}

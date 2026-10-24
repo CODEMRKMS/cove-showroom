@@ -36,6 +36,9 @@ export function createContainer({ config, prisma }: AppDeps) {
   const vehicleService = new VehicleService(new PrismaVehicleRepository(prisma));
   const inventoryService = new InventoryService(new PrismaInventoryRepository(prisma));
   return {
+    pingDatabase: async (): Promise<void> => {
+      await prisma.$queryRaw`SELECT 1`;
+    },
     vehicleController: new VehicleController(vehicleService),
     inventoryController: new InventoryController(inventoryService),
     authController: new AuthController(authService, {
