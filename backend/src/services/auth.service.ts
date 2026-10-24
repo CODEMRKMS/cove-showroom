@@ -90,6 +90,13 @@ export class AuthService {
     return this.startSession(toPublicUser(user), nextToken);
   }
 
+  /** Ends the session behind `presentedToken`. Safe to call with a missing or unknown token. */
+  async logout(presentedToken: string | undefined): Promise<void> {
+    if (!presentedToken) return;
+    const current = await this.refreshTokens.findByHash(hashRefreshToken(presentedToken));
+    if (current) await this.refreshTokens.revokeChain(current.id);
+  }
+
   private newRefreshRow(userId: string, token: string) {
     return {
       userId,

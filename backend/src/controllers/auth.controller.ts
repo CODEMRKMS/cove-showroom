@@ -55,14 +55,23 @@ export class AuthController {
     res.status(200).json(body);
   };
 
-  /** Scoped to /api/auth so the browser sends it only where it is needed. */
-  private setRefreshCookie(res: Response, token: Session['refreshToken']): void {
-    res.cookie(REFRESH_COOKIE, token, {
+  logout = async (req: Request, res: Response): Promise<void> => {
+    await this.auth.logout(readCookie(req, REFRESH_COOKIE));
+    res.clearCookie(REFRESH_COOKIE, { ...this.cookieAttributes() });
+    res.status(204).end();
+  };
+
+  private cookieAttributes() {
+    return {
       httpOnly: true,
       sameSite: 'lax',
       secure: this.cookie.secure,
       path: '/api/auth',
-      maxAge: this.cookie.maxAgeMs,
-    });
+    } as const;
+  }
+
+  /** Scoped to /api/auth so the browser sends it only where it is needed. */
+  private setRefreshCookie(res: Response, token: Session['refreshToken']): void {
+    res.cookie(REFRESH_COOKIE, token, { ...this.cookieAttributes(), maxAge: this.cookie.maxAgeMs });
   }
 }
