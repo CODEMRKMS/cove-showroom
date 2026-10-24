@@ -1,8 +1,8 @@
 /* eslint-disable react-hooks/refs, react-hooks/immutability -- the camera rig drives mutable three.js objects (camera, controls) by design */
 import { ContactShadows, Environment, Lightformer, OrbitControls } from '@react-three/drei';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import { useEffect, useMemo, useRef, useState } from 'react';
-import { ACESFilmicToneMapping, Vector3 } from 'three';
+import { Suspense, lazy, useEffect, useMemo, useRef, useState } from 'react';
+import { ACESFilmicToneMapping, Vector3, type Mesh } from 'three';
 import type { OrbitControls as OrbitControlsImpl } from 'three-stdlib';
 import { carDimensions, type CarDimensions } from '../lib/carGeometry';
 import { CarModel } from './CarModel';
@@ -11,6 +11,9 @@ import type { Tier } from './quality';
 import type { SceneProps, StudioView } from './types';
 import { momentState, pullScale } from './moment';
 import { viewPose } from './viewPose';
+
+// Effects (ambient occlusion, bloom, vignette) are their own chunk, fetched only on the high tier.
+const PostFX = lazy(() => import('./PostFX'));
 
 const FOV = 35;
 const NUDGE_RADIANS = (15 * Math.PI) / 180;
@@ -216,6 +219,7 @@ export default function StudioScene({
   const watching = useWatching(wrapper);
   const [turning, setTurning] = useState(autoRotate);
   const [epoch, setEpoch] = useState(0);
+  const [lights, setLights] = useState<Mesh[]>([]);
   const dims = useMemo(() => carDimensions(spec), [spec]);
 
   // Callbacks live in refs so the long-lived canvas listeners always call the latest ones.
@@ -266,6 +270,7 @@ export default function StudioScene({
           intro={intro}
           moment={moment}
           onIntroDone={onIntroDone}
+          onLightMeshes={setLights}
         />
         <ContactShadows
           position={[0, 0.002, 0]}
@@ -292,6 +297,11 @@ export default function StudioScene({
         />
         {hotspots && overlay && <Hotspots spec={spec} hotspots={hotspots} overlay={overlay} />}
         <Rig dims={dims} view={view} nudge={nudge} moment={moment} onUserMove={stopTurning} />
+        {high && lights.length > 0 && (
+          <Suspense fallback={null}>
+            <PostFX lights={lights} />
+          </Suspense>
+        )}
         <Ready onReady={onReady} />
       </Canvas>
     </div>

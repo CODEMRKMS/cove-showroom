@@ -124,6 +124,15 @@ describe('CarViewer hotspots', () => {
   });
 });
 
+describe('CarViewer quality tier', () => {
+  it('records the chosen tier on the 3D area, for debugging and checks', async () => {
+    stubDevice();
+    render(<CarViewer spec={spec} />);
+    await screen.findByTestId('scene');
+    expect(screen.getByTestId('scene').closest('[data-tier]')).toHaveAttribute('data-tier', 'high');
+  });
+});
+
 describe('CarViewer purchase moment', () => {
   it('passes a moment counter to the scene that rises with each purchase', async () => {
     stubDevice();

@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/immutability -- the intro drives clip planes and shared three.js materials imperatively, by design */
 import { useFrame, useThree } from '@react-three/fiber';
-import { useEffect, useMemo, useRef, type Ref } from 'react';
+import { useCallback, useEffect, useMemo, useRef, type Ref } from 'react';
 import {
   AdditiveBlending,
   BoxGeometry,
@@ -78,6 +78,8 @@ type Props = {
   /** Rises by one per purchase; each rise sweeps a soft light over the car. */
   moment?: number;
   onIntroDone?: () => void;
+  /** Gets the head and tail light meshes once the car has mounted, so a bloom pass can single them out. */
+  onLightMeshes?: (meshes: Mesh[]) => void;
 };
 
 /**
@@ -118,6 +120,7 @@ export function CarModel({
   intro = false,
   moment = 0,
   onIntroDone,
+  onLightMeshes,
 }: Props) {
   const invalidate = useThree((state) => state.invalidate);
   const style = spec.bodyStyle;
@@ -230,6 +233,15 @@ export function CarModel({
   );
 
   const wheels = useRef<Group>(null);
+  const lightMeshes = useRef(new Set<Mesh>());
+  const collectLight = useCallback((mesh: Mesh | null) => {
+    if (mesh) lightMeshes.current.add(mesh);
+  }, []);
+  useEffect(() => {
+    onLightMeshes?.([...lightMeshes.current]);
+    // Reported once, after the first mount.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   const clayGroup = useRef<Group>(null);
   const sweepMesh = useRef<Mesh>(null);
   const introRef = useRef({ startedAt: null as number | null, finished: !intro });
@@ -329,7 +341,13 @@ export function CarModel({
   return (
     // The cache owns these geometries and materials, so React-Three-Fiber must not dispose them on unmount.
     <group dispose={null}>
-      <CarParts spec={spec} parts={parts} look={real} wheelsRef={wheels} />
+      <CarParts
+        spec={spec}
+        parts={parts}
+        look={real}
+        wheelsRef={wheels}
+        collectLight={collectLight}
+      />
       {clay && (
         <group ref={clayGroup}>
           <CarParts spec={spec} parts={parts} look={clay.look} />
@@ -357,11 +375,13 @@ function CarParts({
   parts,
   look,
   wheelsRef,
+  collectLight,
 }: {
   spec: CarSpec;
   parts: Parts;
   look: Look;
   wheelsRef?: Ref<Group>;
+  collectLight?: (mesh: Mesh | null) => void;
 }) {
   const dims = useMemo(() => carDimensions(spec), [spec]);
   const [rearWheel, frontWheel] = useMemo(() => wheelPositions(spec), [spec]);
@@ -417,20 +437,28 @@ function CarParts({
       {/* Lights, grille and badges. */}
       {ev ? (
         <>
-          <mesh material={look.head} position={[head.x - 0.004, head.y, 0]}>
+          <mesh ref={collectLight} material={look.head} position={[head.x - 0.004, head.y, 0]}>
             <boxGeometry args={[0.03, 0.035, half * 1.15]} />
           </mesh>
-          <mesh material={look.tail} position={[tail.x + 0.004, tail.y, 0]}>
+          <mesh ref={collectLight} material={look.tail} position={[tail.x + 0.004, tail.y, 0]}>
             <boxGeometry args={[0.03, 0.04, half * 1.2]} />
           </mesh>
         </>
       ) : (
         [1, -1].map((side) => (
           <group key={side}>
-            <mesh material={look.head} position={[head.x - 0.004, head.y, side * half * 0.62]}>
+            <mesh
+              ref={collectLight}
+              material={look.head}
+              position={[head.x - 0.004, head.y, side * half * 0.62]}
+            >
               <boxGeometry args={[0.05, 0.075, half * 0.36]} />
             </mesh>
-            <mesh material={look.tail} position={[tail.x + 0.004, tail.y, side * half * 0.66]}>
+            <mesh
+              ref={collectLight}
+              material={look.tail}
+              position={[tail.x + 0.004, tail.y, side * half * 0.66]}
+            >
               <boxGeometry args={[0.05, 0.07, half * 0.3]} />
             </mesh>
           </group>

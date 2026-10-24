@@ -143,6 +143,7 @@ export function CarViewer({
           <div
             role="group"
             aria-label="3D viewer. Arrow keys turn the car."
+            data-tier={decision.tier}
             aria-hidden={showing3d ? undefined : true}
             tabIndex={showing3d && interactive ? 0 : -1}
             onKeyDown={interactive ? onKeyDown : undefined}
