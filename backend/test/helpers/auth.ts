@@ -36,3 +36,9 @@ export function signTestToken(options: TokenOptions): string {
     expiresIn: options.expiresIn ?? 900,
   });
 }
+
+/** Persist a user with `role` and return the Authorization header that signs them in as that user. */
+export async function signedInAs(role: Role) {
+  const user = await createUser({ role });
+  return { user, authorization: `Bearer ${signTestToken({ sub: user.id, role })}` };
+}
