@@ -227,7 +227,11 @@ describe('restock', () => {
     const { user } = await open();
     await user.click(screen.getByRole('button', { name: 'Restock Tata Nexon EV' }));
     await user.click(screen.getByRole('button', { name: 'Restock 1 unit' }));
-    expect(await within(row('Tata Nexon EV')).findByText('Low stock: 1 left')).toBeInTheDocument();
+    // The restock dialog marks the page inert until the request finishes, so the row cannot be
+    // looked up until then; retry the whole lookup, not just the text inside an already-found row.
+    await waitFor(() =>
+      expect(within(row('Tata Nexon EV')).getByText('Low stock: 1 left')).toBeInTheDocument(),
+    );
   });
 });
 
