@@ -31,6 +31,12 @@ export class UnauthenticatedError extends AppError {
   }
 }
 
+export class ForbiddenError extends AppError {
+  constructor() {
+    super(403, 'FORBIDDEN', 'You do not have permission to do this.');
+  }
+}
+
 export class RateLimitedError extends AppError {
   constructor() {
     super(429, 'RATE_LIMITED', 'Too many failed attempts. Try again later.');

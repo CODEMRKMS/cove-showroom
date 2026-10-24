@@ -4,6 +4,7 @@ import { AppError } from '../domain/errors.js';
 const TITLES: Record<number, string> = {
   400: 'Bad Request',
   401: 'Unauthorized',
+  403: 'Forbidden',
   409: 'Conflict',
   429: 'Too Many Requests',
 };
