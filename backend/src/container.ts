@@ -13,6 +13,9 @@ import { VehicleService } from './services/vehicle.service.js';
 import { OrderController } from './controllers/order.controller.js';
 import { PrismaOrderRepository } from './repositories/prisma-order.repository.js';
 import { OrderService } from './services/order.service.js';
+import { AdminController } from './controllers/admin.controller.js';
+import { PrismaEventRepository } from './repositories/prisma-event.repository.js';
+import { EventService } from './services/event.service.js';
 import { InventoryService } from './services/inventory.service.js';
 import { InventoryController } from './controllers/inventory.controller.js';
 import { PrismaInventoryRepository } from './repositories/prisma-inventory.repository.js';
@@ -44,6 +47,7 @@ export function createContainer({ config, prisma }: AppDeps) {
     },
     vehicleController: new VehicleController(vehicleService),
     inventoryController: new InventoryController(inventoryService),
+    adminController: new AdminController(new EventService(new PrismaEventRepository(prisma))),
     orderController: new OrderController(new OrderService(new PrismaOrderRepository(prisma))),
     authController: new AuthController(authService, {
       secure: config.nodeEnv === 'production',
