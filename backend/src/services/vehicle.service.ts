@@ -1,3 +1,4 @@
+import type { PageRequest, Paginated } from '../domain/pagination.js';
 import type { BodyStyle, Category, Vehicle } from '../domain/vehicle.js';
 import type { VehicleRepository } from '../repositories/vehicle.repository.js';
 
@@ -27,5 +28,18 @@ export class VehicleService {
       },
       actorId,
     );
+  }
+
+  async list(request: PageRequest): Promise<Paginated<Vehicle>> {
+    const { items, total } = await this.vehicles.findMany(request);
+    return {
+      data: items,
+      meta: {
+        page: request.page,
+        pageSize: request.pageSize,
+        total,
+        totalPages: Math.ceil(total / request.pageSize),
+      },
+    };
   }
 }

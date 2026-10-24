@@ -1,5 +1,6 @@
 import type { Request, Response } from 'express';
 import { z } from 'zod';
+import { MAX_PAGE_SIZE, SORT_OPTIONS } from '../domain/pagination.js';
 import { CATEGORIES } from '../domain/vehicle.js';
 import { parseWith } from '../http/validate.js';
 import type { VehicleService } from '../services/vehicle.service.js';
@@ -28,6 +29,15 @@ const createBody = z
   })
   .strict();
 
+// Query strings arrive as text, so numbers are coerced. Unknown parameters are rejected, not ignored.
+const listQuery = z
+  .object({
+    page: z.coerce.number().int().min(1).default(1),
+    pageSize: z.coerce.number().int().min(1).max(MAX_PAGE_SIZE).default(20),
+    sort: z.enum(SORT_OPTIONS).default('-createdAt'),
+  })
+  .strict();
+
 /** Parses HTTP input and shapes HTTP output; business rules live in the service. */
 export class VehicleController {
   constructor(private readonly vehicles: VehicleService) {}
@@ -36,5 +46,9 @@ export class VehicleController {
     const input = parseWith(createBody, req.body);
     // authenticate has run, so req.user is set.
     res.status(201).json(await this.vehicles.create(input, req.user!.id));
+  };
+
+  list = async (req: Request, res: Response): Promise<void> => {
+    res.json(await this.vehicles.list(parseWith(listQuery, req.query)));
   };
 }
