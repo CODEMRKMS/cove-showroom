@@ -13,6 +13,13 @@ export class PrismaRefreshTokenRepository implements RefreshTokenRepository {
     return this.prisma.refreshToken.findUnique({ where: { tokenHash } });
   }
 
+  async revokeAllForUser(userId: string): Promise<void> {
+    await this.prisma.refreshToken.updateMany({
+      where: { userId, revokedAt: null },
+      data: { revokedAt: new Date() },
+    });
+  }
+
   rotate(currentId: string, replacement: NewRefreshToken): Promise<RefreshTokenRecord | null> {
     return this.prisma.$transaction(async (tx) => {
       // The `revokedAt: null` guard makes retirement a compare-and-set.

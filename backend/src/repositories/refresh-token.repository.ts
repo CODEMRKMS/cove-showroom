@@ -5,6 +5,8 @@ export type NewRefreshToken = { userId: string; tokenHash: string; expiresAt: Da
 export interface RefreshTokenRepository {
   create(token: NewRefreshToken): Promise<RefreshTokenRecord>;
   findByHash(tokenHash: string): Promise<RefreshTokenRecord | null>;
+  /** Revokes every still-active token of the user. */
+  revokeAllForUser(userId: string): Promise<void>;
   /**
    * Atomically retires `currentId` and stores its replacement.
    * @returns the replacement, or null when `currentId` was already retired

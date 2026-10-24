@@ -69,12 +69,24 @@ export class AuthService {
     const user = current && (await this.users.findById(current.userId));
     if (!current || !user) throw new UnauthenticatedError();
 
+    // A retired token coming back means it leaked or a client is replaying it.
+    // We cannot tell who holds the newest token, so end every session of the user.
+    if (current.revokedAt) {
+      await this.refreshTokens.revokeAllForUser(user.id);
+      throw new UnauthenticatedError();
+    }
+    if (current.expiresAt.getTime() <= Date.now()) throw new UnauthenticatedError();
+
     const nextToken = generateRefreshToken();
     const rotated = await this.refreshTokens.rotate(
       current.id,
       this.newRefreshRow(user.id, nextToken),
     );
-    if (!rotated) throw new UnauthenticatedError();
+    if (!rotated) {
+      // Lost a race against another use of the same token: treat it as reuse.
+      await this.refreshTokens.revokeAllForUser(user.id);
+      throw new UnauthenticatedError();
+    }
     return this.startSession(toPublicUser(user), nextToken);
   }
 

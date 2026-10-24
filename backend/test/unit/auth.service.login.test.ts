@@ -15,6 +15,7 @@ function buildService() {
     create: vi.fn(),
     findByHash: vi.fn(),
     rotate: vi.fn(),
+    revokeAllForUser: vi.fn(),
   };
   const hasher: PasswordHasher = {
     hash: vi.fn(),
