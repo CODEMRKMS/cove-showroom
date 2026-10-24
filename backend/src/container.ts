@@ -8,6 +8,9 @@ import { PrismaUserRepository } from './repositories/prisma-user.repository.js';
 import { AuthService } from './services/auth.service.js';
 import { Argon2PasswordHasher } from './services/password-hasher.js';
 import { JwtTokenService } from './services/token-service.js';
+import { VehicleService } from './services/vehicle.service.js';
+import { VehicleController } from './controllers/vehicle.controller.js';
+import { PrismaVehicleRepository } from './repositories/prisma-vehicle.repository.js';
 
 export type AppDeps = { config: Config; prisma: PrismaClient };
 
@@ -21,7 +24,9 @@ export function createContainer({ config, prisma }: AppDeps) {
     new JwtTokenService(config.jwt),
     { refreshTtlSeconds: config.refreshTtlSeconds },
   );
+  const vehicleService = new VehicleService(new PrismaVehicleRepository(prisma));
   return {
+    vehicleController: new VehicleController(vehicleService),
     authController: new AuthController(authService, {
       secure: config.nodeEnv === 'production',
       maxAgeMs: config.refreshTtlSeconds * 1000,

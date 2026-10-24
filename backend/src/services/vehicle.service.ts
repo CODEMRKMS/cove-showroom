@@ -1,0 +1,31 @@
+import type { BodyStyle, Category, Vehicle } from '../domain/vehicle.js';
+import type { VehicleRepository } from '../repositories/vehicle.repository.js';
+
+export type CreateVehicleInput = {
+  make: string;
+  model: string;
+  category: Category;
+  price: number;
+  quantity: number;
+  year?: number | undefined;
+  bodyStyle?: BodyStyle | undefined;
+  colorOptions: string[];
+  description?: string | undefined;
+};
+
+export class VehicleService {
+  constructor(private readonly vehicles: VehicleRepository) {}
+
+  /** The body style falls back to the category, so the API never requires illustration details. */
+  create(input: CreateVehicleInput, actorId: string): Promise<Vehicle> {
+    return this.vehicles.create(
+      {
+        ...input,
+        year: input.year ?? null,
+        description: input.description ?? null,
+        bodyStyle: input.bodyStyle ?? input.category,
+      },
+      actorId,
+    );
+  }
+}
