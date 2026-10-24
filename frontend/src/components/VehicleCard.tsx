@@ -1,28 +1,13 @@
-import { useId, useState, type CSSProperties, type KeyboardEvent } from 'react';
-import { useBuyVehicle } from '../api/vehicles';
+import { useId, useState, type CSSProperties } from 'react';
 import type { Vehicle } from '../api/types';
 import { pickAccent } from '../lib/accent';
-import { buildCarSpec, describeColour } from '../lib/carSpec';
+import { buildCarSpec } from '../lib/carSpec';
 import { CATEGORY_LABELS } from '../lib/labels';
-import { apiErrorMessage } from '../lib/messages';
 import { formatINR } from '../lib/money';
 import { stockState } from '../lib/stock';
 import { CarIllustration } from './CarIllustration';
-import { ConfirmDialog } from './ConfirmDialog';
-import { PurchaseButton } from './PurchaseButton';
-import { useToast } from './Toast';
-
-/** "White", "Black", and "Grey 2" when two paints would share a name. */
-export function paintNames(colours: string[]): string[] {
-  const seen = new Map<string, number>();
-  return colours.map((hex) => {
-    const base = describeColour(hex);
-    const count = (seen.get(base) ?? 0) + 1;
-    seen.set(base, count);
-    const name = base.charAt(0).toUpperCase() + base.slice(1);
-    return count === 1 ? name : `${name} ${count}`;
-  });
-}
+import { PaintPicker } from './PaintPicker';
+import { PurchaseControl } from './PurchaseControl';
 
 export function StockText({ quantity }: { quantity: number }) {
   const state = stockState(quantity);
@@ -35,44 +20,9 @@ export function StockText({ quantity }: { quantity: number }) {
 export function VehicleCard({ vehicle }: { vehicle: Vehicle }) {
   const headingId = useId();
   const [paint, setPaint] = useState<string | undefined>(undefined);
-  const [confirming, setConfirming] = useState(false);
-  const buy = useBuyVehicle();
-  const toast = useToast();
-
   const spec = buildCarSpec(vehicle, paint);
   const { accent, ink } = pickAccent(spec.paint);
-  const colours = vehicle.colorOptions;
-  const names = paintNames(colours);
   const name = `${vehicle.make} ${vehicle.model}`;
-
-  function confirmPurchase() {
-    // The dialog closes first: while it is open, the page behind it (and the toasts) is hidden from
-    // screen readers, so a toast raised now would not be announced.
-    buy.mutate(vehicle, {
-      onSuccess: ({ order }) => {
-        setConfirming(false);
-        toast.success(`Bought ${order.vehicleLabel} for ${formatINR(order.totalPrice)}.`);
-      },
-      onError: (error) => {
-        setConfirming(false);
-        toast.error(apiErrorMessage(error));
-      },
-    });
-  }
-
-  function onPaintKey(event: KeyboardEvent<HTMLButtonElement>, index: number) {
-    const step =
-      event.key === 'ArrowRight' || event.key === 'ArrowDown'
-        ? 1
-        : event.key === 'ArrowLeft' || event.key === 'ArrowUp'
-          ? -1
-          : 0;
-    if (!step) return;
-    event.preventDefault();
-    const next = (index + step + colours.length) % colours.length;
-    setPaint(colours[next]);
-    (event.currentTarget.parentElement?.children[next] as HTMLElement | undefined)?.focus();
-  }
 
   return (
     <article
@@ -95,58 +45,14 @@ export function VehicleCard({ vehicle }: { vehicle: Vehicle }) {
         <p className="font-display text-2xl text-accent tabular-nums">{formatINR(vehicle.price)}</p>
         <StockText quantity={vehicle.quantity} />
 
-        {colours.length > 1 && (
-          <div role="radiogroup" aria-label="Paint colour" className="flex flex-wrap gap-1">
-            {colours.map((hex, index) => {
-              const selected = spec.paint === hex.toLowerCase();
-              return (
-                <button
-                  key={hex}
-                  type="button"
-                  role="radio"
-                  aria-checked={selected}
-                  aria-label={names[index]}
-                  tabIndex={selected ? 0 : -1}
-                  onClick={() => setPaint(hex)}
-                  onKeyDown={(event) => onPaintKey(event, index)}
-                  className="inline-flex size-11 items-center justify-center rounded-full"
-                >
-                  <span
-                    aria-hidden="true"
-                    style={{ background: hex }}
-                    className={`size-7 rounded-full ring-1 ring-ink/40 ${selected ? 'outline-2 outline-offset-2 outline-ink' : ''}`}
-                  />
-                </button>
-              );
-            })}
-          </div>
+        {vehicle.colorOptions.length > 1 && (
+          <PaintPicker colours={vehicle.colorOptions} selected={spec.paint} onSelect={setPaint} />
         )}
 
         <div className="mt-auto pt-1">
-          <PurchaseButton
-            vehicleName={name}
-            quantity={vehicle.quantity}
-            onPurchase={() => setConfirming(true)}
-          />
+          <PurchaseControl vehicle={vehicle} />
         </div>
       </div>
-
-      {confirming && (
-        <ConfirmDialog
-          title={`Buy ${name}?`}
-          confirmLabel={`Buy for ${formatINR(vehicle.price)}`}
-          busy={buy.isPending}
-          onConfirm={confirmPurchase}
-          onCancel={() => setConfirming(false)}
-        >
-          <p>
-            You are buying one {name} for {formatINR(vehicle.price)}.
-          </p>
-          <p className="mt-2">
-            This is a simulated purchase: no payment is taken, and it only changes the stock count.
-          </p>
-        </ConfirmDialog>
-      )}
     </article>
   );
 }
