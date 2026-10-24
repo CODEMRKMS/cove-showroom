@@ -1,7 +1,12 @@
 import type { PageRequest, PageResult, VehicleSort } from '../domain/pagination.js';
 import type { Vehicle } from '../domain/vehicle.js';
 import type { Prisma, PrismaClient, Vehicle as VehicleRow } from '../generated/prisma/client.js';
-import type { NewVehicle, VehiclePatch, VehicleRepository } from './vehicle.repository.js';
+import type {
+  NewVehicle,
+  VehicleFilter,
+  VehiclePatch,
+  VehicleRepository,
+} from './vehicle.repository.js';
 
 // Prices are BigInt in the database and number everywhere else. That is safe
 // because the API caps them far below 2^53.
@@ -29,6 +34,37 @@ const ORDER_BY: Record<VehicleSort, Prisma.VehicleOrderByWithRelationInput[]> = 
   make: [{ make: 'asc' }, { model: 'asc' }, { id: 'asc' }],
   '-createdAt': [{ createdAt: 'desc' }, { id: 'asc' }],
 };
+
+const insensitive = 'insensitive' as const;
+
+// Prisma passes `contains` text straight into a LIKE pattern, so % and _ would act as wildcards.
+// Escaping them (and the escape character) makes user text match literally.
+const escapeLike = (text: string): string => text.replace(/[\\%_]/g, (char) => `\\${char}`);
+
+function toWhere(filter: VehicleFilter): Prisma.VehicleWhereInput {
+  const { terms = [], make, model, category, minPrice, maxPrice, inStock } = filter;
+  return {
+    deletedAt: null,
+    ...(terms.length > 0 && {
+      AND: terms.map((term) => ({
+        OR: [
+          { make: { contains: escapeLike(term), mode: insensitive } },
+          { model: { contains: escapeLike(term), mode: insensitive } },
+        ],
+      })),
+    }),
+    ...(make !== undefined && { make: { equals: make, mode: insensitive } }),
+    ...(model !== undefined && { model: { equals: model, mode: insensitive } }),
+    ...(category !== undefined && { category }),
+    ...((minPrice !== undefined || maxPrice !== undefined) && {
+      price: {
+        ...(minPrice !== undefined && { gte: BigInt(minPrice) }),
+        ...(maxPrice !== undefined && { lte: BigInt(maxPrice) }),
+      },
+    }),
+    ...(inStock !== undefined && { quantity: inStock ? { gt: 0 } : 0 }),
+  };
+}
 
 export class PrismaVehicleRepository implements VehicleRepository {
   constructor(private readonly prisma: PrismaClient) {}
@@ -70,8 +106,11 @@ export class PrismaVehicleRepository implements VehicleRepository {
     return row && toVehicle(row);
   }
 
-  async findMany({ page, pageSize, sort }: PageRequest): Promise<PageResult<Vehicle>> {
-    const where = { deletedAt: null };
+  async findMany(
+    { page, pageSize, sort }: PageRequest,
+    filter: VehicleFilter = {},
+  ): Promise<PageResult<Vehicle>> {
+    const where = toWhere(filter);
     const [rows, total] = await this.prisma.$transaction([
       this.prisma.vehicle.findMany({
         where,

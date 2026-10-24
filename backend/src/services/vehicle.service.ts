@@ -1,7 +1,11 @@
 import { VehicleNotFoundError } from '../domain/errors.js';
 import type { PageRequest, Paginated } from '../domain/pagination.js';
 import type { BodyStyle, Category, Vehicle } from '../domain/vehicle.js';
-import type { VehiclePatch, VehicleRepository } from '../repositories/vehicle.repository.js';
+import type {
+  VehicleFilter,
+  VehiclePatch,
+  VehicleRepository,
+} from '../repositories/vehicle.repository.js';
 
 export type CreateVehicleInput = {
   make: string;
@@ -14,6 +18,8 @@ export type CreateVehicleInput = {
   colorOptions: string[];
   description?: string | undefined;
 };
+
+export type VehicleSearch = Omit<VehicleFilter, 'terms'> & { q?: string | undefined };
 
 export class VehicleService {
   constructor(private readonly vehicles: VehicleRepository) {}
@@ -43,8 +49,18 @@ export class VehicleService {
     return vehicle;
   }
 
-  async list(request: PageRequest): Promise<Paginated<Vehicle>> {
-    const { items, total } = await this.vehicles.findMany(request);
+  list(request: PageRequest): Promise<Paginated<Vehicle>> {
+    return this.page(request);
+  }
+
+  /** `q` is split into words; every word must appear in the make or the model, in any order. */
+  search(query: VehicleSearch, request: PageRequest): Promise<Paginated<Vehicle>> {
+    const { q, ...rest } = query;
+    return this.page(request, { ...rest, terms: q?.split(/\s+/).filter(Boolean) ?? [] });
+  }
+
+  private async page(request: PageRequest, filter?: VehicleFilter): Promise<Paginated<Vehicle>> {
+    const { items, total } = await this.vehicles.findMany(request, filter);
     return {
       data: items,
       meta: {

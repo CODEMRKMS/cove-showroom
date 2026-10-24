@@ -52,13 +52,50 @@ const updateBody = z
   });
 
 // Query strings arrive as text, so numbers are coerced. Unknown parameters are rejected, not ignored.
-const listQuery = z
+const paging = {
+  page: z.coerce.number().int().min(1).default(1),
+  pageSize: z.coerce.number().int().min(1).max(MAX_PAGE_SIZE).default(20),
+  sort: z.enum(SORT_OPTIONS).default('-createdAt'),
+};
+
+const listQuery = z.object(paging).strict();
+
+// Prices in a query are whole minor units. A pattern check rather than coerce, because
+// Number('') is 0 and would let an empty parameter through as a real bound.
+const priceParam = z
+  .string()
+  .regex(/^\d+$/, 'Must be a whole number of paise.')
+  .transform(Number)
+  .pipe(z.number().max(MAX_PRICE));
+
+const searchQuery = z
   .object({
-    page: z.coerce.number().int().min(1).default(1),
-    pageSize: z.coerce.number().int().min(1).max(MAX_PAGE_SIZE).default(20),
-    sort: z.enum(SORT_OPTIONS).default('-createdAt'),
+    ...paging,
+    q: z.string().trim().min(1).max(100).optional(),
+    make: z.string().trim().min(1).max(60).optional(),
+    model: z.string().trim().min(1).max(60).optional(),
+    category: z.enum(CATEGORIES).optional(),
+    minPrice: priceParam.optional(),
+    maxPrice: priceParam.optional(),
+    inStock: z
+      .enum(['true', 'false'])
+      .transform((value) => value === 'true')
+      .optional(),
   })
-  .strict();
+  .strict()
+  .superRefine((query, ctx) => {
+    if (
+      query.minPrice !== undefined &&
+      query.maxPrice !== undefined &&
+      query.minPrice > query.maxPrice
+    ) {
+      ctx.addIssue({
+        code: 'custom',
+        path: ['minPrice'],
+        message: 'minPrice must not be greater than maxPrice.',
+      });
+    }
+  });
 
 const idParams = z.object({ id: z.uuid() }).strict();
 
@@ -81,6 +118,11 @@ export class VehicleController {
   get = async (req: Request, res: Response): Promise<void> => {
     const { id } = parseWith(idParams, req.params);
     res.json(await this.vehicles.get(id));
+  };
+
+  search = async (req: Request, res: Response): Promise<void> => {
+    const { page, pageSize, sort, ...filters } = parseWith(searchQuery, req.query);
+    res.json(await this.vehicles.search(filters, { page, pageSize, sort }));
   };
 
   list = async (req: Request, res: Response): Promise<void> => {
