@@ -1,4 +1,5 @@
 import { describe, expect, it, vi } from 'vitest';
+import type { RefreshTokenRepository } from '../../src/repositories/refresh-token.repository.js';
 import type { UserRepository } from '../../src/repositories/user.repository.js';
 import { AuthService } from '../../src/services/auth.service.js';
 import type { PasswordHasher } from '../../src/services/password-hasher.js';
@@ -10,12 +11,20 @@ function buildService() {
     findById: vi.fn(),
     findByEmail: vi.fn().mockResolvedValue(null),
   };
+  const refreshTokens: RefreshTokenRepository = {
+    create: vi.fn(),
+    findByHash: vi.fn(),
+    rotate: vi.fn(),
+  };
   const hasher: PasswordHasher = {
     hash: vi.fn(),
     verify: vi.fn().mockResolvedValue(false),
   };
   const tokens: TokenService = { signAccessToken: vi.fn(), verifyAccessToken: vi.fn() };
-  return { service: new AuthService(users, hasher, tokens), hasher };
+  return {
+    service: new AuthService(users, refreshTokens, hasher, tokens, { refreshTtlSeconds: 60 }),
+    hasher,
+  };
 }
 
 describe('AuthService.login', () => {

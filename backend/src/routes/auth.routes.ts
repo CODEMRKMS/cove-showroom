@@ -9,6 +9,7 @@ export function authRoutes(
   const router = Router();
   router.post('/register', controller.register);
   router.post('/login', loginLimiter, controller.login);
+  router.post('/refresh', controller.refresh);
   router.get('/me', authenticate, controller.me);
   return router;
 }

@@ -1,8 +1,9 @@
 import type { Request, Response } from 'express';
 import { z } from 'zod';
 import { passwordProblem } from '../domain/password-policy.js';
+import { readCookie } from '../http/cookies.js';
 import { parseWith } from '../http/validate.js';
-import type { AuthService } from '../services/auth.service.js';
+import type { AuthService, Session } from '../services/auth.service.js';
 
 // .strict() rejects unknown keys, so a client can never smuggle in `role`.
 const registerBody = z
@@ -21,9 +22,16 @@ const registerBody = z
 
 const loginBody = z.object({ email: z.string(), password: z.string() }).strict();
 
+export const REFRESH_COOKIE = 'refresh_token';
+
+export type CookieOptions = { secure: boolean; maxAgeMs: number };
+
 /** Parses HTTP input and shapes HTTP output; business rules live in the service. */
 export class AuthController {
-  constructor(private readonly auth: AuthService) {}
+  constructor(
+    private readonly auth: AuthService,
+    private readonly cookie: CookieOptions,
+  ) {}
 
   register = async (req: Request, res: Response): Promise<void> => {
     const input = parseWith(registerBody, req.body);
@@ -36,6 +44,25 @@ export class AuthController {
 
   login = async (req: Request, res: Response): Promise<void> => {
     const input = parseWith(loginBody, req.body);
-    res.status(200).json(await this.auth.login(input));
+    const { refreshToken, ...body } = await this.auth.login(input);
+    this.setRefreshCookie(res, refreshToken);
+    res.status(200).json(body);
   };
+
+  refresh = async (req: Request, res: Response): Promise<void> => {
+    const { refreshToken, ...body } = await this.auth.refresh(readCookie(req, REFRESH_COOKIE));
+    this.setRefreshCookie(res, refreshToken);
+    res.status(200).json(body);
+  };
+
+  /** Scoped to /api/auth so the browser sends it only where it is needed. */
+  private setRefreshCookie(res: Response, token: Session['refreshToken']): void {
+    res.cookie(REFRESH_COOKIE, token, {
+      httpOnly: true,
+      sameSite: 'lax',
+      secure: this.cookie.secure,
+      path: '/api/auth',
+      maxAge: this.cookie.maxAgeMs,
+    });
+  }
 }

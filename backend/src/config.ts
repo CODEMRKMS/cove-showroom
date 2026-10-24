@@ -10,6 +10,7 @@ const envSchema = z.object({
   JWT_ACCESS_TTL_SECONDS: z.coerce.number().int().positive().default(900),
   AUTH_RATE_LIMIT_MAX: z.coerce.number().int().positive().default(10),
   AUTH_RATE_LIMIT_WINDOW_SECONDS: z.coerce.number().int().positive().default(900),
+  REFRESH_TOKEN_TTL_SECONDS: z.coerce.number().int().positive().default(604_800),
   JWT_ISSUER: z.string().min(1).default('cove-api'),
   JWT_AUDIENCE: z.string().min(1).default('cove-web'),
 });
@@ -20,6 +21,8 @@ export type Config = {
   databaseUrl: string;
   /** Failed login attempts allowed per client IP within the window. */
   authRateLimit: { max: number; windowSeconds: number };
+  /** Lifetime of the opaque refresh token and its cookie (default 7 days). */
+  refreshTtlSeconds: number;
   jwt: {
     accessSecret: string;
     accessTtlSeconds: number;
@@ -51,6 +54,7 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): Config {
       max: e.AUTH_RATE_LIMIT_MAX,
       windowSeconds: e.AUTH_RATE_LIMIT_WINDOW_SECONDS,
     },
+    refreshTtlSeconds: e.REFRESH_TOKEN_TTL_SECONDS,
     jwt: {
       accessSecret: e.JWT_ACCESS_SECRET,
       accessTtlSeconds: e.JWT_ACCESS_TTL_SECONDS,
