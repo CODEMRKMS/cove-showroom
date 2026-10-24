@@ -1,13 +1,13 @@
 /* eslint-disable react-hooks/refs, react-hooks/immutability -- the camera rig drives mutable three.js objects (camera, controls) by design */
-import { ContactShadows, Environment, Lightformer, OrbitControls } from '@react-three/drei';
+import { ContactShadows, OrbitControls } from '@react-three/drei';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { Suspense, lazy, useEffect, useMemo, useRef, useState } from 'react';
 import { ACESFilmicToneMapping, Vector3, type Mesh } from 'three';
 import type { OrbitControls as OrbitControlsImpl } from 'three-stdlib';
 import { carDimensions, type CarDimensions } from '../lib/carGeometry';
 import { CarModel } from './CarModel';
+import { StudioLights } from './StudioLights';
 import { Hotspots } from './Hotspots';
-import type { Tier } from './quality';
 import type { SceneProps, StudioView } from './types';
 import { momentState, pullScale } from './moment';
 import { viewPose } from './viewPose';
@@ -121,48 +121,6 @@ function Rig({
     invalidate();
   });
   return null;
-}
-
-/** Warm key, cool rim and soft fill, as area lights painted into the reflection environment. No HDRI file. */
-function StudioLights({ tier }: { tier: Tier }) {
-  return (
-    <Environment resolution={tier === 'high' ? 256 : 128} frames={1}>
-      {/* Key: large warm softbox, front-right and high. */}
-      <Lightformer
-        form="rect"
-        intensity={7}
-        color="#ffe3c2"
-        position={[5, 4, 3.5]}
-        scale={[7, 3.2, 1]}
-      />
-      {/* Rim: cool strip behind the car on the left. */}
-      <Lightformer
-        form="rect"
-        intensity={5}
-        color="#bcd3ff"
-        position={[-5.5, 3, -4.5]}
-        scale={[9, 1.6, 1]}
-      />
-      {/* Fill: dim overhead sheet. */}
-      <Lightformer
-        form="rect"
-        intensity={1.4}
-        color="#fff4e4"
-        position={[0, 6, 0]}
-        rotation={[Math.PI / 2, 0, 0]}
-        scale={[11, 11, 1]}
-      />
-      {/* Cove floor bounce: pale warm light from below, so the sills pick up the floor. */}
-      <Lightformer
-        form="rect"
-        intensity={0.9}
-        color="#eadfce"
-        position={[0, -2.5, 0]}
-        rotation={[-Math.PI / 2, 0, 0]}
-        scale={[14, 14, 1]}
-      />
-    </Environment>
-  );
 }
 
 function Ready({ onReady }: { onReady: () => void }) {

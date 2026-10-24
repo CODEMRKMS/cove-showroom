@@ -2,7 +2,6 @@ import {
   Component,
   Suspense,
   lazy,
-  useEffect,
   useId,
   useRef,
   useState,
@@ -11,29 +10,11 @@ import {
 } from 'react';
 import { CarIllustration } from '../components/CarIllustration';
 import type { CarSpec } from '../lib/carSpec';
-import {
-  chooseTier,
-  dprFor,
-  fallbackReason,
-  probeFrameTime,
-  readEnvironment,
-  type Tier,
-} from './quality';
-import { shouldPlayIntro } from './intro';
 import { STUDIO_VIEWS, VIEW_LABELS, type Hotspot, type StudioView } from './types';
-import { hasWebGL } from './webgl';
+import { useStudioDecision } from './useStudioDecision';
 
 // The scene (three.js and friends) is its own chunk: nothing else may import it statically.
 const StudioScene = lazy(() => import('./StudioScene'));
-
-type Decision =
-  | { status: 'pending' }
-  | { status: 'svg' }
-  | { status: '3d'; tier: Tier; dpr: number; intro: boolean };
-
-// One frame-time probe per page load, shared by every viewer on it.
-let probe: Promise<number | null> | undefined;
-const frameTime = () => (probe ??= probeFrameTime());
 
 /** Catches anything the scene throws (shader compile, GPU out of memory) so the page keeps its SVG car. */
 class SceneBoundary extends Component<
@@ -83,7 +64,7 @@ export function CarViewer({
   moment = 0,
   aspect = '400 / 176',
 }: Props) {
-  const [decision, setDecision] = useState<Decision>({ status: 'pending' });
+  const decision = useStudioDecision(intro);
   const [ready, setReady] = useState(false);
   const [lost, setLost] = useState(false);
   const [failed, setFailed] = useState(false);
@@ -92,33 +73,6 @@ export function CarViewer({
   const [introOver, setIntroOver] = useState(false);
   const viewId = useId();
   const overlay = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    let cancelled = false;
-    const env = readEnvironment();
-    const webgl = hasWebGL();
-    // Everything knowable without a probe is checked first, so no frames are spent on a visitor who gets the SVG.
-    const blocked = fallbackReason({ ...env, webgl, tier: 'medium' }) !== null;
-    void (blocked ? Promise.resolve(null) : frameTime()).then((frameMs) => {
-      if (cancelled) return;
-      const tier = chooseTier({ ...env, frameMs: frameMs ?? undefined });
-      setDecision(
-        blocked || fallbackReason({ ...env, webgl, tier })
-          ? { status: 'svg' }
-          : {
-              status: '3d',
-              tier,
-              dpr: dprFor(tier, env.devicePixelRatio),
-              intro: intro && shouldPlayIntro({ reducedMotion: env.reducedMotion }),
-            },
-      );
-    });
-    return () => {
-      cancelled = true;
-    };
-    // The decision is made once, on mount: a later change of `intro` must not re-run the frame probe.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const scene = decision.status === '3d' && !failed;
   const showing3d = scene && ready && !lost;
