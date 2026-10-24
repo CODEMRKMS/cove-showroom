@@ -7,6 +7,7 @@ import { inventoryRoutes } from './routes/inventory.routes.js';
 import { adminRoutes } from './routes/admin.routes.js';
 import { orderRoutes } from './routes/order.routes.js';
 import { vehicleRoutes } from './routes/vehicle.routes.js';
+import { docsRoutes } from './routes/docs.routes.js';
 import { healthRoutes } from './routes/health.routes.js';
 
 // App factory: tests and server.ts build the app the same way, from the same
@@ -27,6 +28,7 @@ export function createApp(deps: AppDeps): Express {
   app.use(requestId);
   app.use(express.json({ limit: '100kb' }));
   app.use('/api', healthRoutes(pingDatabase));
+  app.use('/api', docsRoutes());
   app.use('/api/auth', authRoutes(authController, loginRateLimiter, authenticate));
   app.use('/api/vehicles', vehicleRoutes(vehicleController, authenticate));
   app.use('/api/vehicles', inventoryRoutes(inventoryController, authenticate));
