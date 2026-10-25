@@ -13,6 +13,7 @@ import { NotFoundPage } from './pages/NotFoundPage';
 import { OrdersPage } from './pages/OrdersPage';
 import { RegisterPage } from './pages/RegisterPage';
 import { ShowroomPage } from './pages/ShowroomPage';
+import { VehicleDetailPage } from './pages/VehicleDetailPage';
 
 // Retry once for network trouble and server errors; a 4xx will not get better by asking again.
 const shouldRetry = (count: number, error: unknown) =>
@@ -53,6 +54,7 @@ export function AppRoutes() {
         <Route path="/register" element={<RegisterPage />} />
         <Route element={<RequireAuth />}>
           <Route path="/showroom" element={<ShowroomPage />} />
+          <Route path="/vehicles/:id" element={<VehicleDetailPage />} />
           <Route path="/orders" element={<OrdersPage />} />
           <Route element={<RequireAdmin />}>
             <Route path="/admin" element={<AdminPage />} />

@@ -201,6 +201,14 @@ export function createFakeApi(initial: { vehicles?: Vehicle[]; accounts?: Accoun
       }),
     ),
 
+    http.get(
+      '/api/vehicles/:id',
+      guard(null, (_user, request) => {
+        const vehicle = findVehicle(new URL(request.url).pathname.split('/')[3]);
+        return vehicle ? HttpResponse.json(vehicle) : notFound();
+      }),
+    ),
+
     http.post(
       '/api/vehicles',
       guard('ADMIN', async (admin, request) => {

@@ -1,7 +1,7 @@
 import type { CSSProperties } from 'react';
 import { Link, Navigate } from 'react-router';
 import { useAuth } from '../auth/AuthContext';
-import { CarIllustration } from '../components/CarIllustration';
+import { CarViewer } from '../studio/CarViewer';
 import { LogoMark } from '../components/Logo';
 import { btnPrimary, btnQuiet } from '../components/styles';
 import { pickAccent } from '../lib/accent';
@@ -47,7 +47,7 @@ export function LandingPage() {
             inventory up to date.
           </p>
         </div>
-        <CarIllustration spec={HERO_CAR} className="h-auto w-full max-w-3xl" />
+        <CarViewer spec={HERO_CAR} className="w-full max-w-3xl" aspect="16 / 8" intro />
         <div className="flex flex-wrap justify-center gap-3">
           <Link to="/login" className={btnPrimary}>
             Sign in
