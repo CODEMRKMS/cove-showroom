@@ -56,13 +56,15 @@ describe('buildBodyGeometry', () => {
     expect(nose).toBeLessThan(middle * 0.95);
   });
 
+  // Builds the body geometry for every body style; under coverage instrumentation this is slow,
+  // so it gets 30 s instead of Vitest's 5 s default.
   it('is a different shape for every body style', () => {
     const sizes = CATEGORIES.map((style) => {
       const box = boxOf(buildBodyGeometry(specFor(style)));
       return [box.max.x - box.min.x, box.max.y, box.max.z].map((n) => n.toFixed(3)).join('/');
     });
     expect(new Set(sizes).size).toBe(CATEGORIES.length);
-  });
+  }, 30_000);
 });
 
 describe('buildGlassGeometry', () => {

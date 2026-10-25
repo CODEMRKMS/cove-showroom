@@ -24,7 +24,22 @@ export default defineConfig({
     coverage: {
       provider: 'v8',
       include: ['src/**/*.{ts,tsx}'],
-      exclude: ['src/main.tsx', 'src/test/**', 'src/**/*.test.{ts,tsx}', 'src/vite-env.d.ts'],
+      exclude: [
+        'src/main.tsx',
+        'src/test/**',
+        'src/**/*.test.{ts,tsx}',
+        'src/vite-env.d.ts',
+        // WebGL render components: they need a GL context, which jsdom does not have, so they
+        // cannot execute in a unit test. They were checked in a real browser (docs/3d-report.md).
+        // The pure 3D helpers (geometry, quality, intro, moment, refine, ...) stay included.
+        'src/studio/CarModel.tsx',
+        'src/studio/Hotspots.tsx',
+        'src/studio/HoverCar.tsx',
+        'src/studio/HoverStage.tsx',
+        'src/studio/PostFX.tsx',
+        'src/studio/StudioLights.tsx',
+        'src/studio/StudioScene.tsx',
+      ],
       reporter: ['text', 'text-summary', 'json-summary', 'html'],
     },
   },
