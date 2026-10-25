@@ -228,7 +228,10 @@
 <a name='L163'></a><a href='#L163'>163</a>
 <a name='L164'></a><a href='#L164'>164</a>
 <a name='L165'></a><a href='#L165'>165</a>
-<a name='L166'></a><a href='#L166'>166</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L166'></a><a href='#L166'>166</a>
+<a name='L167'></a><a href='#L167'>167</a>
+<a name='L168'></a><a href='#L168'>168</a>
+<a name='L169'></a><a href='#L169'>169</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -248,20 +251,21 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">84x</span>
-<span class="cline-any cline-yes">84x</span>
-<span class="cline-any cline-yes">84x</span>
-<span class="cline-any cline-yes">84x</span>
-<span class="cline-any cline-yes">84x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">87x</span>
+<span class="cline-any cline-yes">87x</span>
+<span class="cline-any cline-yes">87x</span>
+<span class="cline-any cline-yes">87x</span>
+<span class="cline-any cline-yes">87x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">84x</span>
-<span class="cline-any cline-yes">84x</span>
-<span class="cline-any cline-yes">44x</span>
+<span class="cline-any cline-yes">87x</span>
+<span class="cline-any cline-yes">87x</span>
+<span class="cline-any cline-yes">46x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">84x</span>
+<span class="cline-any cline-yes">87x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-yes">9x</span>
@@ -269,12 +273,13 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">84x</span>
+<span class="cline-any cline-yes">87x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">84x</span>
-<span class="cline-any cline-yes">84x</span>
+<span class="cline-any cline-yes">87x</span>
+<span class="cline-any cline-yes">87x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">84x</span>
+<span class="cline-any cline-yes">87x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -311,7 +316,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">111x</span>
+<span class="cline-any cline-yes">113x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -328,11 +333,12 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">36x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">38x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">216x</span>
+<span class="cline-any cline-yes">228x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -368,7 +374,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">42x</span>
+<span class="cline-any cline-yes">43x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -411,6 +417,7 @@ import {
 } from '../lib/filters';
 import { apiErrorMessage } from '../lib/messages';
 import { useDocumentTitle } from '../lib/useDocumentTitle';
+import { HoverTurnProvider } from '../studio/HoverTurn';
 &nbsp;
 export function ShowroomPage() {
   useDocumentTitle('Showroom');
@@ -440,55 +447,57 @@ export function ShowroomPage() {
   const countText = total === undefined ? '' : `${total} ${total === 1 ? 'car' : 'cars'} found`;
 &nbsp;
   return (
-    &lt;div className="flex flex-col gap-6"&gt;
-      &lt;div&gt;
-        &lt;h1 className="font-display text-3xl"&gt;Showroom&lt;/h1&gt;
-        &lt;p className="mt-1 text-graphite"&gt;Pick a car, choose a paint, and buy it from stock.&lt;/p&gt;
-      &lt;/div&gt;
-&nbsp;
-      &lt;FilterBar
-        filters={filters}
-        onChange={update}
-        onClear={clear}
-        showClear={search.data?.meta.total !== 0}
-      /&gt;
-&nbsp;
-      &lt;p aria-live="polite" className="font-semibold text-graphite"&gt;
-        {invalidRange ? 'Fix the price range to see cars.' : countText}
-      &lt;/p&gt;
-&nbsp;
-      {search.isError &amp;&amp; !search.isPlaceholderData ? (
-        &lt;div role="alert" className="rounded-card border border-sold bg-white/70 p-5"&gt;
-          &lt;p className="font-semibold text-sold"&gt;{apiErrorMessage(search.error)}&lt;/p&gt;
-          &lt;button type="button" className={`${btnPrimary} mt-3`} onClick={() =&gt; search.refetch()}&gt;
-            Try again
-          &lt;/button&gt;
+    &lt;HoverTurnProvider&gt;
+      &lt;div className="flex flex-col gap-6"&gt;
+        &lt;div&gt;
+          &lt;h1 className="font-display text-3xl"&gt;Showroom&lt;/h1&gt;
+          &lt;p className="mt-1 text-graphite"&gt;Pick a car, choose a paint, and buy it from stock.&lt;/p&gt;
         &lt;/div&gt;
-      ) : search.isPending &amp;&amp; !invalidRange ? (
-        &lt;LoadingCards /&gt;
-      ) : search.data &amp;&amp; search.data.meta.total === 0 ? (
-        &lt;EmptyState filtered={hasActiveFilters(filters)} onClear={clear} /&gt;
-      ) : search.data ? (
-        &lt;&gt;
-          &lt;ul
-            aria-label="Cars"
-            aria-busy={search.isFetching}
-            className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
-          &gt;
-            {search.data.data.map((vehicle) =&gt; (
-              &lt;li key={vehicle.id} className="flex"&gt;
-                &lt;VehicleCard vehicle={vehicle} /&gt;
-              &lt;/li&gt;
-            ))}
-          &lt;/ul&gt;
-          &lt;Pagination
-            page={search.data.meta.page}
-            totalPages={search.data.meta.totalPages}
-            onPage={(page) =&gt; update({ page })}
-          /&gt;
-        &lt;/&gt;
-      ) : <span class="branch-1 cbranch-no" title="branch not covered" >null}</span>
-    &lt;/div&gt;
+&nbsp;
+        &lt;FilterBar
+          filters={filters}
+          onChange={update}
+          onClear={clear}
+          showClear={search.data?.meta.total !== 0}
+        /&gt;
+&nbsp;
+        &lt;p aria-live="polite" className="font-semibold text-graphite"&gt;
+          {invalidRange ? 'Fix the price range to see cars.' : countText}
+        &lt;/p&gt;
+&nbsp;
+        {search.isError &amp;&amp; !search.isPlaceholderData ? (
+          &lt;div role="alert" className="rounded-card border border-sold bg-white/70 p-5"&gt;
+            &lt;p className="font-semibold text-sold"&gt;{apiErrorMessage(search.error)}&lt;/p&gt;
+            &lt;button type="button" className={`${btnPrimary} mt-3`} onClick={() =&gt; search.refetch()}&gt;
+              Try again
+            &lt;/button&gt;
+          &lt;/div&gt;
+        ) : search.isPending &amp;&amp; !invalidRange ? (
+          &lt;LoadingCards /&gt;
+        ) : search.data &amp;&amp; search.data.meta.total === 0 ? (
+          &lt;EmptyState filtered={hasActiveFilters(filters)} onClear={clear} /&gt;
+        ) : search.data ? (
+          &lt;&gt;
+            &lt;ul
+              aria-label="Cars"
+              aria-busy={search.isFetching}
+              className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
+            &gt;
+              {search.data.data.map((vehicle) =&gt; (
+                &lt;li key={vehicle.id} className="flex"&gt;
+                  &lt;VehicleCard vehicle={vehicle} /&gt;
+                &lt;/li&gt;
+              ))}
+            &lt;/ul&gt;
+            &lt;Pagination
+              page={search.data.meta.page}
+              totalPages={search.data.meta.totalPages}
+              onPage={(page) =&gt; update({ page })}
+            /&gt;
+          &lt;/&gt;
+        ) : <span class="branch-1 cbranch-no" title="branch not covered" >null}</span>
+      &lt;/div&gt;
+    &lt;/HoverTurnProvider&gt;
   );
 }
 &nbsp;
@@ -565,7 +574,7 @@ function Pagination({
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-10-24T20:30:06.741Z
+                at 2026-10-25T08:37:50.930Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

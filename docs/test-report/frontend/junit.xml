@@ -1,395 +1,882 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuites name="vitest tests" tests="171" failures="0" errors="0" time="72.2074467">
-    <testsuite name="src/api/client.test.ts" timestamp="2026-10-24T20:30:06.385Z" hostname="shadabpc" tests="16" failures="0" errors="0" skipped="0" time="0.1598665">
-        <testcase classname="src/api/client.test.ts" name="token store &gt; starts empty, holds a token, and clears it" time="0.0072416">
+<testsuites name="vitest tests" tests="366" failures="0" errors="0" time="130.5900353">
+    <testsuite name="src/api/client.test.ts" timestamp="2026-10-25T08:37:50.525Z" hostname="shadabpc" tests="16" failures="0" errors="0" skipped="0" time="0.1221589">
+        <testcase classname="src/api/client.test.ts" name="token store &gt; starts empty, holds a token, and clears it" time="0.0068407">
         </testcase>
-        <testcase classname="src/api/client.test.ts" name="token store &gt; keeps the token in memory only: nothing reaches web storage or cookies" time="0.0260367">
+        <testcase classname="src/api/client.test.ts" name="token store &gt; keeps the token in memory only: nothing reaches web storage or cookies" time="0.017284">
         </testcase>
-        <testcase classname="src/api/client.test.ts" name="token store &gt; gives each store its own token" time="0.000837">
+        <testcase classname="src/api/client.test.ts" name="token store &gt; gives each store its own token" time="0.0008396">
         </testcase>
-        <testcase classname="src/api/client.test.ts" name="request basics &gt; sends the bearer token when there is one and none when there is not" time="0.0373193">
+        <testcase classname="src/api/client.test.ts" name="request basics &gt; sends the bearer token when there is one and none when there is not" time="0.0259144">
         </testcase>
-        <testcase classname="src/api/client.test.ts" name="request basics &gt; sends JSON bodies with a content type, and appends query parameters" time="0.0051625">
+        <testcase classname="src/api/client.test.ts" name="request basics &gt; sends JSON bodies with a content type, and appends query parameters" time="0.0023966">
         </testcase>
-        <testcase classname="src/api/client.test.ts" name="request basics &gt; returns the parsed body, or undefined for 204" time="0.0088515">
+        <testcase classname="src/api/client.test.ts" name="request basics &gt; returns the parsed body, or undefined for 204" time="0.0043086">
         </testcase>
-        <testcase classname="src/api/client.test.ts" name="errors &gt; turns the backend problem envelope into an ApiError" time="0.0057158">
+        <testcase classname="src/api/client.test.ts" name="errors &gt; turns the backend problem envelope into an ApiError" time="0.0047223">
         </testcase>
-        <testcase classname="src/api/client.test.ts" name="errors &gt; gives a readable error when the server answers with something that is not JSON" time="0.0020049">
+        <testcase classname="src/api/client.test.ts" name="errors &gt; gives a readable error when the server answers with something that is not JSON" time="0.0020497">
         </testcase>
-        <testcase classname="src/api/client.test.ts" name="errors &gt; reports a network failure as NETWORK_ERROR with advice" time="0.0020638">
+        <testcase classname="src/api/client.test.ts" name="errors &gt; reports a network failure as NETWORK_ERROR with advice" time="0.0019516">
         </testcase>
-        <testcase classname="src/api/client.test.ts" name="silent refresh &gt; refreshes once through the cookie, stores the new token and retries the request" time="0.0077699">
+        <testcase classname="src/api/client.test.ts" name="silent refresh &gt; refreshes once through the cookie, stores the new token and retries the request" time="0.0055185">
         </testcase>
-        <testcase classname="src/api/client.test.ts" name="silent refresh &gt; shares one refresh between requests that fail at the same time" time="0.0057074">
+        <testcase classname="src/api/client.test.ts" name="silent refresh &gt; shares one refresh between requests that fail at the same time" time="0.0043724">
         </testcase>
-        <testcase classname="src/api/client.test.ts" name="silent refresh &gt; signs out cleanly when the refresh is refused: clears the token and tells the app once" time="0.0052437">
+        <testcase classname="src/api/client.test.ts" name="silent refresh &gt; signs out cleanly when the refresh is refused: clears the token and tells the app once" time="0.0048135">
         </testcase>
-        <testcase classname="src/api/client.test.ts" name="silent refresh &gt; does not loop: if the retried request is still refused it gives up after one refresh" time="0.0056494">
+        <testcase classname="src/api/client.test.ts" name="silent refresh &gt; does not loop: if the retried request is still refused it gives up after one refresh" time="0.0030679">
         </testcase>
-        <testcase classname="src/api/client.test.ts" name="silent refresh &gt; does not try to refresh when a login attempt is refused" time="0.0047999">
+        <testcase classname="src/api/client.test.ts" name="silent refresh &gt; does not try to refresh when a login attempt is refused" time="0.0026976">
         </testcase>
-        <testcase classname="src/api/client.test.ts" name="silent refresh &gt; only refreshes on 401, not on 403 or 409" time="0.0020471">
+        <testcase classname="src/api/client.test.ts" name="silent refresh &gt; only refreshes on 401, not on 403 or 409" time="0.0023031">
         </testcase>
-        <testcase classname="src/api/client.test.ts" name="silent refresh &gt; refresh() restores a session on page load and returns the token, or null" time="0.0049088">
+        <testcase classname="src/api/client.test.ts" name="silent refresh &gt; refresh() restores a session on page load and returns the token, or null" time="0.0026321">
         </testcase>
     </testsuite>
-    <testsuite name="src/auth/auth.test.tsx" timestamp="2026-10-24T20:30:06.400Z" hostname="shadabpc" tests="22" failures="0" errors="0" skipped="0" time="12.4382505">
-        <testcase classname="src/auth/auth.test.tsx" name="login page &gt; has a heading, labelled fields with the right autocomplete, and a link to register" time="1.3212031">
+    <testsuite name="src/auth/auth.test.tsx" timestamp="2026-10-25T08:37:50.537Z" hostname="shadabpc" tests="22" failures="0" errors="0" skipped="0" time="15.9637712">
+        <testcase classname="src/auth/auth.test.tsx" name="login page &gt; has a heading, labelled fields with the right autocomplete, and a link to register" time="1.222465">
         </testcase>
-        <testcase classname="src/auth/auth.test.tsx" name="login page &gt; shows and hides the password on request" time="0.6657333">
+        <testcase classname="src/auth/auth.test.tsx" name="login page &gt; shows and hides the password on request" time="0.5853961">
         </testcase>
-        <testcase classname="src/auth/auth.test.tsx" name="login page &gt; explains each empty field next to it, linked with aria-describedby" time="0.4045067">
+        <testcase classname="src/auth/auth.test.tsx" name="login page &gt; explains each empty field next to it, linked with aria-describedby" time="0.3182104">
         </testcase>
-        <testcase classname="src/auth/auth.test.tsx" name="login page &gt; signs in, lands on the showroom and shows the person in the header" time="1.9391102">
+        <testcase classname="src/auth/auth.test.tsx" name="login page &gt; signs in, lands on the showroom and shows the person in the header" time="2.0777975">
             <system-err>
 The tag &lt;search&gt; is unrecognized in this browser. If you meant to render a React component, start its name with an uppercase letter.
 
             </system-err>
         </testcase>
-        <testcase classname="src/auth/auth.test.tsx" name="login page &gt; says what went wrong for a wrong password and lets the person try again" time="1.0953156">
+        <testcase classname="src/auth/auth.test.tsx" name="login page &gt; says what went wrong for a wrong password and lets the person try again" time="1.4419531">
         </testcase>
-        <testcase classname="src/auth/auth.test.tsx" name="login page &gt; blocks a second submit while the first is in flight" time="1.1344835">
+        <testcase classname="src/auth/auth.test.tsx" name="login page &gt; blocks a second submit while the first is in flight" time="1.6462375">
         </testcase>
-        <testcase classname="src/auth/auth.test.tsx" name="login page &gt; sends a signed-in person who opens /login on to the showroom" time="0.1187387">
+        <testcase classname="src/auth/auth.test.tsx" name="login page &gt; sends a signed-in person who opens /login on to the showroom" time="0.2379484">
         </testcase>
-        <testcase classname="src/auth/auth.test.tsx" name="register page &gt; has labelled fields, autocomplete hints and the password rule stated up front" time="0.1336917">
+        <testcase classname="src/auth/auth.test.tsx" name="register page &gt; has labelled fields, autocomplete hints and the password rule stated up front" time="0.203533">
         </testcase>
-        <testcase classname="src/auth/auth.test.tsx" name="register page &gt; checks every field before sending anything" time="0.9251932">
+        <testcase classname="src/auth/auth.test.tsx" name="register page &gt; checks every field before sending anything" time="1.2805186">
         </testcase>
-        <testcase classname="src/auth/auth.test.tsx" name="register page &gt; creates the account, signs the person in and opens the showroom" time="1.1788727">
+        <testcase classname="src/auth/auth.test.tsx" name="register page &gt; creates the account, signs the person in and opens the showroom" time="1.6605455">
         </testcase>
-        <testcase classname="src/auth/auth.test.tsx" name="register page &gt; puts the &quot;email taken&quot; problem on the email field with a way forward" time="1.1432334">
+        <testcase classname="src/auth/auth.test.tsx" name="register page &gt; puts the &quot;email taken&quot; problem on the email field with a way forward" time="1.7342966">
         </testcase>
-        <testcase classname="src/auth/auth.test.tsx" name="route guards and session &gt; sends a visitor who is not signed in to the login page" time="0.0818971">
+        <testcase classname="src/auth/auth.test.tsx" name="route guards and session &gt; sends a visitor who is not signed in to the login page" time="0.1263028">
         </testcase>
-        <testcase classname="src/auth/auth.test.tsx" name="route guards and session &gt; returns the person to the page they asked for after they sign in" time="0.8765447">
+        <testcase classname="src/auth/auth.test.tsx" name="route guards and session &gt; returns the person to the page they asked for after they sign in" time="1.2659759">
         </testcase>
-        <testcase classname="src/auth/auth.test.tsx" name="route guards and session &gt; restores a session from the refresh cookie on page load, with no login form" time="0.0988624">
+        <testcase classname="src/auth/auth.test.tsx" name="route guards and session &gt; restores a session from the refresh cookie on page load, with no login form" time="0.1848432">
         </testcase>
-        <testcase classname="src/auth/auth.test.tsx" name="route guards and session &gt; keeps working after the access token expires, using one silent refresh" time="0.2424042">
+        <testcase classname="src/auth/auth.test.tsx" name="route guards and session &gt; keeps working after the access token expires, using one silent refresh" time="0.392011">
         </testcase>
-        <testcase classname="src/auth/auth.test.tsx" name="route guards and session &gt; signs out cleanly: the cookie is revoked and guarded pages ask for a login again" time="0.254969">
+        <testcase classname="src/auth/auth.test.tsx" name="route guards and session &gt; signs out cleanly: the cookie is revoked and guarded pages ask for a login again" time="0.3581228">
         </testcase>
-        <testcase classname="src/auth/auth.test.tsx" name="route guards and session &gt; shows the Admin link and admin page only to admins" time="0.2502847">
+        <testcase classname="src/auth/auth.test.tsx" name="route guards and session &gt; shows the Admin link and admin page only to admins" time="0.4332079">
         </testcase>
-        <testcase classname="src/auth/auth.test.tsx" name="route guards and session &gt; tells a non-admin who opens /admin that the page is for admins, instead of a blank page" time="0.1470262">
+        <testcase classname="src/auth/auth.test.tsx" name="route guards and session &gt; tells a non-admin who opens /admin that the page is for admins, instead of a blank page" time="0.1835722">
         </testcase>
-        <testcase classname="src/auth/auth.test.tsx" name="route guards and session &gt; lets an admin into /admin" time="0.0848899">
+        <testcase classname="src/auth/auth.test.tsx" name="route guards and session &gt; lets an admin into /admin" time="0.104961">
         </testcase>
-        <testcase classname="src/auth/auth.test.tsx" name="layout &gt; has a skip link, landmarks and a footer that says purchases are simulated" time="0.11145">
+        <testcase classname="src/auth/auth.test.tsx" name="layout &gt; has a skip link, landmarks and a footer that says purchases are simulated" time="0.1562706">
         </testcase>
-        <testcase classname="src/auth/auth.test.tsx" name="layout &gt; marks the current page in the navigation" time="0.1264653">
+        <testcase classname="src/auth/auth.test.tsx" name="layout &gt; marks the current page in the navigation" time="0.2149718">
         </testcase>
-        <testcase classname="src/auth/auth.test.tsx" name="layout &gt; has a custom 404 page with a way back" time="0.0735569">
-        </testcase>
-    </testsuite>
-    <testsuite name="src/components/Modal.test.tsx" timestamp="2026-10-24T20:30:06.649Z" hostname="shadabpc" tests="10" failures="0" errors="0" skipped="0" time="3.3136422">
-        <testcase classname="src/components/Modal.test.tsx" name="Modal &gt; is a modal dialog named by its title, shown above the page" time="0.7847756">
-        </testcase>
-        <testcase classname="src/components/Modal.test.tsx" name="Modal &gt; moves focus into the dialog, to its first control" time="0.0306385">
-        </testcase>
-        <testcase classname="src/components/Modal.test.tsx" name="Modal &gt; closes on Escape and on the Close button" time="0.245406">
-        </testcase>
-        <testcase classname="src/components/Modal.test.tsx" name="Modal &gt; keeps Tab and Shift+Tab inside the dialog" time="0.3783457">
-        </testcase>
-        <testcase classname="src/components/Modal.test.tsx" name="Modal &gt; closes when the dimmed backdrop is clicked, but not when the dialog itself is" time="0.1736416">
-        </testcase>
-        <testcase classname="src/components/Modal.test.tsx" name="ConfirmDialog &gt; shows the question, the detail and two clearly labelled buttons" time="0.2847809">
-        </testcase>
-        <testcase classname="src/components/Modal.test.tsx" name="ConfirmDialog &gt; calls onConfirm only when the confirm button is pressed" time="0.2754294">
-        </testcase>
-        <testcase classname="src/components/Modal.test.tsx" name="ConfirmDialog &gt; puts focus on Cancel first, so Enter never confirms by accident" time="0.2103146">
-        </testcase>
-        <testcase classname="src/components/Modal.test.tsx" name="ConfirmDialog &gt; returns focus to the button that opened it when cancelled or closed with Escape" time="0.6345722">
-        </testcase>
-        <testcase classname="src/components/Modal.test.tsx" name="ConfirmDialog &gt; disables both buttons and says what is happening while busy" time="0.2600587">
+        <testcase classname="src/auth/auth.test.tsx" name="layout &gt; has a custom 404 page with a way back" time="0.1056507">
         </testcase>
     </testsuite>
-    <testsuite name="src/components/PurchaseButton.test.tsx" timestamp="2026-10-24T20:30:06.658Z" hostname="shadabpc" tests="6" failures="0" errors="0" skipped="0" time="1.3359099">
-        <testcase classname="src/components/PurchaseButton.test.tsx" name="PurchaseButton with stock &gt; is an enabled &quot;Buy this car&quot; button that names the car for screen readers" time="0.8765286">
+    <testsuite name="src/components/Modal.test.tsx" timestamp="2026-10-25T08:37:50.545Z" hostname="shadabpc" tests="10" failures="0" errors="0" skipped="0" time="3.0309189">
+        <testcase classname="src/components/Modal.test.tsx" name="Modal &gt; is a modal dialog named by its title, shown above the page" time="0.705391">
         </testcase>
-        <testcase classname="src/components/PurchaseButton.test.tsx" name="PurchaseButton with stock &gt; stays enabled at one unit left" time="0.071935">
+        <testcase classname="src/components/Modal.test.tsx" name="Modal &gt; moves focus into the dialog, to its first control" time="0.021875">
         </testcase>
-        <testcase classname="src/components/PurchaseButton.test.tsx" name="PurchaseButton at zero stock &gt; is disabled and says &quot;Sold out&quot; in visible text" time="0.094656">
+        <testcase classname="src/components/Modal.test.tsx" name="Modal &gt; closes on Escape and on the Close button" time="0.2403148">
         </testcase>
-        <testcase classname="src/components/PurchaseButton.test.tsx" name="PurchaseButton at zero stock &gt; explains itself in text, not only through colour, and links the explanation to the button" time="0.075057">
+        <testcase classname="src/components/Modal.test.tsx" name="Modal &gt; keeps Tab and Shift+Tab inside the dialog" time="0.3149248">
         </testcase>
-        <testcase classname="src/components/PurchaseButton.test.tsx" name="PurchaseButton at zero stock &gt; does nothing when clicked" time="0.0802464">
+        <testcase classname="src/components/Modal.test.tsx" name="Modal &gt; closes when the dimmed backdrop is clicked, but not when the dialog itself is" time="0.1540836">
         </testcase>
-        <testcase classname="src/components/PurchaseButton.test.tsx" name="PurchaseButton while a purchase is in flight &gt; is disabled, says what is happening, and cannot be double-submitted" time="0.1066704">
+        <testcase classname="src/components/Modal.test.tsx" name="ConfirmDialog &gt; shows the question, the detail and two clearly labelled buttons" time="0.2551869">
         </testcase>
-    </testsuite>
-    <testsuite name="src/lib/accent.test.ts" timestamp="2026-10-24T20:30:06.661Z" hostname="shadabpc" tests="10" failures="0" errors="0" skipped="0" time="0.0474056">
-        <testcase classname="src/lib/accent.test.ts" name="contrastRatio &gt; is 21 for black on white and 1 for identical colours" time="0.0078265">
+        <testcase classname="src/components/Modal.test.tsx" name="ConfirmDialog &gt; calls onConfirm only when the confirm button is pressed" time="0.2001003">
         </testcase>
-        <testcase classname="src/lib/accent.test.ts" name="contrastRatio &gt; does not depend on the order of the arguments" time="0.0006842">
+        <testcase classname="src/components/Modal.test.tsx" name="ConfirmDialog &gt; puts focus on Cancel first, so Enter never confirms by accident" time="0.1900252">
         </testcase>
-        <testcase classname="src/lib/accent.test.ts" name="contrastRatio &gt; matches the ratios recorded in docs/design.md" time="0.0008235">
+        <testcase classname="src/components/Modal.test.tsx" name="ConfirmDialog &gt; returns focus to the button that opened it when cancelled or closed with Escape" time="0.6107183">
         </testcase>
-        <testcase classname="src/lib/accent.test.ts" name="contrastRatio &gt; accepts three-digit and lower-case hex" time="0.0005929">
-        </testcase>
-        <testcase classname="src/lib/accent.test.ts" name="pickAccent &gt; keeps a paint that is already dark enough" time="0.0016366">
-        </testcase>
-        <testcase classname="src/lib/accent.test.ts" name="pickAccent &gt; darkens a paint that is too light until text on both surfaces reaches 4.5:1" time="0.0012462">
-        </testcase>
-        <testcase classname="src/lib/accent.test.ts" name="pickAccent &gt; guarantees 4.5:1 on both surfaces for every colour it returns" time="0.0037662">
-        </testcase>
-        <testcase classname="src/lib/accent.test.ts" name="pickAccent &gt; falls back to Lacquer Blue for a paint that would have to be darkened out of recognition" time="0.0008753">
-        </testcase>
-        <testcase classname="src/lib/accent.test.ts" name="pickAccent &gt; falls back for anything that is not a six-digit hex colour" time="0.00065">
-        </testcase>
-        <testcase classname="src/lib/accent.test.ts" name="pickAccent &gt; chooses white or Studio Ink text so that text on the accent reaches 4.5:1" time="0.0029467">
+        <testcase classname="src/components/Modal.test.tsx" name="ConfirmDialog &gt; disables both buttons and says what is happening while busy" time="0.3027367">
         </testcase>
     </testsuite>
-    <testsuite name="src/lib/carSpec.test.ts" timestamp="2026-10-24T20:30:06.666Z" hostname="shadabpc" tests="22" failures="0" errors="0" skipped="0" time="0.092336">
-        <testcase classname="src/lib/carSpec.test.ts" name="buildCarSpec paint &gt; uses the first colour option when none is chosen" time="0.0205562">
+    <testsuite name="src/components/PurchaseButton.test.tsx" timestamp="2026-10-25T08:37:50.550Z" hostname="shadabpc" tests="6" failures="0" errors="0" skipped="0" time="1.2481596">
+        <testcase classname="src/components/PurchaseButton.test.tsx" name="PurchaseButton with stock &gt; is an enabled &quot;Buy this car&quot; button that names the car for screen readers" time="0.7486862">
         </testcase>
-        <testcase classname="src/lib/carSpec.test.ts" name="buildCarSpec paint &gt; uses the chosen paint, lower-cased" time="0.0007659">
+        <testcase classname="src/components/PurchaseButton.test.tsx" name="PurchaseButton with stock &gt; stays enabled at one unit left" time="0.078545">
         </testcase>
-        <testcase classname="src/lib/carSpec.test.ts" name="buildCarSpec paint &gt; falls back to a neutral grey when there are no options or the value is not a hex colour" time="0.0008431">
+        <testcase classname="src/components/PurchaseButton.test.tsx" name="PurchaseButton at zero stock &gt; is disabled and says &quot;Sold out&quot; in visible text" time="0.0729739">
         </testcase>
-        <testcase classname="src/lib/carSpec.test.ts" name="buildCarSpec silhouettes &gt; draws every body style differently" time="0.0010336">
+        <testcase classname="src/components/PurchaseButton.test.tsx" name="PurchaseButton at zero stock &gt; explains itself in text, not only through colour, and links the explanation to the button" time="0.0881431">
         </testcase>
-        <testcase classname="src/lib/carSpec.test.ts" name="buildCarSpec silhouettes &gt; orders roof heights the way the real cars sit: sports lowest, SUV and truck tallest" time="0.0012414">
+        <testcase classname="src/components/PurchaseButton.test.tsx" name="PurchaseButton at zero stock &gt; does nothing when clicked" time="0.1164757">
         </testcase>
-        <testcase classname="src/lib/carSpec.test.ts" name="buildCarSpec silhouettes &gt; gives only the convertible an open top, only the truck a bed, and the EV no grille" time="0.0157544">
-        </testcase>
-        <testcase classname="src/lib/carSpec.test.ts" name="buildCarSpec silhouettes &gt; keeps the wheels inside the body for every style" time="0.0015818">
-        </testcase>
-        <testcase classname="src/lib/carSpec.test.ts" name="buildCarSpec description &gt; describes the car for assistive technology: year, name, body style and colour" time="0.0005882">
-        </testcase>
-        <testcase classname="src/lib/carSpec.test.ts" name="buildCarSpec description &gt; leaves the year out when there is none" time="0.0010579">
-        </testcase>
-        <testcase classname="src/lib/carSpec.test.ts" name="buildCarSpec description &gt; writes body styles in plain words" time="0.0012199">
-        </testcase>
-        <testcase classname="src/lib/carSpec.test.ts" name="describeColour &gt; names #FFFFFF as white" time="0.0006152">
-        </testcase>
-        <testcase classname="src/lib/carSpec.test.ts" name="describeColour &gt; names #F2F2F2 as white" time="0.0004593">
-        </testcase>
-        <testcase classname="src/lib/carSpec.test.ts" name="describeColour &gt; names #1B1B1B as black" time="0.0007224">
-        </testcase>
-        <testcase classname="src/lib/carSpec.test.ts" name="describeColour &gt; names #7A8B99 as grey" time="0.0004671">
-        </testcase>
-        <testcase classname="src/lib/carSpec.test.ts" name="describeColour &gt; names #C0392B as red" time="0.0003386">
-        </testcase>
-        <testcase classname="src/lib/carSpec.test.ts" name="describeColour &gt; names #B42318 as red" time="0.0003546">
-        </testcase>
-        <testcase classname="src/lib/carSpec.test.ts" name="describeColour &gt; names #1F5FBF as blue" time="0.0003435">
-        </testcase>
-        <testcase classname="src/lib/carSpec.test.ts" name="describeColour &gt; names #E6B422 as yellow" time="0.0003355">
-        </testcase>
-        <testcase classname="src/lib/carSpec.test.ts" name="describeColour &gt; names #2E7D32 as green" time="0.0005704">
-        </testcase>
-        <testcase classname="src/lib/carSpec.test.ts" name="describeColour &gt; names #E87722 as orange" time="0.0004103">
-        </testcase>
-        <testcase classname="src/lib/carSpec.test.ts" name="describeColour &gt; names #6B2FA3 as purple" time="0.0005756">
-        </testcase>
-        <testcase classname="src/lib/carSpec.test.ts" name="describeColour &gt; calls an unreadable value &quot;custom&quot;" time="0.0005868">
+        <testcase classname="src/components/PurchaseButton.test.tsx" name="PurchaseButton while a purchase is in flight &gt; is disabled, says what is happening, and cannot be double-submitted" time="0.1132187">
         </testcase>
     </testsuite>
-    <testsuite name="src/lib/filters.test.ts" timestamp="2026-10-24T20:30:06.676Z" hostname="shadabpc" tests="15" failures="0" errors="0" skipped="0" time="0.0501015">
-        <testcase classname="src/lib/filters.test.ts" name="parseFilters &gt; gives the defaults for an empty query string" time="0.009844">
+    <testsuite name="src/lib/accent.test.ts" timestamp="2026-10-25T08:37:50.785Z" hostname="shadabpc" tests="10" failures="0" errors="0" skipped="0" time="0.0546303">
+        <testcase classname="src/lib/accent.test.ts" name="contrastRatio &gt; is 21 for black on white and 1 for identical colours" time="0.0079647">
         </testcase>
-        <testcase classname="src/lib/filters.test.ts" name="parseFilters &gt; reads every parameter" time="0.0010061">
+        <testcase classname="src/lib/accent.test.ts" name="contrastRatio &gt; does not depend on the order of the arguments" time="0.0009459">
         </testcase>
-        <testcase classname="src/lib/filters.test.ts" name="parseFilters &gt; ignores values it does not understand instead of failing" time="0.0013702">
+        <testcase classname="src/lib/accent.test.ts" name="contrastRatio &gt; matches the ratios recorded in docs/design.md" time="0.0006541">
         </testcase>
-        <testcase classname="src/lib/filters.test.ts" name="parseFilters &gt; trims the search text" time="0.0004618">
+        <testcase classname="src/lib/accent.test.ts" name="contrastRatio &gt; accepts three-digit and lower-case hex" time="0.0005775">
         </testcase>
-        <testcase classname="src/lib/filters.test.ts" name="filtersToParams &gt; leaves defaults out so the URL stays short" time="0.0006572">
+        <testcase classname="src/lib/accent.test.ts" name="pickAccent &gt; keeps a paint that is already dark enough" time="0.0016826">
         </testcase>
-        <testcase classname="src/lib/filters.test.ts" name="filtersToParams &gt; writes only what differs from the defaults" time="0.0005772">
+        <testcase classname="src/lib/accent.test.ts" name="pickAccent &gt; darkens a paint that is too light until text on both surfaces reaches 4.5:1" time="0.0013454">
         </testcase>
-        <testcase classname="src/lib/filters.test.ts" name="filtersToParams &gt; round-trips through parseFilters" time="0.0008062">
+        <testcase classname="src/lib/accent.test.ts" name="pickAccent &gt; guarantees 4.5:1 on both surfaces for every colour it returns" time="0.0030156">
         </testcase>
-        <testcase classname="src/lib/filters.test.ts" name="filtersToApiQuery &gt; always asks for a page and a sort, in the units the API uses" time="0.0006838">
+        <testcase classname="src/lib/accent.test.ts" name="pickAccent &gt; falls back to Lacquer Blue for a paint that would have to be darkened out of recognition" time="0.0012582">
         </testcase>
-        <testcase classname="src/lib/filters.test.ts" name="filtersToApiQuery &gt; converts rupees to paise and passes the other filters through" time="0.001398">
+        <testcase classname="src/lib/accent.test.ts" name="pickAccent &gt; falls back for anything that is not a six-digit hex colour" time="0.0011807">
         </testcase>
-        <testcase classname="src/lib/filters.test.ts" name="filtersToApiQuery &gt; does not send an empty search or an unticked in-stock box" time="0.0005814">
-        </testcase>
-        <testcase classname="src/lib/filters.test.ts" name="withFilterChange &gt; goes back to page 1 when a filter changes" time="0.0006771">
-        </testcase>
-        <testcase classname="src/lib/filters.test.ts" name="withFilterChange &gt; keeps the page when only the page changes" time="0.0004641">
-        </testcase>
-        <testcase classname="src/lib/filters.test.ts" name="hasActiveFilters &gt; is false for the defaults and for a different sort or page alone" time="0.0006266">
-        </testcase>
-        <testcase classname="src/lib/filters.test.ts" name="hasActiveFilters &gt; is true when any narrowing filter is set" time="0.0008381">
-        </testcase>
-        <testcase classname="src/lib/filters.test.ts" name="hasInvalidPriceRange &gt; is true only when the minimum is above the maximum" time="0.0006799">
+        <testcase classname="src/lib/accent.test.ts" name="pickAccent &gt; chooses white or Studio Ink text so that text on the accent reaches 4.5:1" time="0.0050919">
         </testcase>
     </testsuite>
-    <testsuite name="src/lib/money.test.ts" timestamp="2026-10-24T20:30:06.682Z" hostname="shadabpc" tests="15" failures="0" errors="0" skipped="0" time="0.0422949">
-        <testcase classname="src/lib/money.test.ts" name="formatINR &gt; formats whole rupees with Indian digit grouping and no decimals" time="0.0077249">
+    <testsuite name="src/lib/carGeometry.test.ts" timestamp="2026-10-25T08:37:50.789Z" hostname="shadabpc" tests="43" failures="0" errors="0" skipped="0" time="0.5063874">
+        <testcase classname="src/lib/carGeometry.test.ts" name="carDimensions &gt; HATCHBACK has sane proportions in metres" time="0.0072892">
         </testcase>
-        <testcase classname="src/lib/money.test.ts" name="formatINR &gt; shows two decimals only when there are paise" time="0.0009408">
+        <testcase classname="src/lib/carGeometry.test.ts" name="carDimensions &gt; SEDAN has sane proportions in metres" time="0.0011267">
         </testcase>
-        <testcase classname="src/lib/money.test.ts" name="formatINR &gt; formats zero" time="0.000488">
+        <testcase classname="src/lib/carGeometry.test.ts" name="carDimensions &gt; SUV has sane proportions in metres" time="0.0009152">
         </testcase>
-        <testcase classname="src/lib/money.test.ts" name="formatINR &gt; groups lakhs and crores" time="0.0005374">
+        <testcase classname="src/lib/carGeometry.test.ts" name="carDimensions &gt; COUPE has sane proportions in metres" time="0.0010263">
         </testcase>
-        <testcase classname="src/lib/money.test.ts" name="rupeesToPaise &gt; converts whole rupees" time="0.0007204">
+        <testcase classname="src/lib/carGeometry.test.ts" name="carDimensions &gt; CONVERTIBLE has sane proportions in metres" time="0.0007302">
         </testcase>
-        <testcase classname="src/lib/money.test.ts" name="rupeesToPaise &gt; accepts digit grouping commas and surrounding spaces" time="0.0005902">
+        <testcase classname="src/lib/carGeometry.test.ts" name="carDimensions &gt; TRUCK has sane proportions in metres" time="0.0009674">
         </testcase>
-        <testcase classname="src/lib/money.test.ts" name="rupeesToPaise &gt; accepts up to two decimal places without floating-point drift" time="0.0006653">
+        <testcase classname="src/lib/carGeometry.test.ts" name="carDimensions &gt; EV has sane proportions in metres" time="0.0011952">
         </testcase>
-        <testcase classname="src/lib/money.test.ts" name="rupeesToPaise &gt; rejects &quot;&quot;" time="0.0009209">
+        <testcase classname="src/lib/carGeometry.test.ts" name="carDimensions &gt; SPORTS has sane proportions in metres" time="0.0008179">
         </testcase>
-        <testcase classname="src/lib/money.test.ts" name="rupeesToPaise &gt; rejects &quot;   &quot;" time="0.0003591">
+        <testcase classname="src/lib/carGeometry.test.ts" name="carDimensions &gt; HATCHBACK keeps the cabin inside the body, ahead of the tail" time="0.0010432">
         </testcase>
-        <testcase classname="src/lib/money.test.ts" name="rupeesToPaise &gt; rejects &quot;abc&quot;" time="0.000361">
+        <testcase classname="src/lib/carGeometry.test.ts" name="carDimensions &gt; SEDAN keeps the cabin inside the body, ahead of the tail" time="0.0004789">
         </testcase>
-        <testcase classname="src/lib/money.test.ts" name="rupeesToPaise &gt; rejects &quot;-5&quot;" time="0.0003113">
+        <testcase classname="src/lib/carGeometry.test.ts" name="carDimensions &gt; SUV keeps the cabin inside the body, ahead of the tail" time="0.0004392">
         </testcase>
-        <testcase classname="src/lib/money.test.ts" name="rupeesToPaise &gt; rejects &quot;1.234&quot;" time="0.0003157">
+        <testcase classname="src/lib/carGeometry.test.ts" name="carDimensions &gt; COUPE keeps the cabin inside the body, ahead of the tail" time="0.0004564">
         </testcase>
-        <testcase classname="src/lib/money.test.ts" name="rupeesToPaise &gt; rejects &quot;1e5&quot;" time="0.0002875">
+        <testcase classname="src/lib/carGeometry.test.ts" name="carDimensions &gt; CONVERTIBLE keeps the cabin inside the body, ahead of the tail" time="0.0004746">
         </testcase>
-        <testcase classname="src/lib/money.test.ts" name="rupeesToPaise &gt; rejects &quot;12..5&quot;" time="0.0003094">
+        <testcase classname="src/lib/carGeometry.test.ts" name="carDimensions &gt; TRUCK keeps the cabin inside the body, ahead of the tail" time="0.0004312">
         </testcase>
-        <testcase classname="src/lib/money.test.ts" name="rupeesToPaise &gt; rejects &quot;₹500&quot;" time="0.0004812">
+        <testcase classname="src/lib/carGeometry.test.ts" name="carDimensions &gt; EV keeps the cabin inside the body, ahead of the tail" time="0.0004386">
+        </testcase>
+        <testcase classname="src/lib/carGeometry.test.ts" name="carDimensions &gt; SPORTS keeps the cabin inside the body, ahead of the tail" time="0.0004326">
+        </testcase>
+        <testcase classname="src/lib/carGeometry.test.ts" name="carDimensions &gt; makes sports cars low and wide, and SUVs and trucks tall" time="0.0007256">
+        </testcase>
+        <testcase classname="src/lib/carGeometry.test.ts" name="wheelPositions &gt; HATCHBACK puts two wheels on the floor, rear behind front" time="0.0013313">
+        </testcase>
+        <testcase classname="src/lib/carGeometry.test.ts" name="wheelPositions &gt; SEDAN puts two wheels on the floor, rear behind front" time="0.0006055">
+        </testcase>
+        <testcase classname="src/lib/carGeometry.test.ts" name="wheelPositions &gt; SUV puts two wheels on the floor, rear behind front" time="0.0005504">
+        </testcase>
+        <testcase classname="src/lib/carGeometry.test.ts" name="wheelPositions &gt; COUPE puts two wheels on the floor, rear behind front" time="0.000583">
+        </testcase>
+        <testcase classname="src/lib/carGeometry.test.ts" name="wheelPositions &gt; CONVERTIBLE puts two wheels on the floor, rear behind front" time="0.0005495">
+        </testcase>
+        <testcase classname="src/lib/carGeometry.test.ts" name="wheelPositions &gt; TRUCK puts two wheels on the floor, rear behind front" time="0.0005567">
+        </testcase>
+        <testcase classname="src/lib/carGeometry.test.ts" name="wheelPositions &gt; EV puts two wheels on the floor, rear behind front" time="0.0006793">
+        </testcase>
+        <testcase classname="src/lib/carGeometry.test.ts" name="wheelPositions &gt; SPORTS puts two wheels on the floor, rear behind front" time="0.0005596">
+        </testcase>
+        <testcase classname="src/lib/carGeometry.test.ts" name="wheelPositions &gt; keeps each wheel inside the car length" time="0.0021975">
+        </testcase>
+        <testcase classname="src/lib/carGeometry.test.ts" name="chaikin &gt; keeps the end points and adds points" time="0.0045229">
+        </testcase>
+        <testcase classname="src/lib/carGeometry.test.ts" name="chaikin &gt; cuts the corner without leaving the original bounding box" time="0.0054165">
+        </testcase>
+        <testcase classname="src/lib/carGeometry.test.ts" name="chaikin &gt; returns the input for zero iterations and for fewer than three points" time="0.0011767">
+        </testcase>
+        <testcase classname="src/lib/carGeometry.test.ts" name="bodyOutline &gt; HATCHBACK is a finite closed shape that stays within its own dimensions" time="0.0457516">
+        </testcase>
+        <testcase classname="src/lib/carGeometry.test.ts" name="bodyOutline &gt; SEDAN is a finite closed shape that stays within its own dimensions" time="0.0342026">
+        </testcase>
+        <testcase classname="src/lib/carGeometry.test.ts" name="bodyOutline &gt; SUV is a finite closed shape that stays within its own dimensions" time="0.0425432">
+        </testcase>
+        <testcase classname="src/lib/carGeometry.test.ts" name="bodyOutline &gt; COUPE is a finite closed shape that stays within its own dimensions" time="0.045494">
+        </testcase>
+        <testcase classname="src/lib/carGeometry.test.ts" name="bodyOutline &gt; CONVERTIBLE is a finite closed shape that stays within its own dimensions" time="0.0250469">
+        </testcase>
+        <testcase classname="src/lib/carGeometry.test.ts" name="bodyOutline &gt; TRUCK is a finite closed shape that stays within its own dimensions" time="0.0263604">
+        </testcase>
+        <testcase classname="src/lib/carGeometry.test.ts" name="bodyOutline &gt; EV is a finite closed shape that stays within its own dimensions" time="0.0314961">
+        </testcase>
+        <testcase classname="src/lib/carGeometry.test.ts" name="bodyOutline &gt; SPORTS is a finite closed shape that stays within its own dimensions" time="0.0411738">
+        </testcase>
+        <testcase classname="src/lib/carGeometry.test.ts" name="bodyOutline &gt; cuts wheel arches: the underside rises above the sill next to each wheel" time="0.0030081">
+        </testcase>
+        <testcase classname="src/lib/carGeometry.test.ts" name="bodyOutline &gt; gives every body style its own silhouette, not a recolour" time="0.1359816">
+        </testcase>
+        <testcase classname="src/lib/carGeometry.test.ts" name="bodyOutline &gt; leaves the convertible roofless: its top never rises above the windscreen" time="0.0012237">
+        </testcase>
+        <testcase classname="src/lib/carGeometry.test.ts" name="taperFactor &gt; is full width mid-car at shoulder height and narrows toward both ends" time="0.000834">
+        </testcase>
+        <testcase classname="src/lib/carGeometry.test.ts" name="taperFactor &gt; tucks the roof in so the glasshouse is narrower than the body" time="0.0004241">
+        </testcase>
+        <testcase classname="src/lib/carGeometry.test.ts" name="taperFactor &gt; never collapses to nothing" time="0.0015981">
         </testcase>
     </testsuite>
-    <testsuite name="src/lib/stock.test.ts" timestamp="2026-10-24T20:30:06.689Z" hostname="shadabpc" tests="3" failures="0" errors="0" skipped="0" time="0.0293171">
-        <testcase classname="src/lib/stock.test.ts" name="stockState &gt; is sold out only at zero" time="0.0073836">
+    <testsuite name="src/lib/carParts.test.ts" timestamp="2026-10-25T08:37:50.804Z" hostname="shadabpc" tests="37" failures="0" errors="0" skipped="0" time="0.0903718">
+        <testcase classname="src/lib/carParts.test.ts" name="greenhouse (the side-window shape) &gt; HATCHBACK has four corners, inside the cabin and under the roof" time="0.0122922">
         </testcase>
-        <testcase classname="src/lib/stock.test.ts" name="stockState &gt; is low for 1 up to the threshold, and the threshold is 3" time="0.0008649">
+        <testcase classname="src/lib/carParts.test.ts" name="greenhouse (the side-window shape) &gt; SEDAN has four corners, inside the cabin and under the roof" time="0.0021038">
         </testcase>
-        <testcase classname="src/lib/stock.test.ts" name="stockState &gt; is in stock above the threshold" time="0.0007683">
+        <testcase classname="src/lib/carParts.test.ts" name="greenhouse (the side-window shape) &gt; SUV has four corners, inside the cabin and under the roof" time="0.0015015">
+        </testcase>
+        <testcase classname="src/lib/carParts.test.ts" name="greenhouse (the side-window shape) &gt; COUPE has four corners, inside the cabin and under the roof" time="0.0014819">
+        </testcase>
+        <testcase classname="src/lib/carParts.test.ts" name="greenhouse (the side-window shape) &gt; TRUCK has four corners, inside the cabin and under the roof" time="0.0014518">
+        </testcase>
+        <testcase classname="src/lib/carParts.test.ts" name="greenhouse (the side-window shape) &gt; EV has four corners, inside the cabin and under the roof" time="0.0015001">
+        </testcase>
+        <testcase classname="src/lib/carParts.test.ts" name="greenhouse (the side-window shape) &gt; SPORTS has four corners, inside the cabin and under the roof" time="0.0015026">
+        </testcase>
+        <testcase classname="src/lib/carParts.test.ts" name="greenhouse (the side-window shape) &gt; is absent on the convertible, which has no roof to hold side windows" time="0.0005936">
+        </testcase>
+        <testcase classname="src/lib/carParts.test.ts" name="windowSlabs (windscreen and rear window) &gt; gives a closed car both, sloping up toward the middle of the car" time="0.0014847">
+        </testcase>
+        <testcase classname="src/lib/carParts.test.ts" name="windowSlabs (windscreen and rear window) &gt; gives the convertible a windscreen and no rear window" time="0.0008181">
+        </testcase>
+        <testcase classname="src/lib/carParts.test.ts" name="windowSlabs (windscreen and rear window) &gt; keeps the truck cab window upright and sets it ahead of the open bed" time="0.0007187">
+        </testcase>
+        <testcase classname="src/lib/carParts.test.ts" name="doorSeams &gt; HATCHBACK seams are upright lines between the wheels&apos; arches and the cabin" time="0.0017715">
+        </testcase>
+        <testcase classname="src/lib/carParts.test.ts" name="doorSeams &gt; SEDAN seams are upright lines between the wheels&apos; arches and the cabin" time="0.0006223">
+        </testcase>
+        <testcase classname="src/lib/carParts.test.ts" name="doorSeams &gt; SUV seams are upright lines between the wheels&apos; arches and the cabin" time="0.0006752">
+        </testcase>
+        <testcase classname="src/lib/carParts.test.ts" name="doorSeams &gt; COUPE seams are upright lines between the wheels&apos; arches and the cabin" time="0.000549">
+        </testcase>
+        <testcase classname="src/lib/carParts.test.ts" name="doorSeams &gt; CONVERTIBLE seams are upright lines between the wheels&apos; arches and the cabin" time="0.0005257">
+        </testcase>
+        <testcase classname="src/lib/carParts.test.ts" name="doorSeams &gt; TRUCK seams are upright lines between the wheels&apos; arches and the cabin" time="0.000558">
+        </testcase>
+        <testcase classname="src/lib/carParts.test.ts" name="doorSeams &gt; EV seams are upright lines between the wheels&apos; arches and the cabin" time="0.0006739">
+        </testcase>
+        <testcase classname="src/lib/carParts.test.ts" name="doorSeams &gt; SPORTS seams are upright lines between the wheels&apos; arches and the cabin" time="0.0005256">
+        </testcase>
+        <testcase classname="src/lib/carParts.test.ts" name="doorSeams &gt; gives four-door bodies two seams and two-door bodies one" time="0.0014606">
+        </testcase>
+        <testcase classname="src/lib/carParts.test.ts" name="lightPositions &gt; HATCHBACK has headlights at the nose and tail lights at the tail" time="0.0013177">
+        </testcase>
+        <testcase classname="src/lib/carParts.test.ts" name="lightPositions &gt; SEDAN has headlights at the nose and tail lights at the tail" time="0.0007048">
+        </testcase>
+        <testcase classname="src/lib/carParts.test.ts" name="lightPositions &gt; SUV has headlights at the nose and tail lights at the tail" time="0.0006537">
+        </testcase>
+        <testcase classname="src/lib/carParts.test.ts" name="lightPositions &gt; COUPE has headlights at the nose and tail lights at the tail" time="0.0111573">
+        </testcase>
+        <testcase classname="src/lib/carParts.test.ts" name="lightPositions &gt; CONVERTIBLE has headlights at the nose and tail lights at the tail" time="0.000513">
+        </testcase>
+        <testcase classname="src/lib/carParts.test.ts" name="lightPositions &gt; TRUCK has headlights at the nose and tail lights at the tail" time="0.0004484">
+        </testcase>
+        <testcase classname="src/lib/carParts.test.ts" name="lightPositions &gt; EV has headlights at the nose and tail lights at the tail" time="0.0010374">
+        </testcase>
+        <testcase classname="src/lib/carParts.test.ts" name="lightPositions &gt; SPORTS has headlights at the nose and tail lights at the tail" time="0.0005668">
+        </testcase>
+        <testcase classname="src/lib/carParts.test.ts" name="hotspotAnchors &gt; HATCHBACK has three distinct anchors on the car, each with a unit normal" time="0.0042449">
+        </testcase>
+        <testcase classname="src/lib/carParts.test.ts" name="hotspotAnchors &gt; SEDAN has three distinct anchors on the car, each with a unit normal" time="0.0012314">
+        </testcase>
+        <testcase classname="src/lib/carParts.test.ts" name="hotspotAnchors &gt; SUV has three distinct anchors on the car, each with a unit normal" time="0.0011412">
+        </testcase>
+        <testcase classname="src/lib/carParts.test.ts" name="hotspotAnchors &gt; COUPE has three distinct anchors on the car, each with a unit normal" time="0.0011176">
+        </testcase>
+        <testcase classname="src/lib/carParts.test.ts" name="hotspotAnchors &gt; CONVERTIBLE has three distinct anchors on the car, each with a unit normal" time="0.0010564">
+        </testcase>
+        <testcase classname="src/lib/carParts.test.ts" name="hotspotAnchors &gt; TRUCK has three distinct anchors on the car, each with a unit normal" time="0.0008532">
+        </testcase>
+        <testcase classname="src/lib/carParts.test.ts" name="hotspotAnchors &gt; EV has three distinct anchors on the car, each with a unit normal" time="0.0007646">
+        </testcase>
+        <testcase classname="src/lib/carParts.test.ts" name="hotspotAnchors &gt; SPORTS has three distinct anchors on the car, each with a unit normal" time="0.0007626">
+        </testcase>
+        <testcase classname="src/lib/carParts.test.ts" name="hotspotAnchors &gt; puts the paint note on the right flank, the body note on the roof and the stock note at the tail" time="0.0008097">
         </testcase>
     </testsuite>
-    <testsuite name="src/pages/accessibility.test.tsx" timestamp="2026-10-24T20:30:06.691Z" hostname="shadabpc" tests="8" failures="0" errors="0" skipped="0" time="10.612029">
-        <testcase classname="src/pages/accessibility.test.tsx" name="axe: no detectable accessibility violations on the main pages &gt; login" time="2.1532575">
+    <testsuite name="src/lib/carSpec.test.ts" timestamp="2026-10-25T08:37:50.816Z" hostname="shadabpc" tests="22" failures="0" errors="0" skipped="0" time="0.0409311">
+        <testcase classname="src/lib/carSpec.test.ts" name="buildCarSpec paint &gt; uses the first colour option when none is chosen" time="0.0059758">
         </testcase>
-        <testcase classname="src/pages/accessibility.test.tsx" name="axe: no detectable accessibility violations on the main pages &gt; register, including its error state" time="1.2450475">
+        <testcase classname="src/lib/carSpec.test.ts" name="buildCarSpec paint &gt; uses the chosen paint, lower-cased" time="0.0005987">
         </testcase>
-        <testcase classname="src/pages/accessibility.test.tsx" name="axe: no detectable accessibility violations on the main pages &gt; showroom" time="2.4126216">
+        <testcase classname="src/lib/carSpec.test.ts" name="buildCarSpec paint &gt; falls back to a neutral grey when there are no options or the value is not a hex colour" time="0.0006498">
+        </testcase>
+        <testcase classname="src/lib/carSpec.test.ts" name="buildCarSpec silhouettes &gt; draws every body style differently" time="0.0009139">
+        </testcase>
+        <testcase classname="src/lib/carSpec.test.ts" name="buildCarSpec silhouettes &gt; orders roof heights the way the real cars sit: sports lowest, SUV and truck tallest" time="0.0007894">
+        </testcase>
+        <testcase classname="src/lib/carSpec.test.ts" name="buildCarSpec silhouettes &gt; gives only the convertible an open top, only the truck a bed, and the EV no grille" time="0.0012345">
+        </testcase>
+        <testcase classname="src/lib/carSpec.test.ts" name="buildCarSpec silhouettes &gt; keeps the wheels inside the body for every style" time="0.0011546">
+        </testcase>
+        <testcase classname="src/lib/carSpec.test.ts" name="buildCarSpec description &gt; describes the car for assistive technology: year, name, body style and colour" time="0.0005935">
+        </testcase>
+        <testcase classname="src/lib/carSpec.test.ts" name="buildCarSpec description &gt; leaves the year out when there is none" time="0.0004149">
+        </testcase>
+        <testcase classname="src/lib/carSpec.test.ts" name="buildCarSpec description &gt; writes body styles in plain words" time="0.0007159">
+        </testcase>
+        <testcase classname="src/lib/carSpec.test.ts" name="describeColour &gt; names #FFFFFF as white" time="0.0004094">
+        </testcase>
+        <testcase classname="src/lib/carSpec.test.ts" name="describeColour &gt; names #F2F2F2 as white" time="0.0002523">
+        </testcase>
+        <testcase classname="src/lib/carSpec.test.ts" name="describeColour &gt; names #1B1B1B as black" time="0.0002325">
+        </testcase>
+        <testcase classname="src/lib/carSpec.test.ts" name="describeColour &gt; names #7A8B99 as grey" time="0.0002385">
+        </testcase>
+        <testcase classname="src/lib/carSpec.test.ts" name="describeColour &gt; names #C0392B as red" time="0.0002256">
+        </testcase>
+        <testcase classname="src/lib/carSpec.test.ts" name="describeColour &gt; names #B42318 as red" time="0.000252">
+        </testcase>
+        <testcase classname="src/lib/carSpec.test.ts" name="describeColour &gt; names #1F5FBF as blue" time="0.0002274">
+        </testcase>
+        <testcase classname="src/lib/carSpec.test.ts" name="describeColour &gt; names #E6B422 as yellow" time="0.0002268">
+        </testcase>
+        <testcase classname="src/lib/carSpec.test.ts" name="describeColour &gt; names #2E7D32 as green" time="0.0002253">
+        </testcase>
+        <testcase classname="src/lib/carSpec.test.ts" name="describeColour &gt; names #E87722 as orange" time="0.0002187">
+        </testcase>
+        <testcase classname="src/lib/carSpec.test.ts" name="describeColour &gt; names #6B2FA3 as purple" time="0.000219">
+        </testcase>
+        <testcase classname="src/lib/carSpec.test.ts" name="describeColour &gt; calls an unreadable value &quot;custom&quot;" time="0.0003287">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/lib/filters.test.ts" timestamp="2026-10-25T08:37:50.827Z" hostname="shadabpc" tests="15" failures="0" errors="0" skipped="0" time="0.0461867">
+        <testcase classname="src/lib/filters.test.ts" name="parseFilters &gt; gives the defaults for an empty query string" time="0.0086033">
+        </testcase>
+        <testcase classname="src/lib/filters.test.ts" name="parseFilters &gt; reads every parameter" time="0.0009983">
+        </testcase>
+        <testcase classname="src/lib/filters.test.ts" name="parseFilters &gt; ignores values it does not understand instead of failing" time="0.0016272">
+        </testcase>
+        <testcase classname="src/lib/filters.test.ts" name="parseFilters &gt; trims the search text" time="0.0005356">
+        </testcase>
+        <testcase classname="src/lib/filters.test.ts" name="filtersToParams &gt; leaves defaults out so the URL stays short" time="0.0006915">
+        </testcase>
+        <testcase classname="src/lib/filters.test.ts" name="filtersToParams &gt; writes only what differs from the defaults" time="0.0006066">
+        </testcase>
+        <testcase classname="src/lib/filters.test.ts" name="filtersToParams &gt; round-trips through parseFilters" time="0.0007309">
+        </testcase>
+        <testcase classname="src/lib/filters.test.ts" name="filtersToApiQuery &gt; always asks for a page and a sort, in the units the API uses" time="0.0007395">
+        </testcase>
+        <testcase classname="src/lib/filters.test.ts" name="filtersToApiQuery &gt; converts rupees to paise and passes the other filters through" time="0.0009228">
+        </testcase>
+        <testcase classname="src/lib/filters.test.ts" name="filtersToApiQuery &gt; does not send an empty search or an unticked in-stock box" time="0.0005274">
+        </testcase>
+        <testcase classname="src/lib/filters.test.ts" name="withFilterChange &gt; goes back to page 1 when a filter changes" time="0.0005713">
+        </testcase>
+        <testcase classname="src/lib/filters.test.ts" name="withFilterChange &gt; keeps the page when only the page changes" time="0.0004108">
+        </testcase>
+        <testcase classname="src/lib/filters.test.ts" name="hasActiveFilters &gt; is false for the defaults and for a different sort or page alone" time="0.0005746">
+        </testcase>
+        <testcase classname="src/lib/filters.test.ts" name="hasActiveFilters &gt; is true when any narrowing filter is set" time="0.0005872">
+        </testcase>
+        <testcase classname="src/lib/filters.test.ts" name="hasInvalidPriceRange &gt; is true only when the minimum is above the maximum" time="0.0006059">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/lib/money.test.ts" timestamp="2026-10-25T08:37:50.832Z" hostname="shadabpc" tests="15" failures="0" errors="0" skipped="0" time="0.0285151">
+        <testcase classname="src/lib/money.test.ts" name="formatINR &gt; formats whole rupees with Indian digit grouping and no decimals" time="0.0050385">
+        </testcase>
+        <testcase classname="src/lib/money.test.ts" name="formatINR &gt; shows two decimals only when there are paise" time="0.0006443">
+        </testcase>
+        <testcase classname="src/lib/money.test.ts" name="formatINR &gt; formats zero" time="0.0003962">
+        </testcase>
+        <testcase classname="src/lib/money.test.ts" name="formatINR &gt; groups lakhs and crores" time="0.0004572">
+        </testcase>
+        <testcase classname="src/lib/money.test.ts" name="rupeesToPaise &gt; converts whole rupees" time="0.0005272">
+        </testcase>
+        <testcase classname="src/lib/money.test.ts" name="rupeesToPaise &gt; accepts digit grouping commas and surrounding spaces" time="0.0003892">
+        </testcase>
+        <testcase classname="src/lib/money.test.ts" name="rupeesToPaise &gt; accepts up to two decimal places without floating-point drift" time="0.0004479">
+        </testcase>
+        <testcase classname="src/lib/money.test.ts" name="rupeesToPaise &gt; rejects &quot;&quot;" time="0.0005403">
+        </testcase>
+        <testcase classname="src/lib/money.test.ts" name="rupeesToPaise &gt; rejects &quot;   &quot;" time="0.0004582">
+        </testcase>
+        <testcase classname="src/lib/money.test.ts" name="rupeesToPaise &gt; rejects &quot;abc&quot;" time="0.0002492">
+        </testcase>
+        <testcase classname="src/lib/money.test.ts" name="rupeesToPaise &gt; rejects &quot;-5&quot;" time="0.0002014">
+        </testcase>
+        <testcase classname="src/lib/money.test.ts" name="rupeesToPaise &gt; rejects &quot;1.234&quot;" time="0.0001971">
+        </testcase>
+        <testcase classname="src/lib/money.test.ts" name="rupeesToPaise &gt; rejects &quot;1e5&quot;" time="0.0001772">
+        </testcase>
+        <testcase classname="src/lib/money.test.ts" name="rupeesToPaise &gt; rejects &quot;12..5&quot;" time="0.0001723">
+        </testcase>
+        <testcase classname="src/lib/money.test.ts" name="rupeesToPaise &gt; rejects &quot;₹500&quot;" time="0.0002784">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/lib/stock.test.ts" timestamp="2026-10-25T08:37:50.838Z" hostname="shadabpc" tests="3" failures="0" errors="0" skipped="0" time="0.0265315">
+        <testcase classname="src/lib/stock.test.ts" name="stockState &gt; is sold out only at zero" time="0.0043371">
+        </testcase>
+        <testcase classname="src/lib/stock.test.ts" name="stockState &gt; is low for 1 up to the threshold, and the threshold is 3" time="0.0004936">
+        </testcase>
+        <testcase classname="src/lib/stock.test.ts" name="stockState &gt; is in stock above the threshold" time="0.000544">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/pages/accessibility.test.tsx" timestamp="2026-10-25T08:37:50.839Z" hostname="shadabpc" tests="8" failures="0" errors="0" skipped="0" time="12.9325676">
+        <testcase classname="src/pages/accessibility.test.tsx" name="axe: no detectable accessibility violations on the main pages &gt; login" time="2.0685345">
+        </testcase>
+        <testcase classname="src/pages/accessibility.test.tsx" name="axe: no detectable accessibility violations on the main pages &gt; register, including its error state" time="0.9996048">
+        </testcase>
+        <testcase classname="src/pages/accessibility.test.tsx" name="axe: no detectable accessibility violations on the main pages &gt; showroom" time="2.6123448">
             <system-err>
 The tag &lt;search&gt; is unrecognized in this browser. If you meant to render a React component, start its name with an uppercase letter.
 
             </system-err>
         </testcase>
-        <testcase classname="src/pages/accessibility.test.tsx" name="axe: no detectable accessibility violations on the main pages &gt; showroom with the purchase dialog open" time="1.4013934">
+        <testcase classname="src/pages/accessibility.test.tsx" name="axe: no detectable accessibility violations on the main pages &gt; showroom with the purchase dialog open" time="2.1936123">
         </testcase>
-        <testcase classname="src/pages/accessibility.test.tsx" name="axe: no detectable accessibility violations on the main pages &gt; my orders" time="0.4008098">
+        <testcase classname="src/pages/accessibility.test.tsx" name="axe: no detectable accessibility violations on the main pages &gt; my orders" time="0.6408902">
         </testcase>
-        <testcase classname="src/pages/accessibility.test.tsx" name="axe: no detectable accessibility violations on the main pages &gt; admin inventory" time="1.0344532">
+        <testcase classname="src/pages/accessibility.test.tsx" name="axe: no detectable accessibility violations on the main pages &gt; admin inventory" time="1.5257575">
         </testcase>
-        <testcase classname="src/pages/accessibility.test.tsx" name="axe: no detectable accessibility violations on the main pages &gt; admin add dialog" time="1.6666085">
+        <testcase classname="src/pages/accessibility.test.tsx" name="axe: no detectable accessibility violations on the main pages &gt; admin add dialog" time="2.4862896">
         </testcase>
-        <testcase classname="src/pages/accessibility.test.tsx" name="axe: no detectable accessibility violations on the main pages &gt; 404" time="0.2675295">
-        </testcase>
-    </testsuite>
-    <testsuite name="src/pages/admin.test.tsx" timestamp="2026-10-24T20:30:06.696Z" hostname="shadabpc" tests="16" failures="0" errors="0" skipped="0" time="20.1055512">
-        <testcase classname="src/pages/admin.test.tsx" name="summary and table &gt; summarises the inventory from the real numbers" time="2.6719538">
-        </testcase>
-        <testcase classname="src/pages/admin.test.tsx" name="summary and table &gt; lists every car with price in INR and stock in words" time="1.6624693">
-        </testcase>
-        <testcase classname="src/pages/admin.test.tsx" name="summary and table &gt; searches the inventory and sorts by a column, saying which way it is sorted" time="1.9562286">
-        </testcase>
-        <testcase classname="src/pages/admin.test.tsx" name="summary and table &gt; shows an alert with a retry when the inventory cannot be loaded" time="0.5210084">
-        </testcase>
-        <testcase classname="src/pages/admin.test.tsx" name="add a vehicle &gt; checks required fields and says what to fix, without sending anything" time="0.9662901">
-        </testcase>
-        <testcase classname="src/pages/admin.test.tsx" name="add a vehicle &gt; rejects paint colours that are not hex codes" time="1.1768693">
-        </testcase>
-        <testcase classname="src/pages/admin.test.tsx" name="add a vehicle &gt; previews the car live as the form changes" time="1.52109">
-        </testcase>
-        <testcase classname="src/pages/admin.test.tsx" name="add a vehicle &gt; creates the vehicle in paise, closes the dialog, adds the row and reports it" time="2.7367591">
-        </testcase>
-        <testcase classname="src/pages/admin.test.tsx" name="edit a vehicle &gt; opens with the current values and saves a changed price" time="1.0888838">
-        </testcase>
-        <testcase classname="src/pages/admin.test.tsx" name="edit a vehicle &gt; shows the server&apos;s field errors next to the field" time="0.6715368">
-        </testcase>
-        <testcase classname="src/pages/admin.test.tsx" name="restock &gt; uses a quantity stepper whose button says exactly what will happen" time="1.515994">
-        </testcase>
-        <testcase classname="src/pages/admin.test.tsx" name="restock &gt; never goes below one unit" time="0.4888137">
-        </testcase>
-        <testcase classname="src/pages/admin.test.tsx" name="restock &gt; brings a sold-out car back into stock" time="0.9467472">
-        </testcase>
-        <testcase classname="src/pages/admin.test.tsx" name="delete &gt; names the car in the question and does nothing if cancelled" time="0.6578657">
-        </testcase>
-        <testcase classname="src/pages/admin.test.tsx" name="delete &gt; deletes after confirmation, removes the row and updates the summary" time="0.8246538">
-        </testcase>
-        <testcase classname="src/pages/admin.test.tsx" name="activity feed &gt; lists recent inventory events in plain words and refreshes after an action" time="0.6658059">
+        <testcase classname="src/pages/accessibility.test.tsx" name="axe: no detectable accessibility violations on the main pages &gt; 404" time="0.3738745">
         </testcase>
     </testsuite>
-    <testsuite name="src/pages/orders.test.tsx" timestamp="2026-10-24T20:30:06.704Z" hostname="shadabpc" tests="3" failures="0" errors="0" skipped="0" time="4.2147687">
-        <testcase classname="src/pages/orders.test.tsx" name="my orders &gt; invites a first purchase when there are no orders" time="1.7677263">
+    <testsuite name="src/pages/admin.test.tsx" timestamp="2026-10-25T08:37:50.843Z" hostname="shadabpc" tests="16" failures="0" errors="0" skipped="0" time="25.2891905">
+        <testcase classname="src/pages/admin.test.tsx" name="summary and table &gt; summarises the inventory from the real numbers" time="2.5109368">
         </testcase>
-        <testcase classname="src/pages/orders.test.tsx" name="my orders &gt; shows a loading status while the orders load" time="0.5785442">
+        <testcase classname="src/pages/admin.test.tsx" name="summary and table &gt; lists every car with price in INR and stock in words" time="1.6026445">
         </testcase>
-        <testcase classname="src/pages/orders.test.tsx" name="my orders &gt; lists what was bought with the price paid, not the current price" time="1.8387968">
+        <testcase classname="src/pages/admin.test.tsx" name="summary and table &gt; searches the inventory and sorts by a column, saying which way it is sorted" time="2.3672182">
+        </testcase>
+        <testcase classname="src/pages/admin.test.tsx" name="summary and table &gt; shows an alert with a retry when the inventory cannot be loaded" time="0.7853709">
+        </testcase>
+        <testcase classname="src/pages/admin.test.tsx" name="add a vehicle &gt; checks required fields and says what to fix, without sending anything" time="1.4544459">
+        </testcase>
+        <testcase classname="src/pages/admin.test.tsx" name="add a vehicle &gt; rejects paint colours that are not hex codes" time="1.9148523">
+        </testcase>
+        <testcase classname="src/pages/admin.test.tsx" name="add a vehicle &gt; previews the car live as the form changes" time="2.4173774">
+        </testcase>
+        <testcase classname="src/pages/admin.test.tsx" name="add a vehicle &gt; creates the vehicle in paise, closes the dialog, adds the row and reports it" time="4.1591152">
+        </testcase>
+        <testcase classname="src/pages/admin.test.tsx" name="edit a vehicle &gt; opens with the current values and saves a changed price" time="1.909579">
+        </testcase>
+        <testcase classname="src/pages/admin.test.tsx" name="edit a vehicle &gt; shows the server&apos;s field errors next to the field" time="0.9852315">
+        </testcase>
+        <testcase classname="src/pages/admin.test.tsx" name="restock &gt; uses a quantity stepper whose button says exactly what will happen" time="1.7854565">
+        </testcase>
+        <testcase classname="src/pages/admin.test.tsx" name="restock &gt; never goes below one unit" time="0.5120867">
+        </testcase>
+        <testcase classname="src/pages/admin.test.tsx" name="restock &gt; brings a sold-out car back into stock" time="0.8731038">
+        </testcase>
+        <testcase classname="src/pages/admin.test.tsx" name="delete &gt; names the car in the question and does nothing if cancelled" time="0.5845025">
+        </testcase>
+        <testcase classname="src/pages/admin.test.tsx" name="delete &gt; deletes after confirmation, removes the row and updates the summary" time="0.7606211">
+        </testcase>
+        <testcase classname="src/pages/admin.test.tsx" name="activity feed &gt; lists recent inventory events in plain words and refreshes after an action" time="0.6409571">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/pages/landing.test.tsx" timestamp="2026-10-25T08:37:50.849Z" hostname="shadabpc" tests="4" failures="0" errors="0" skipped="0" time="3.9894719">
+        <testcase classname="src/pages/landing.test.tsx" name="landing page at &quot;/&quot; &gt; shows signed-out visitors a hero, how it works, the demo note and the two sign-in buttons" time="1.430967">
+        </testcase>
+        <testcase classname="src/pages/landing.test.tsx" name="landing page at &quot;/&quot; &gt; does not ask the protected vehicle API for anything" time="0.2602772">
+        </testcase>
+        <testcase classname="src/pages/landing.test.tsx" name="landing page at &quot;/&quot; &gt; sends signed-in visitors to the showroom" time="0.6658624">
+            <system-err>
+The tag &lt;search&gt; is unrecognized in this browser. If you meant to render a React component, start its name with an uppercase letter.
+
+            </system-err>
+        </testcase>
+        <testcase classname="src/pages/landing.test.tsx" name="landing page at &quot;/&quot; &gt; has no detectable accessibility violations" time="1.601005">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/pages/orders.test.tsx" timestamp="2026-10-25T08:37:50.851Z" hostname="shadabpc" tests="3" failures="0" errors="0" skipped="0" time="3.7089045">
+        <testcase classname="src/pages/orders.test.tsx" name="my orders &gt; invites a first purchase when there are no orders" time="1.3612078">
+        </testcase>
+        <testcase classname="src/pages/orders.test.tsx" name="my orders &gt; shows a loading status while the orders load" time="0.4924798">
+        </testcase>
+        <testcase classname="src/pages/orders.test.tsx" name="my orders &gt; lists what was bought with the price paid, not the current price" time="1.8250287">
             <system-err>
 The tag &lt;search&gt; is unrecognized in this browser. If you meant to render a React component, start its name with an uppercase letter.
 
             </system-err>
         </testcase>
     </testsuite>
-    <testsuite name="src/pages/purchase.test.tsx" timestamp="2026-10-24T20:30:06.706Z" hostname="shadabpc" tests="5" failures="0" errors="0" skipped="0" time="5.8656013">
-        <testcase classname="src/pages/purchase.test.tsx" name="purchase flow &gt; asks for confirmation first, naming the car and the price, and says it is simulated" time="2.1217161">
+    <testsuite name="src/pages/purchase.test.tsx" timestamp="2026-10-25T08:37:50.853Z" hostname="shadabpc" tests="5" failures="0" errors="0" skipped="0" time="5.8135816">
+        <testcase classname="src/pages/purchase.test.tsx" name="purchase flow &gt; asks for confirmation first, naming the car and the price, and says it is simulated" time="1.8711179">
             <system-err>
 The tag &lt;search&gt; is unrecognized in this browser. If you meant to render a React component, start its name with an uppercase letter.
 
             </system-err>
         </testcase>
-        <testcase classname="src/pages/purchase.test.tsx" name="purchase flow &gt; does nothing when the visitor cancels, and puts focus back on the Buy button" time="1.0793133">
+        <testcase classname="src/pages/purchase.test.tsx" name="purchase flow &gt; does nothing when the visitor cancels, and puts focus back on the Buy button" time="1.1161266">
         </testcase>
-        <testcase classname="src/pages/purchase.test.tsx" name="purchase flow &gt; buys one unit: stock drops on the card, a toast reports the real result, an order exists" time="1.0678038">
+        <testcase classname="src/pages/purchase.test.tsx" name="purchase flow &gt; buys one unit: stock drops on the card, a toast reports the real result, an order exists" time="1.0495623">
         </testcase>
-        <testcase classname="src/pages/purchase.test.tsx" name="purchase flow &gt; turns the button into a disabled &quot;Sold out&quot; when the last unit is bought" time="0.8184369">
+        <testcase classname="src/pages/purchase.test.tsx" name="purchase flow &gt; turns the button into a disabled &quot;Sold out&quot; when the last unit is bought" time="0.8306525">
         </testcase>
-        <testcase classname="src/pages/purchase.test.tsx" name="purchase flow &gt; rolls back and explains when someone else bought the last unit first (409)" time="0.7465965">
+        <testcase classname="src/pages/purchase.test.tsx" name="purchase flow &gt; rolls back and explains when someone else bought the last unit first (409)" time="0.9119377">
         </testcase>
     </testsuite>
-    <testsuite name="src/pages/showroom.test.tsx" timestamp="2026-10-24T20:30:06.709Z" hostname="shadabpc" tests="18" failures="0" errors="0" skipped="0" time="12.907844">
-        <testcase classname="src/pages/showroom.test.tsx" name="showroom listing &gt; shows a loading status first, then every car with name, price and category" time="2.2364169">
+    <testsuite name="src/pages/showroom.test.tsx" timestamp="2026-10-25T08:37:50.855Z" hostname="shadabpc" tests="18" failures="0" errors="0" skipped="0" time="16.8927951">
+        <testcase classname="src/pages/showroom.test.tsx" name="showroom listing &gt; shows a loading status first, then every car with name, price and category" time="2.0041909">
             <system-err>
 The tag &lt;search&gt; is unrecognized in this browser. If you meant to render a React component, start its name with an uppercase letter.
 
             </system-err>
         </testcase>
-        <testcase classname="src/pages/showroom.test.tsx" name="showroom listing &gt; announces the number of results in a live region" time="0.4170058">
+        <testcase classname="src/pages/showroom.test.tsx" name="showroom listing &gt; announces the number of results in a live region" time="0.5470764">
         </testcase>
-        <testcase classname="src/pages/showroom.test.tsx" name="showroom listing &gt; states stock in words: how many, &quot;Low stock&quot; at 3 or fewer, &quot;Sold out&quot; at zero" time="0.6293604">
+        <testcase classname="src/pages/showroom.test.tsx" name="showroom listing &gt; states stock in words: how many, &quot;Low stock&quot; at 3 or fewer, &quot;Sold out&quot; at zero" time="0.6182747">
         </testcase>
-        <testcase classname="src/pages/showroom.test.tsx" name="showroom listing &gt; disables Purchase with the text &quot;Sold out&quot; only on the car with no stock" time="0.6422986">
+        <testcase classname="src/pages/showroom.test.tsx" name="showroom listing &gt; disables Purchase with the text &quot;Sold out&quot; only on the car with no stock" time="0.7812091">
         </testcase>
-        <testcase classname="src/pages/showroom.test.tsx" name="showroom listing &gt; draws each car as an image described for screen readers" time="0.5198327">
+        <testcase classname="src/pages/showroom.test.tsx" name="showroom listing &gt; draws each car as an image described for screen readers" time="0.4446011">
         </testcase>
-        <testcase classname="src/pages/showroom.test.tsx" name="showroom listing &gt; lets the visitor try another paint, which re-describes the car and re-tints the card" time="0.6242127">
+        <testcase classname="src/pages/showroom.test.tsx" name="showroom listing &gt; lets the visitor try another paint, which re-describes the car and re-tints the card" time="0.7391511">
         </testcase>
-        <testcase classname="src/pages/showroom.test.tsx" name="showroom listing &gt; asks the API for page 1 of 12, newest first, by default" time="0.3268697">
+        <testcase classname="src/pages/showroom.test.tsx" name="showroom listing &gt; asks the API for page 1 of 12, newest first, by default" time="0.411405">
         </testcase>
-        <testcase classname="src/pages/showroom.test.tsx" name="filters &gt; searches make or model after a short pause and shows only matches" time="0.9518138">
+        <testcase classname="src/pages/showroom.test.tsx" name="filters &gt; searches make or model after a short pause and shows only matches" time="1.2357355">
         </testcase>
-        <testcase classname="src/pages/showroom.test.tsx" name="filters &gt; filters by category with toggle buttons that say which one is on" time="0.5804487">
+        <testcase classname="src/pages/showroom.test.tsx" name="filters &gt; filters by category with toggle buttons that say which one is on" time="0.8761333">
         </testcase>
-        <testcase classname="src/pages/showroom.test.tsx" name="filters &gt; filters by a price range typed in rupees and sends it to the API in paise" time="1.105439">
+        <testcase classname="src/pages/showroom.test.tsx" name="filters &gt; filters by a price range typed in rupees and sends it to the API in paise" time="1.51232">
         </testcase>
-        <testcase classname="src/pages/showroom.test.tsx" name="filters &gt; explains a minimum above the maximum instead of sending a request the API would reject" time="1.6083966">
+        <testcase classname="src/pages/showroom.test.tsx" name="filters &gt; explains a minimum above the maximum instead of sending a request the API would reject" time="2.363925">
         </testcase>
-        <testcase classname="src/pages/showroom.test.tsx" name="filters &gt; filters to cars in stock" time="0.4620387">
+        <testcase classname="src/pages/showroom.test.tsx" name="filters &gt; filters to cars in stock" time="0.8054">
         </testcase>
-        <testcase classname="src/pages/showroom.test.tsx" name="filters &gt; sorts by price when asked" time="0.458578">
+        <testcase classname="src/pages/showroom.test.tsx" name="filters &gt; sorts by price when asked" time="0.8087681">
         </testcase>
-        <testcase classname="src/pages/showroom.test.tsx" name="filters &gt; keeps filters in the URL, so a shared link opens with them applied" time="0.3402144">
+        <testcase classname="src/pages/showroom.test.tsx" name="filters &gt; keeps filters in the URL, so a shared link opens with them applied" time="0.4943588">
         </testcase>
-        <testcase classname="src/pages/showroom.test.tsx" name="empty, error and paging states &gt; invites the visitor to clear filters when nothing matches, and clearing brings the cars back" time="0.4083518">
+        <testcase classname="src/pages/showroom.test.tsx" name="empty, error and paging states &gt; invites the visitor to clear filters when nothing matches, and clearing brings the cars back" time="0.5590386">
         </testcase>
-        <testcase classname="src/pages/showroom.test.tsx" name="empty, error and paging states &gt; shows an empty-inventory message, without a Clear filters button, when there are no cars at all" time="0.1792964">
+        <testcase classname="src/pages/showroom.test.tsx" name="empty, error and paging states &gt; shows an empty-inventory message, without a Clear filters button, when there are no cars at all" time="0.2771223">
         </testcase>
-        <testcase classname="src/pages/showroom.test.tsx" name="empty, error and paging states &gt; says what went wrong when the API fails and retries on request" time="0.3029877">
+        <testcase classname="src/pages/showroom.test.tsx" name="empty, error and paging states &gt; says what went wrong when the API fails and retries on request" time="0.5659226">
         </testcase>
-        <testcase classname="src/pages/showroom.test.tsx" name="empty, error and paging states &gt; pages through more than 12 cars and keeps the page in the URL" time="1.0780655">
+        <testcase classname="src/pages/showroom.test.tsx" name="empty, error and paging states &gt; pages through more than 12 cars and keeps the page in the URL" time="1.819842">
         </testcase>
     </testsuite>
-    <testsuite name="src/test/axe.test.tsx" timestamp="2026-10-24T20:30:06.717Z" hostname="shadabpc" tests="2" failures="0" errors="0" skipped="0" time="0.9925283">
-        <testcase classname="src/test/axe.test.tsx" name="axeViolations helper &gt; reports a real problem, so a clean result elsewhere means something" time="0.8370318">
+    <testsuite name="src/pages/vehicleDetail.test.tsx" timestamp="2026-10-25T08:37:50.862Z" hostname="shadabpc" tests="12" failures="0" errors="0" skipped="0" time="8.0371855">
+        <testcase classname="src/pages/vehicleDetail.test.tsx" name="vehicle detail page &gt; shows the car, its price and stock, its specs and a way back" time="1.6767657">
         </testcase>
-        <testcase classname="src/test/axe.test.tsx" name="axeViolations helper &gt; reports nothing for an accessible snippet" time="0.1256088">
+        <testcase classname="src/pages/vehicleDetail.test.tsx" name="vehicle detail page &gt; lets the visitor pick a paint, and the picture follows" time="0.8527096">
+        </testcase>
+        <testcase classname="src/pages/vehicleDetail.test.tsx" name="vehicle detail page &gt; buys one unit after confirmation and shows the new stock" time="0.8126726">
+        </testcase>
+        <testcase classname="src/pages/vehicleDetail.test.tsx" name="vehicle detail page &gt; disables Buy for a sold-out car and says why" time="0.3399428">
+        </testcase>
+        <testcase classname="src/pages/vehicleDetail.test.tsx" name="vehicle detail page &gt; says so when the car does not exist" time="0.3074188">
+        </testcase>
+        <testcase classname="src/pages/vehicleDetail.test.tsx" name="vehicle detail page &gt; sends a signed-out visitor to sign in first" time="0.1424674">
+        </testcase>
+        <testcase classname="src/pages/vehicleDetail.test.tsx" name="vehicle detail page &gt; has no detectable accessibility violations" time="1.6542198">
+        </testcase>
+        <testcase classname="src/pages/vehicleDetail.test.tsx" name="showroom cards link to the detail page &gt; has a &quot;View details&quot; link on every card" time="0.4529489">
+            <system-err>
+The tag &lt;search&gt; is unrecognized in this browser. If you meant to render a React component, start its name with an uppercase letter.
+
+            </system-err>
+        </testcase>
+        <testcase classname="src/pages/vehicleDetail.test.tsx" name="page accent follows the paint &gt; sets the accent for the first paint, moves it with the choice, and clears it on leaving" time="0.3210139">
+        </testcase>
+        <testcase classname="src/pages/vehicleDetail.test.tsx" name="page accent follows the paint &gt; uses a darker shade when the paint is too light to read as text" time="0.1796046">
+        </testcase>
+        <testcase classname="src/pages/vehicleDetail.test.tsx" name="purchase moment &gt; shows a plain confirmation with the price paid and the stock left, and a link to the orders" time="0.7039696">
+        </testcase>
+        <testcase classname="src/pages/vehicleDetail.test.tsx" name="purchase moment &gt; does not show the confirmation when the purchase is refused" time="0.5610698">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/studio/CarViewer.test.tsx" timestamp="2026-10-25T08:37:50.867Z" hostname="shadabpc" tests="17" failures="0" errors="0" skipped="0" time="3.0164953">
+        <testcase classname="src/studio/CarViewer.test.tsx" name="CarViewer with WebGL &gt; draws the SVG car at once, then swaps in the 3D scene once it reports ready" time="1.0806998">
+        </testcase>
+        <testcase classname="src/studio/CarViewer.test.tsx" name="CarViewer with WebGL &gt; describes the 3D view to screen readers with the same description as the SVG" time="0.0740749">
+        </testcase>
+        <testcase classname="src/studio/CarViewer.test.tsx" name="CarViewer with WebGL &gt; passes the chosen view to the scene and rotates with the arrow keys" time="0.3693829">
+        </testcase>
+        <testcase classname="src/studio/CarViewer.test.tsx" name="CarViewer hotspots &gt; hands the markers and an overlay element to the scene" time="0.0461284">
+        </testcase>
+        <testcase classname="src/studio/CarViewer.test.tsx" name="CarViewer quality tier &gt; records the chosen tier on the 3D area, for debugging and checks" time="0.0348787">
+        </testcase>
+        <testcase classname="src/studio/CarViewer.test.tsx" name="CarViewer purchase moment &gt; passes a moment counter to the scene that rises with each purchase" time="0.0408432">
+        </testcase>
+        <testcase classname="src/studio/CarViewer.test.tsx" name="CarViewer purchase moment &gt; defaults to no moment" time="0.0301535">
+        </testcase>
+        <testcase classname="src/studio/CarViewer.test.tsx" name="CarViewer intro &gt; plays the clay-to-render intro once per session and lets the visitor skip it" time="0.2298006">
+        </testcase>
+        <testcase classname="src/studio/CarViewer.test.tsx" name="CarViewer intro &gt; ends by itself when the scene says the intro is over" time="0.0407368">
+        </testcase>
+        <testcase classname="src/studio/CarViewer.test.tsx" name="CarViewer intro &gt; does nothing unless the page asks for it" time="0.0525155">
+        </testcase>
+        <testcase classname="src/studio/CarViewer.test.tsx" name="CarViewer fallbacks to the SVG car &gt; without WebGL" time="0.120303">
+            <system-err>
+An update to CarViewer inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() =&gt; {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you&apos;re testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+            </system-err>
+        </testcase>
+        <testcase classname="src/studio/CarViewer.test.tsx" name="CarViewer fallbacks to the SVG car &gt; when the visitor prefers reduced motion" time="0.1178011">
+            <system-err>
+An update to CarViewer inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() =&gt; {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you&apos;re testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+            </system-err>
+        </testcase>
+        <testcase classname="src/studio/CarViewer.test.tsx" name="CarViewer fallbacks to the SVG car &gt; when Save-Data is on" time="0.096419">
+            <system-err>
+An update to CarViewer inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() =&gt; {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you&apos;re testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+            </system-err>
+        </testcase>
+        <testcase classname="src/studio/CarViewer.test.tsx" name="CarViewer fallbacks to the SVG car &gt; on a low-tier phone" time="0.1638913">
+            <system-err>
+An update to CarViewer inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() =&gt; {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you&apos;re testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+            </system-err>
+        </testcase>
+        <testcase classname="src/studio/CarViewer.test.tsx" name="CarViewer fallbacks to the SVG car &gt; hides the view controls while the SVG is showing" time="0.143757">
+            <system-err>
+An update to CarViewer inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() =&gt; {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you&apos;re testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+            </system-err>
+        </testcase>
+        <testcase classname="src/studio/CarViewer.test.tsx" name="CarViewer fallbacks to the SVG car &gt; when the scene throws, and says nothing alarming" time="0.1894996">
+        </testcase>
+        <testcase classname="src/studio/CarViewer.test.tsx" name="CarViewer fallbacks to the SVG car &gt; while the WebGL context is lost, and back to 3D when it is restored" time="0.1536539">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/studio/HoverTurn.test.tsx" timestamp="2026-10-25T08:37:50.875Z" hostname="shadabpc" tests="8" failures="0" errors="0" skipped="0" time="2.3427476">
+        <testcase classname="src/studio/HoverTurn.test.tsx" name="hover turn &gt; mounts exactly one shared canvas for any number of cards" time="0.479653">
+        </testcase>
+        <testcase classname="src/studio/HoverTurn.test.tsx" name="hover turn &gt; turns only the hovered card in 3D, and puts the picture back on leaving" time="1.0038663">
+        </testcase>
+        <testcase classname="src/studio/HoverTurn.test.tsx" name="hover turn &gt; fades the flat picture out once the 3D car has drawn its first frame" time="0.2238514">
+        </testcase>
+        <testcase classname="src/studio/HoverTurn.test.tsx" name="hover turn &gt; keeps every card as a plain picture, with no canvas, when WebGL is missing" time="0.1214232">
+        </testcase>
+        <testcase classname="src/studio/HoverTurn.test.tsx" name="hover turn &gt; does nothing when the visitor prefers reduced motion" time="0.1256019">
+        </testcase>
+        <testcase classname="src/studio/HoverTurn.test.tsx" name="hover turn &gt; does nothing when the device is on the low tier" time="0.1435896">
+        </testcase>
+        <testcase classname="src/studio/HoverTurn.test.tsx" name="hover turn &gt; does nothing when the device has no hover (touch)" time="0.1426579">
+        </testcase>
+        <testcase classname="src/studio/HoverTurn.test.tsx" name="hover turn &gt; works on a page with no provider: cards are just pictures" time="0.0740193">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/studio/geometry.test.ts" timestamp="2026-10-25T08:37:50.878Z" hostname="shadabpc" tests="23" failures="0" errors="0" skipped="0" time="25.6057543">
+        <testcase classname="src/studio/geometry.test.ts" name="buildBodyGeometry &gt; HATCHBACK spans its own dimensions, centred on the car axis" time="1.7142145">
+        </testcase>
+        <testcase classname="src/studio/geometry.test.ts" name="buildBodyGeometry &gt; SEDAN spans its own dimensions, centred on the car axis" time="1.0659324">
+        </testcase>
+        <testcase classname="src/studio/geometry.test.ts" name="buildBodyGeometry &gt; SUV spans its own dimensions, centred on the car axis" time="1.337295">
+        </testcase>
+        <testcase classname="src/studio/geometry.test.ts" name="buildBodyGeometry &gt; COUPE spans its own dimensions, centred on the car axis" time="1.213417">
+        </testcase>
+        <testcase classname="src/studio/geometry.test.ts" name="buildBodyGeometry &gt; CONVERTIBLE spans its own dimensions, centred on the car axis" time="0.8277819">
+        </testcase>
+        <testcase classname="src/studio/geometry.test.ts" name="buildBodyGeometry &gt; TRUCK spans its own dimensions, centred on the car axis" time="1.0194138">
+        </testcase>
+        <testcase classname="src/studio/geometry.test.ts" name="buildBodyGeometry &gt; EV spans its own dimensions, centred on the car axis" time="1.1848592">
+        </testcase>
+        <testcase classname="src/studio/geometry.test.ts" name="buildBodyGeometry &gt; SPORTS spans its own dimensions, centred on the car axis" time="1.0221313">
+        </testcase>
+        <testcase classname="src/studio/geometry.test.ts" name="buildBodyGeometry &gt; HATCHBACK has finite positions and normals and a texture mapping" time="1.4623959">
+        </testcase>
+        <testcase classname="src/studio/geometry.test.ts" name="buildBodyGeometry &gt; SEDAN has finite positions and normals and a texture mapping" time="1.1435367">
+        </testcase>
+        <testcase classname="src/studio/geometry.test.ts" name="buildBodyGeometry &gt; SUV has finite positions and normals and a texture mapping" time="1.3500376">
+        </testcase>
+        <testcase classname="src/studio/geometry.test.ts" name="buildBodyGeometry &gt; COUPE has finite positions and normals and a texture mapping" time="1.1286768">
+        </testcase>
+        <testcase classname="src/studio/geometry.test.ts" name="buildBodyGeometry &gt; CONVERTIBLE has finite positions and normals and a texture mapping" time="0.831797">
+        </testcase>
+        <testcase classname="src/studio/geometry.test.ts" name="buildBodyGeometry &gt; TRUCK has finite positions and normals and a texture mapping" time="1.0984923">
+        </testcase>
+        <testcase classname="src/studio/geometry.test.ts" name="buildBodyGeometry &gt; EV has finite positions and normals and a texture mapping" time="1.2467619">
+        </testcase>
+        <testcase classname="src/studio/geometry.test.ts" name="buildBodyGeometry &gt; SPORTS has finite positions and normals and a texture mapping" time="1.1480222">
+        </testcase>
+        <testcase classname="src/studio/geometry.test.ts" name="buildBodyGeometry &gt; narrows toward the nose: the front tenth is slimmer than the middle" time="0.929922">
+        </testcase>
+        <testcase classname="src/studio/geometry.test.ts" name="buildBodyGeometry &gt; is a different shape for every body style" time="5.8170611">
+        </testcase>
+        <testcase classname="src/studio/geometry.test.ts" name="buildGlassGeometry &gt; exists for a closed car, sits above the belt line and stays inside the roof" time="0.0156565">
+        </testcase>
+        <testcase classname="src/studio/geometry.test.ts" name="buildGlassGeometry &gt; is wider than the cabin sides so it shows as a window, not a hidden slab" time="0.0116766">
+        </testcase>
+        <testcase classname="src/studio/geometry.test.ts" name="buildGlassGeometry &gt; is null for the convertible" time="0.000456">
+        </testcase>
+        <testcase classname="src/studio/geometry.test.ts" name="wheels &gt; builds a tyre whose outer radius is the wheel radius, lying across the car (z axis)" time="0.0027545">
+        </testcase>
+        <testcase classname="src/studio/geometry.test.ts" name="wheels &gt; builds a rim that fits inside the tyre" time="0.0048914">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/studio/helpers.test.ts" timestamp="2026-10-25T08:37:50.885Z" hostname="shadabpc" tests="12" failures="0" errors="0" skipped="0" time="0.4656385">
+        <testcase classname="src/studio/helpers.test.ts" name="viewPose &gt; puts each named view on its own side of the car, looking at its middle" time="0.0071297">
+        </testcase>
+        <testcase classname="src/studio/helpers.test.ts" name="viewPose &gt; starts the free orbit at a three-quarter view from the front-right, slightly above" time="0.0007336">
+        </testcase>
+        <testcase classname="src/studio/helpers.test.ts" name="viewPose &gt; backs the camera off on a narrower screen so the whole car still fits" time="0.0006769">
+        </testcase>
+        <testcase classname="src/studio/helpers.test.ts" name="viewPose &gt; only returns finite numbers" time="0.0018708">
+        </testcase>
+        <testcase classname="src/studio/helpers.test.ts" name="paint colour animation &gt; converts hex to 0-1 channels and back" time="0.003213">
+        </testcase>
+        <testcase classname="src/studio/helpers.test.ts" name="paint colour animation &gt; moves toward the target without overshooting, and arrives" time="0.017411">
+        </testcase>
+        <testcase classname="src/studio/helpers.test.ts" name="paint colour animation &gt; does not move at all when no time has passed" time="0.0007254">
+        </testcase>
+        <testcase classname="src/studio/helpers.test.ts" name="flakeNormalData &gt; fills a square RGBA texture and is the same every time for the same seed" time="0.1475395">
+        </testcase>
+        <testcase classname="src/studio/helpers.test.ts" name="flakeNormalData &gt; is mostly flat (pointing out of the surface) with a scattering of tilted flakes" time="0.2519871">
+        </testcase>
+        <testcase classname="src/studio/helpers.test.ts" name="resource cache &gt; hands out one shared instance per key" time="0.0017924">
+        </testcase>
+        <testcase classname="src/studio/helpers.test.ts" name="resource cache &gt; disposes only when the last user lets go, then rebuilds on demand" time="0.0014595">
+        </testcase>
+        <testcase classname="src/studio/helpers.test.ts" name="resource cache &gt; ignores a release for a key it does not hold" time="0.0027691">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/studio/intro.test.ts" timestamp="2026-10-25T08:37:50.890Z" hostname="shadabpc" tests="8" failures="0" errors="0" skipped="0" time="0.0493002">
+        <testcase classname="src/studio/intro.test.ts" name="introState &gt; holds the clay look first, then sweeps, then is done" time="0.0126524">
+        </testcase>
+        <testcase classname="src/studio/intro.test.ts" name="introState &gt; eases the sweep: monotonic, 0 to 1, slow at both ends" time="0.0039493">
+        </testcase>
+        <testcase classname="src/studio/intro.test.ts" name="introState &gt; treats negative time as the start" time="0.0005616">
+        </testcase>
+        <testcase classname="src/studio/intro.test.ts" name="introState &gt; keeps the whole intro under three seconds" time="0.0004305">
+        </testcase>
+        <testcase classname="src/studio/intro.test.ts" name="sweepX &gt; starts behind the tail and ends past the nose" time="0.0007733">
+        </testcase>
+        <testcase classname="src/studio/intro.test.ts" name="shouldPlayIntro &gt; plays once per session: the first call says yes and marks it, the second says no" time="0.0008298">
+        </testcase>
+        <testcase classname="src/studio/intro.test.ts" name="shouldPlayIntro &gt; never plays under reduced motion, and does not use up the session flag" time="0.0004376">
+        </testcase>
+        <testcase classname="src/studio/intro.test.ts" name="shouldPlayIntro &gt; still plays at most once per page load when storage is unavailable" time="0.000516">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/studio/moment.test.ts" timestamp="2026-10-25T08:37:50.893Z" hostname="shadabpc" tests="6" failures="0" errors="0" skipped="0" time="0.0656434">
+        <testcase classname="src/studio/moment.test.ts" name="momentState (the purchase moment) &gt; pulls the camera back and returns it: zero at both ends, one at the midpoint" time="0.0082921">
+        </testcase>
+        <testcase classname="src/studio/moment.test.ts" name="momentState (the purchase moment) &gt; never pulls by a negative amount or more than one" time="0.0108872">
+        </testcase>
+        <testcase classname="src/studio/moment.test.ts" name="momentState (the purchase moment) &gt; starts the light sweep after the pull has begun, eased from 0 to 1" time="0.0029268">
+        </testcase>
+        <testcase classname="src/studio/moment.test.ts" name="momentState (the purchase moment) &gt; is over once the total time has passed, with no sweep left running" time="0.0040234">
+        </testcase>
+        <testcase classname="src/studio/moment.test.ts" name="momentState (the purchase moment) &gt; is short: under three seconds, and the sweep ends inside the total" time="0.0005144">
+        </testcase>
+        <testcase classname="src/studio/moment.test.ts" name="pullScale &gt; is 1 at rest and grows by at most a quarter-ish at the peak" time="0.0006293">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/studio/quality.test.ts" timestamp="2026-10-25T08:37:50.895Z" hostname="shadabpc" tests="20" failures="0" errors="0" skipped="0" time="0.120262">
+        <testcase classname="src/studio/quality.test.ts" name="chooseTier &gt; gives a strong desktop the high tier" time="0.0069842">
+        </testcase>
+        <testcase classname="src/studio/quality.test.ts" name="chooseTier &gt; gives a mid-range laptop the medium tier" time="0.0007163">
+        </testcase>
+        <testcase classname="src/studio/quality.test.ts" name="chooseTier &gt; drops to low for little memory" time="0.0009275">
+        </testcase>
+        <testcase classname="src/studio/quality.test.ts" name="chooseTier &gt; drops to low for two cores" time="0.0003696">
+        </testcase>
+        <testcase classname="src/studio/quality.test.ts" name="chooseTier &gt; drops to low for Save-Data on" time="0.0003512">
+        </testcase>
+        <testcase classname="src/studio/quality.test.ts" name="chooseTier &gt; drops to low for a slow frame probe" time="0.0003764">
+        </testcase>
+        <testcase classname="src/studio/quality.test.ts" name="chooseTier &gt; drops to low for a phone with few cores" time="0.0003532">
+        </testcase>
+        <testcase classname="src/studio/quality.test.ts" name="chooseTier &gt; does not give a phone the high tier, however strong" time="0.0004871">
+        </testcase>
+        <testcase classname="src/studio/quality.test.ts" name="chooseTier &gt; copes with browsers that hide memory, core count and the probe" time="0.0008043">
+        </testcase>
+        <testcase classname="src/studio/quality.test.ts" name="chooseTier &gt; does not let a slow probe on a strong desktop be ignored" time="0.0006441">
+        </testcase>
+        <testcase classname="src/studio/quality.test.ts" name="dprFor &gt; caps the pixel ratio per tier: 1.5 high, 1.25 medium, 1 low" time="0.0006849">
+        </testcase>
+        <testcase classname="src/studio/quality.test.ts" name="dprFor &gt; never goes above what the screen has, and never below 1" time="0.0005663">
+        </testcase>
+        <testcase classname="src/studio/quality.test.ts" name="fallbackReason &gt; is null when everything allows 3D" time="0.0007449">
+        </testcase>
+        <testcase classname="src/studio/quality.test.ts" name="fallbackReason &gt; names the first reason 3D is not allowed" time="0.0007522">
+        </testcase>
+        <testcase classname="src/studio/quality.test.ts" name="fallbackReason &gt; keeps 3D on a phone that reaches the medium tier, and on a low-tier desktop" time="0.0005497">
+        </testcase>
+        <testcase classname="src/studio/quality.test.ts" name="fallbackReason &gt; reports a missing WebGL before anything else" time="0.0004685">
+        </testcase>
+        <testcase classname="src/studio/quality.test.ts" name="readEnvironment &gt; reads the window, navigator and media queries" time="0.0043043">
+        </testcase>
+        <testcase classname="src/studio/quality.test.ts" name="readEnvironment &gt; survives a browser with no matchMedia or connection info" time="0.0008889">
+        </testcase>
+        <testcase classname="src/studio/quality.test.ts" name="probeFrameTime &gt; averages the gap between animation frames" time="0.0700062">
+        </testcase>
+        <testcase classname="src/studio/quality.test.ts" name="probeFrameTime &gt; resolves null when there is no requestAnimationFrame" time="0.0006782">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/studio/refine.test.ts" timestamp="2026-10-25T08:37:50.902Z" hostname="shadabpc" tests="5" failures="0" errors="0" skipped="0" time="0.2260576">
+        <testcase classname="src/studio/refine.test.ts" name="refineLongEdges &gt; splits until no edge is longer than the limit" time="0.011829">
+        </testcase>
+        <testcase classname="src/studio/refine.test.ts" name="refineLongEdges &gt; keeps the surface the same: total area and bounds do not change" time="0.0040485">
+        </testcase>
+        <testcase classname="src/studio/refine.test.ts" name="refineLongEdges &gt; leaves no crack: no vertex sits in the middle of another triangle&apos;s edge" time="0.1524224">
+        </testcase>
+        <testcase classname="src/studio/refine.test.ts" name="refineLongEdges &gt; shares every inner edge between exactly two triangles" time="0.0049822">
+        </testcase>
+        <testcase classname="src/studio/refine.test.ts" name="refineLongEdges &gt; does nothing to a mesh that is already fine" time="0.0006881">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/test/axe.test.tsx" timestamp="2026-10-25T08:37:50.904Z" hostname="shadabpc" tests="2" failures="0" errors="0" skipped="0" time="0.8758772">
+        <testcase classname="src/test/axe.test.tsx" name="axeViolations helper &gt; reports a real problem, so a clean result elsewhere means something" time="0.7314367">
+        </testcase>
+        <testcase classname="src/test/axe.test.tsx" name="axeViolations helper &gt; reports nothing for an accessible snippet" time="0.1131462">
         </testcase>
     </testsuite>
 </testsuites>

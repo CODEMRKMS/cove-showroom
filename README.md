@@ -270,27 +270,29 @@ Not built, so not shown: dark mode.
 
 ## Test report
 
-Test counts come from `npm test` run on 25 Oct 2026 after the 3D studio was merged. Coverage
-figures come from `npm run test:coverage` (backend, unchanged since the report was generated) and from
-a frontend coverage run on 25 Oct 2026 (see the note below). Nothing is edited by hand.
+Numbers below come from `npm run test:report`, run on 25 Oct 2026 after the 3D studio was merged and
+the report files in `docs/test-report/` were regenerated. They are not edited by hand.
 
 | | Test files | Tests | Statements | Branches | Functions | Lines |
 | --- | --- | --- | --- | --- | --- | --- |
 | Backend (Vitest + Supertest, real PostgreSQL) | 41 | 383 passed | 99.26% | 96.81% | 99.46% | 99.6% |
-| Frontend (Vitest + Testing Library + MSW) | 27 | 366 passed | 71.03% | 72.74% | 71.37% | 72.16% |
+| Frontend (Vitest + Testing Library + MSW) | 27 | 366 passed | 92.17% | 86.2% | 90.88% | 93.09% |
 
 Total: 749 tests, all passing.
 
 Backend coverage excludes the two command-line entry points (`src/server.ts`, `src/seed/run.ts`) and the
 generated Prisma client. `src/server.ts` was checked by running it: it starts, logs, and shuts down
 cleanly on SIGINT. The backend run enforces a 90% threshold on services, controllers and middleware and
-passed. The frontend has no coverage threshold; the number is reported, not enforced. Frontend coverage fell
-from 91% (171 tests, before the 3D work) to 71% because the WebGL scene cannot run in jsdom; it is
-covered by manual checks in a real browser (see [3D studio](#3d-studio)), not by unit tests. One
-frontend test (`geometry.test.ts`, "is a different shape for every body style") exceeds Vitest's default 5 s
-timeout when coverage instrumentation is on and passes in the plain `npm test` run; the 71% figures come
-from a coverage run with `--testTimeout=30000`. The HTML and JUnit reports in `docs/test-report/` were
-generated before the 3D work and were **not regenerated**, so they still show the earlier 171 frontend tests.
+passed.
+
+**Frontend coverage excludes the WebGL render components** (`CarModel`, `Hotspots`, `HoverCar`,
+`HoverStage`, `PostFX`, `StudioLights`, `StudioScene` in `frontend/src/studio/`, listed with the reason
+in `frontend/vite.config.ts`). They need a WebGL context, which jsdom does not provide, so they cannot run in
+a unit test. They were verified by running the app in a real browser (headless Chromium with software
+GL, see [3D studio](#3d-studio) and `docs/3d-report.md`), not by automated tests. The pure 3D helpers
+(geometry, quality tiers, intro, purchase moment, refinement, and so on) and every other file stay in the
+numbers above. The frontend has no coverage threshold; the number is reported, not enforced. For
+comparison, before the 3D work the frontend figure was 91.16% statements with 171 tests.
 
 Reports (all generated files):
 
@@ -335,7 +337,7 @@ the running app; jsdom does not load CSS) are labelled as such in their messages
   Self-hosted font files load on demand.
 - **Lighthouse, LCP, INP, CLS:** **not measured.** No numbers are given because none were taken.
 
-\## My AI Usage
+## My AI Usage
 
 
 
