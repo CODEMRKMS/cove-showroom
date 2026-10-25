@@ -11,25 +11,6 @@ admins add, edit, restock and delete cars.
 
 ![The Cove showroom](docs/screenshots/showroom.png)
 
-<!--
-TODO(me): add these captures to docs/screenshots/ (real screenshots of the running app, 1280 px wide
-unless the name says mobile, which is 360 px). The README references exactly these file names:
-  showroom.png            showroom signed in as a buyer (also the hero image above)
-  showroom-filters.png    search text plus a category and price filter applied
-  showroom-sold-out.png   a card whose Purchase button reads "Sold out" and is disabled
-  purchase-confirm.png    the confirm dialog before buying
-  purchase-success.png    the toast after a successful purchase, with the stock already lowered
-  orders.png              My orders with at least one row
-  admin.png               admin inventory dashboard (summary, table, activity feed)
-  admin-add.png           the Add vehicle dialog
-  login.png               login page
-  register.png           register page showing a validation error
-  mobile-showroom.png     showroom at 360 px wide
-  mobile-admin.png        admin inventory at 360 px wide
-  not-found.png           the 404 page
-  api-docs.png            Swagger UI at /api/docs
--->
-
 ## Contents
 
 1. [What the kata asks for and where it lives](#what-the-kata-asks-for-and-where-it-lives)
@@ -238,24 +219,30 @@ Every error has the same shape:
 
 ## Screenshots
 
+All captured from the running app (headless Chromium, 1280x800 unless marked 360 px) against the
+seeded `cove_dev` database. The landing page and the vehicle detail page render the 3D car; the
+showroom cards and the admin dialog use the SVG illustration.
+
 | | |
 | --- | --- |
-| ![Showroom](docs/screenshots/showroom.png) | ![Search and filters](docs/screenshots/showroom-filters.png) |
-| Showroom | Search and filters |
-| ![Sold out](docs/screenshots/showroom-sold-out.png) | ![Confirm purchase](docs/screenshots/purchase-confirm.png) |
-| Purchase disabled at zero stock | Confirm dialog |
+| ![Landing](docs/screenshots/landing.png) | ![Login](docs/screenshots/login.png) |
+| Landing page, signed out, with the 3D car | Sign-in form |
+| ![Register](docs/screenshots/register.png) | ![Showroom](docs/screenshots/showroom.png) |
+| Registration form | Showroom as a buyer |
+| ![Search and filters](docs/screenshots/showroom-filters.png) | ![Sold out](docs/screenshots/showroom-sold-out.png) |
+| Search text, SUV category and price range applied | Sold-out card with a disabled button |
+| ![Vehicle detail](docs/screenshots/vehicle-detail.png) | ![Confirm purchase](docs/screenshots/purchase-confirm.png) |
+| Vehicle detail with the 3D car and paint picker | Purchase confirmation dialog |
 | ![Purchase success](docs/screenshots/purchase-success.png) | ![My orders](docs/screenshots/orders.png) |
-| Purchase result | My orders |
+| Purchase complete, stock lowered from 7 to 6 | My orders with the price paid |
 | ![Admin dashboard](docs/screenshots/admin.png) | ![Add vehicle](docs/screenshots/admin-add.png) |
-| Admin inventory | Add vehicle |
-| ![Login](docs/screenshots/login.png) | ![Register](docs/screenshots/register.png) |
-| Login | Register |
+| Admin inventory summary and table | Add to inventory dialog |
 | ![Mobile showroom](docs/screenshots/mobile-showroom.png) | ![Mobile admin](docs/screenshots/mobile-admin.png) |
-| Mobile showroom (360 px) | Mobile admin (360 px) |
+| Showroom at 360 px | Admin inventory at 360 px |
 | ![404](docs/screenshots/not-found.png) | ![API docs](docs/screenshots/api-docs.png) |
-| 404 page | Swagger UI |
+| 404 page | Swagger UI at `/api/docs` |
 
-Not built, so not shown: a home/hero page, a vehicle detail page, dark mode.
+Not built, so not shown: dark mode.
 
 ## Test report
 
