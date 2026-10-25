@@ -1,0 +1,299 @@
+USER:
+<system-reminder>
+The user started this session without choosing a project folder, so your working directory is a scratch workspace the app created for it: C:\Users\itskm\AppData\Roaming\Claude\scratch-workspaces\275bf307-2dad-4510-b1b1-69acae558052\c01a2262-6e95-40d5-90d3-7ab067c8b2f8\scratch-2026-10-24-8e5167. It starts empty, belongs to this session only, and is removed once the session is gone. Files you create there persist for as long as the session exists. The app shows this session as "No folder" and never shows the workspace's location, so don't quote its path to the user either: link files you create there as relative paths. "Scratch workspace" is the app's internal name, so if you mention the folder to the user, call it "a folder the app made for this session", and after that "that folder".
+
+The first time you create or edit a file there that the user is likely to want again (a page, a document, a script they will run again; not a file made only to answer one question), finish what they asked first. Then make the last sentence of that reply exactly this, in the language of your reply: "If you want to keep this work, I can move this session to a folder you choose." Say it once only: if the conversation or its summary shows you already said it, or they declined, don't say it again. If they ask why, where the files are, or what happens to them otherwise: say they are in a folder the app made for this session, then, in their language: "Deleting this session also deletes that folder." If they accept, or ask on their own to keep the files: when they name a folder, call `change_directory` with it. The one exception is a general place such as Desktop, Documents or Downloads: there, make a new folder inside it named for the work, say its name, and move to that one instead; this is the only folder you create yourself. Otherwise don't look at or create a folder they named, and if the tool cannot resolve it, don't inspect, create or retry it: say the app cannot use that folder as it is, then call `request_directory` without a path so they pick or make one, or, if the picker is refused too, ask them for another folder. When they name none, call `request_directory` without a path so they pick one, then `change_directory` with the folder it returns. The app copies this session's files into the new folder when the turn ends and then tells you what it copied or left behind, so don't copy them yourself, and until then don't look for them there or say they have arrived.
+
+If the request concerns an existing project on this machine, do not work in the scratch workspace. Before reading or editing anything in that project, move the session there with the `change_directory` tool, passing the absolute path (the user sees and approves that exact folder, except in bypass permissions mode, or in auto mode when the folder is inside a workspace they trust). If you can't determine the path, ask the user which folder, or call `request_directory` without a path so they can pick one. Access is granted at once and the session's working directory moves there when this turn ends, so use absolute paths under the project until then. Use `request_directory` instead only when the user wants an extra folder alongside the current one. Find local projects from the list below or by looking on disk (for example `ls ~/code`); GitHub and Claude Code Remote tools such as `list_repos` describe cloud repositories, not folders on this machine, so don't use them to locate a local project.
+
+If the request needs no existing project (a quick script, a question, a throwaway prototype), work in the scratch workspace. Never ask the user to pick a folder in the app's UI — use the tools.
+
+One question is yours to ask with a tool, only when the moment comes (it shows the user a card; never ask it in prose instead): once the session is in a Git repository and right before your first file edit there, call `propose_branch` with a short branch name for the task and follow the answer. Skip it when the user already named a branch, and for a question or a throwaway script that touches no project.
+</system-reminder>
+
+
+Install gstack: run git clone --single-branch --depth 1 https://github.com/garrytan/gstack.git ~/.claude/skills/gstack && cd ~/.claude/skills/gstack && ./setup then add a “gstack” section to CLAUDE.md that says to use the /browse skill from gstack for all web browsing and never use mcp__claude-in-chrome__* tools. Claude Code lists the installed skills itself, so the section needs no skill list. Then ask the user if they also want to add gstack to the current project so teammates get it.
+
+ASSISTANT:
+I'll clone gstack, run its setup, then add the CLAUDE.md section.
+
+[tool: mcp__ccd_turn__update_plan]
+
+[tool: Bash] git clone --single-branch --depth 1 https://github.com/garrytan/gstack.git ~/.claude/skills/gstack 2>&1 | tail -5; ls ~/.claude/skills/gstack; head -60 ~/.claude/skills/gstack/setup
+
+ASSISTANT:
+Cloned. Running setup now (it builds the browse binary and may take a few minutes).
+
+[tool: mcp__ccd_turn__update_plan]
+
+[tool: Bash] cd ~/.claude/skills/gstack && ./setup 2>&1 | tail -40
+
+ASSISTANT:
+Setup stopped: it needs Bun ≥ 1.3.3, and the only Bun on PATH is 1.1.10 bundled with Reflex. Let me check for another Bun install.
+
+[tool: Bash] which -a bun; ls ~/.bun/bin 2>&1; ls ~/.claude/CLAUDE.md 2>&1 && cat ~/.claude/CLAUDE.md
+
+ASSISTANT:
+No other Bun exists. I'll add the CLAUDE.md section now (user-level `~/.claude/CLAUDE.md`, since this session has no project) and leave Bun for you to decide.
+
+[tool: mcp__ccd_turn__update_plan]
+
+[tool: Write] C:\Users\itskm\.claude\CLAUDE.md
+
+[tool: mcp__ccd_turn__wrap_up]
+
+ASSISTANT:
+gstack is only partly installed: I cloned it, but its setup script didn't finish.
+
+- **Clone:** done. gstack is in `~/.claude/skills/gstack`.
+- **Setup:** stopped before changing anything. gstack needs Bun 1.3.3 or newer, and the only Bun on this machine is version 1.1.10, the copy that comes with Reflex. The setup script refuses older Bun because it could let gstack's tools read a project's `.env` file. Until setup runs, `/browse` won't work. I didn't upgrade Reflex's copy because that could break Reflex. A separate, newer Bun installed alongside it is the safer choice.
+- **CLAUDE.md:** done. There was no `~/.claude/CLAUDE.md` yet, so I created it with a "gstack" section. It says to use gstack's `/browse` skill for all web browsing and never use the `mcp__claude-in-chrome__*` tools. It has no skill list.
+
+You asked whether to add gstack to the current project so teammates get it. This session isn't in a project; it's running in a folder the app made for it, which isn't a Git repo. If you want that, tell me which project folder and I'll set it up there with `./setup --team`, gstack's per-repo mode.
+
+USER:
+Install the latest Bun separately (official installer to ~/.bun), put it ahead of Reflex's on PATH, then re-run gstack ./setup.
+
+ASSISTANT:
+Installing Bun with the official Windows installer.
+
+[tool: mcp__ccd_turn__update_plan]
+
+[tool: PowerShell] irm bun.sh/install.ps1 | iex; & "$env:USERPROFILE\.bun\bin\bun.exe" --version; [Environment]::GetEnvironmentVariable('Path','User') -split ';'
+
+ASSISTANT:
+Bun 1.4.4 is installed. The installer didn't add `~/.bun/bin` to your user PATH, so I'll put it right before the Reflex entry.
+
+[tool: mcp__ccd_turn__update_plan]
+
+[tool: PowerShell] $old = [Environment]::GetEnvironmentVariable('Path','User'); $bunDir = "$env:USERPROFILE\.bun\bin"; $reflex = 'C:\Users\itskm\AppData\Local\reflex\bun\bin'; $parts = $old -split ';' | Where-Object { $_ -ne $bunDir }; $new = foreach ($p in $parts) { if ($p -eq $reflex) { $bunDir }; $p }; [Environment]::SetEnvironmentVariable('Path', ($new -join ';'), 'User'); ([Environment]::GetEnvironmentVariable('Path','User') -split ';') | Select-String 'bun'
+
+ASSISTANT:
+PATH updated. Re-running setup with the new Bun first on PATH for this shell.
+
+[tool: mcp__ccd_turn__update_plan]
+
+[tool: Bash] export PATH="$HOME/.bun/bin:$PATH"; bun --version; cd ~/.claude/skills/gstack && ./setup 2>&1 | tail -40
+
+[tool: mcp__ccd_turn__wrap_up]
+
+ASSISTANT:
+gstack is installed and its setup finished, so `/browse` and the other gstack skills are ready to use.
+
+- **Bun:** version 1.4.4 is installed in `~/.bun`. The installer didn't add it to your user PATH, so I put `~/.bun/bin` just before Reflex's Bun folder. Terminals you open from now on will run the new Bun. Reflex still has its own copy, unchanged.
+- **gstack setup:** it installed about 50 skills into `~/.claude/skills`, plus the browser tool `/browse` uses.
+  - On Windows, gstack installs copies of its skill files rather than links. After any `git pull` in the gstack folder, re-run `./setup` to pick up the changes.
+  - Setup also added a session-end ("Stop") hook to your Claude Code `settings.json` and saved a backup of the old file.
+- **Doesn't work yet:** `/cso` needs Visual Studio 2022 Build Tools with "Desktop development with C++". Install those and re-run `./setup` if you want it.
+
+Adding gstack to a project for teammates is still open. This session isn't in a project, so tell me which project folder if you want that.
+
+USER:
+<local-command-caveat>The command below was run directly in Claude Code, not sent to you as a request, and its output goes straight to the user. It's recorded here as context for later messages.</local-command-caveat>
+
+USER:
+<command-name>/model</command-name>
+            <command-message>model</command-message>
+            <command-args>claude-sonnet-5-5</command-args>
+
+USER:
+<local-command-stdout>Set model to `claude-sonnet-5-5`</local-command-stdout>
+
+USER:
+
+
+<pasted_content id="5204">
+Answers to your 3 questions:
+1. KATA.md is now the full kata text (5194 bytes). Re-read it and flag any conflict with MASTER_PROMPT.md before starting.
+2. Database: native PostgreSQL 16 on Windows, running. cove_dev and cove_test exist. I will create backend/.env myself with DATABASE_URL and DATABASE_URL_TEST; you create backend/.env.example with placeholder values only.
+3. Scope cuts if behind, in order: dark mode, legal/SEO extras, admin events feed, refresh-token rotation (fall back to a single access JWT), Swagger last. Never cut a kata requirement.
+
+Overrides to MASTER_PROMPT.md (these win over the file):
+1. NO Docker anywhere locally. Do not create docker-compose.yml. CI may use a GitHub Actions postgres service container.
+2. POST and PUT /vehicles are admin-only; record BOTH in one ADR, citing the kata's "(For Admin Users) add, update, delete" UI line. Single policy map.
+3. Integration tests run serially (no file parallelism) against cove_test, with truncation between tests.
+4. Frontend dev uses a Vite proxy to /api so the refresh cookie is same-origin.
+5. Remove "*.html" from .gitignore (frontend needs index.html); keep KATA.md and KATA.html ignored explicitly.
+6. Never run git commit. Stage, show check output and the proposed message, wait for me.
+7. Update CLAUDE.md with overrides 1-6 (staged, not committed).
+Execute Phase 1 only, then stop at the gate.
+</pasted_content id="5204">
+
+
+ASSISTANT:
+I'll start by locating the project with MASTER_PROMPT.md and KATA.md, since this session's folder is empty.
+
+[tool: Bash] ls -A . ; for d in ~ ~/Desktop ~/Documents ~/code ~/projects ~/source/repos; do [ -d "$d" ] && find "$d" -maxdepth 3 \( -name MASTER_PROMPT.md -o -name KATA.md \) -not -path '*/node_modules/*' 2>/dev/null; done
+
+ASSISTANT:
+Found the project at `C:\Users\itskm\car-dealership-kata`. Moving the session there.
+
+[tool: ToolSearch] select:mcp__ccd_directory__change_directory
+
+[tool: mcp__ccd_directory__change_directory] C:\Users\itskm\car-dealership-kata
+
+[tool: Bash] cd /c/Users/itskm/car-dealership-kata && ls -A && git status --short | head -20; git log --oneline | head -5; wc -c KATA.md MASTER_PROMPT.md; cat .gitignore CLAUDE.md 2>&1 | head -60
+
+[tool: Read] C:\Users\itskm\car-dealership-kata\KATA.md
+
+[tool: Read] C:\Users\itskm\car-dealership-kata\MASTER_PROMPT.md
+
+ASSISTANT:
+Both files read. Before I build anything, here are the checks and conflicts.
+
+[tool: mcp__ccd_turn__update_plan]
+
+[tool: Bash] cd /c/Users/itskm/car-dealership-kata; git branch --show-current; node -v; npm -v; ls backend 2>&1 | head; (psql --version || ls "/c/Program Files/PostgreSQL" ) 2>&1 | head -3; git config user.name; git config user.email; for p in typescript prisma @prisma/client express zod vitest @vitest/coverage-v8 supertest tsx eslint typescript-eslint prettier dotenv pino pino-http @types/express @types/node @types/supertest pg @prisma/adapter-pg; do echo "$p $(npm view $p version 2>/dev/null)"; done
+
+ASSISTANT:
+Two things to resolve before pinning. `prisma` latest is a release candidate (8.0.0-rc), and TypeScript is now 7.x. I'm checking stable tags, publish dates, and peer compatibility.
+
+[tool: Bash] cd /c/Users/itskm; npm view prisma dist-tags --json; npm view typescript-eslint peerDependencies --json; npm view typescript dist-tags --json | head -8; for p in prisma@7.10.1 @prisma/client@7.10.1 typescript@7.0.2 typescript@5.9.3 express@5.3.0 zod@4.6.7 vitest@5.0.5 eslint@10.13.0 typescript-eslint@8.72.0 tsx@4.23.15 @prisma/adapter-pg@7.10.1 pg@8.23.1 dotenv@18.0.9 supertest@7.3.1 prettier@3.9.10 @vitest/coverage-v8@5.0.5; do echo "$p $(npm view $p time --json 2>/dev/null | node -e "let s='';process.stdin.on('data',d=>s+=d).on('end',()=>{const t=JSON.parse(s);const v='$p'.split('@').pop();console.log(t[v])})")"; done; npm view vitest peerDependencies engines --json; npm view eslint engines --json
+
+[tool: Bash] cd /c/Users/itskm; npm view typescript versions --json | node -e "let s='';process.stdin.on('data',d=>s+=d).on('end',()=>console.log(JSON.parse(s).filter(v=>/^6\./.test(v)).join(' ')))"; npm view typescript@6 version time --json 2>/dev/null | tail -5; npm view @types/node@22 version | tail -1; npm view @types/pg version; npm view @types/cors version; npm view express engines.node
+
+ASSISTANT:
+TypeScript 6.0.3 is the stable release inside the supported range, so I'll pin that. Since I'm about to edit files in a Git repo, I'll propose a branch first.
+
+[tool: mcp__ccd_directory__propose_branch]
+
+ASSISTANT:
+Staying on `main` as you chose. Next the two housekeeping edits, `.gitignore` and `CLAUDE.md`.
+
+[tool: mcp__ccd_turn__update_plan]
+
+[tool: Write] C:\Users\itskm\car-dealership-kata\.gitignore
+
+[tool: Bash] cd /c/Users/itskm/car-dealership-kata && cat >> CLAUDE.md <<'EOF'
+
+## Overrides to MASTER_PROMPT.md (these win over that file)
+
+Recorded 24 Oct 2026. Where MASTER_PROMPT.md disagrees with these, follow these.
+
+1. **No Docker anywhere locally.** Do not create `docker-compose.yml`. Local PostgreSQL 16 runs natively on Windows (`cove_dev`, `cove_test`). CI may use a GitHub Actions `postgres` service container.
+2. **`POST /vehicles` and `PUT /vehicles/:id` are admin-only.** Record both in one ADR, citing the kata's "(For Admin Users) Forms/UI to add, update, and delete vehicles" line. All role rules live in a single policy map.
+3. **Integration tests run serially** (no file parallelism) against `cove_test`, with table truncation between tests.
+4. **Frontend dev uses a Vite proxy to `/api`**, so the refresh-token cookie is same-origin.
+5. **`.gitignore` does not ignore `*.html`** (the frontend needs `index.html`). `KATA.md` and `KATA.html` stay ignored explicitly.
+6. **Never run `git commit`.** Stage, show the check output and the proposed message, wait for the user.
+
+Environment notes: the user creates `backend/.env` (`DATABASE_URL`, `DATABASE_URL_TEST`); Claude only maintains `backend/.env.example` with placeholder values.
+
+Scope cuts if behind, in this order: dark mode, legal/SEO extras, admin events feed, refresh-token rotation (fall back to a single access JWT), Swagger last. Never cut a kata requirement.
+EOF
+tail -5 CLAUDE.md
+
+[tool: Bash] mkdir -p /tmp/pin && cd /tmp/pin && cat > pin.mjs <<'EOF'
+import { execSync } from 'node:child_process';
+const cutoff = new Date('2026-10-10T23:59:59Z');
+const pkgs = {
+  'express': '5', 'zod': '4', '@prisma/client': '7', '@prisma/adapter-pg': '7', 'pg': '8', 'dotenv': '18',
+  'typescript': '6', 'prisma': '7', 'tsx': '4', 'vitest': '5', '@vitest/coverage-v8': '5', 'supertest': '7',
+  '@types/express': '5', '@types/node': '22', '@types/supertest': '7', '@types/pg': '8',
+  'eslint': '10', '@eslint/js': '10', 'typescript-eslint': '8', 'prettier': '3', 'globals': '',
+};
+const cmp = (a, b) => { const x = a.split('.').map(Number), y = b.split('.').map(Number); for (let i=0;i<3;i++) if (x[i]!==y[i]) return x[i]-y[i]; return 0; };
+for (const [p, major] of Object.entries(pkgs)) {
+  const t = JSON.parse(execSync(`npm view ${p} time --json`, { maxBuffer: 1e8 }).toString());
+  const ok = Object.entries(t).filter(([v, d]) => /^\d+\.\d+\.\d+$/.test(v) && (!major || v.split('.')[0] === major) && new Date(d) <= cutoff).map(([v]) => v).sort(cmp);
+  const v = ok.at(-1);
+  console.log(p, v, t[v]?.slice(0,10));
+}
+EOF
+node pin.mjs
+
+ASSISTANT:
+Pins resolved. Scaffolding the backend and installing exact versions.
+
+[tool: mcp__ccd_turn__update_plan]
+
+[tool: Bash] mkdir -p backend && cd backend && cat > package.json <<'EOF'
+{
+  "name": "car-dealership-backend",
+  "version": "0.1.0",
+  "private": true,
+  "description": "REST API for the car dealership inventory kata",
+  "type": "module",
+  "engines": {
+    "node": ">=22.13.0"
+  },
+  "scripts": {}
+}
+EOF
+npm install --save-exact express@5.3.0 zod@4.6.5 @prisma/client@7.10.0 @prisma/adapter-pg@7.10.0 pg@8.23.1 dotenv@18.0.7 2>&1 | tail -5 && npm install --save-dev --save-exact typescript@6.0.3 prisma@7.10.0 tsx@4.23.15 vitest@5.0.3 @vitest/coverage-v8@5.0.3 supertest@7.3.1 @types/express@5.0.6 @types/node@22.20.5 @types/supertest@7.2.1 @types/pg@8.23.1 eslint@10.12.0 @eslint/js@10.0.1 typescript-eslint@8.71.1 prettier@3.9.10 globals@17.13.0 2>&1 | tail -8; cat package.json | head -40
+
+USER:
+[Request interrupted by user for tool use]
+
+USER:
+<system-reminder>
+The session's working directory has changed to C:\Users\itskm\car-dealership-kata (by the user). The environment block at the start of this conversation still names the previous directory — that information is stale. All tool calls and relative paths now resolve from C:\Users\itskm\car-dealership-kata. Project settings (permission rules, hooks), project MCP servers, and project skills now come from C:\Users\itskm\car-dealership-kata; its CLAUDE.md, if any, follows below. Environment variables set by the previous directory's settings stay in effect for this process — they cannot be unset — and the new directory's settings env is applied on top of them.
+</system-reminder>
+
+Codebase and user instructions are shown below. Be sure to adhere to these instructions. IMPORTANT: These instructions OVERRIDE any default behavior and you MUST follow them exactly as written.
+
+Contents of C:\Users\itskm\car-dealership-kata\CLAUDE.md (project instructions, checked into the codebase):
+
+# CLAUDE.md — Project rules (Car Dealership Inventory System, TDD Kata)
+
+Source of truth: `KATA.md` (the official kata) wins over `MASTER_PROMPT.md`. If they conflict, follow KATA.md and tell the user about the conflict.
+
+## Priorities (outrank everything else)
+
+1. **Kata requirements are graded first.** Real PostgreSQL, JWT auth, every listed endpoint, admin-only rules, TDD commit history, React + Tailwind + HTML5 + CSS3, search/filter, Purchase disabled at zero stock, admin CRUD UI, README with screenshots, test report, "My AI Usage", PROMPTS.md. If time runs short, cut polish, never requirements.
+2. **Never fabricate.** No fake reviews, statistics, awards, test results, coverage numbers or screenshots. Every number in the README comes from a real run.
+3. **No plagiarism.** Write everything from scratch. No copied repos, templates or downloaded 3D models. Every external asset (fonts, icons) is open-licensed and listed in `CREDITS.md`.
+4. **The user must be able to explain every line.** After each phase: a plain-language walkthrough (max 15 lines) plus 3 likely interview questions with short answers.
+5. **Be honest about trade-offs.** Never claim a check passed without running it. Report what is not done.
+
+## Scope for this deadline
+
+- Deadline: 3 pm IST, 25 Oct 2026.
+- Order: Phases 1, 2, 3, 4, 6 on `main`. Cars render as SVG 2.5D illustrations from `buildCarSpec`.
+- Phase 5 (3D studio) is **optional and last**: start it only after Phases 1-4 and 6 are fully green, on a separate branch (`feat/3d-studio`). Never add 3D dependencies to `main` before then. Merge without squash only if its gate passes; otherwise leave it unmerged.
+- Phase 7 (deploy + e2e) is optional, only if time remains.
+- Work one phase at a time. Stop at each gate and wait for "Gate passed. Execute Phase N."
+
+## Git and TDD
+
+- **Never run `git commit`.** Stage files, run checks, show the proposed message, wait. Exception: the user explicitly says "you may commit" / "commit it".
+- **Never** use `/ship`, auto-commit, squash, amend, rebase of recorded history, or force push. History is evidence.
+- Red / Green / Refactor as separate commits for every behaviour (from Phase 2 onward):
+  1. `test(scope): <behaviour> [RED]`: test code only. Run it, show the failure, and confirm it fails for the right reason.
+  2. `feat(scope): <behaviour> [GREEN]`: the smallest code that passes. Show the green run.
+  3. `refactor(scope): <what improved>`: only when worthwhile; tests stay green.
+- Conventional Commits, in the user's voice, short and specific. The body says what the AI did and what the user changed or verified.
+- Every AI-assisted commit ends with two blank lines, then:
+  `Co-authored-by: Claude <noreply@anthropic.com>`
+- No pre-commit hook that runs tests (RED commits must go through). Lint/format hooks only if they pass on a failing-test commit. Test enforcement lives in CI.
+- Small, frequent commits. Work on `main` or short-lived branches merged without squash.
+
+## Dependencies
+
+- Before installing, run `npm view <pkg> version` and pin **exact** versions. Prefer releases at least two weeks old. Official npm registry only. Commit the lockfile.
+
+## AI disclosure
+
+- `PROMPTS.md` holds the user's **raw, unedited** chat logs only. Never write summaries into it. Remind the user at the end of every phase to append that phase's raw chat.
+- README "My AI Usage" is written by the user. Scaffold the prompts with `TODO(me)` markers. Never write the user's reflection.
+
+## Engineering defaults
+
+- Backend: `routes -> controllers -> services -> repositories`; services depend on repository interfaces; one composition root (`container.ts`); `createApp(deps)` factory.
+- Tests run against a real PostgreSQL test database. No in-memory DB anywhere.
+- Money stored as integer minor units. Role rules come from one policy map, not scattered `if`s.
+
+## Overrides to MASTER_PROMPT.md (these win over that file)
+
+Recorded 24 Oct 2026. Where MASTER_PROMPT.md disagrees with these, follow these.
+
+1. **No Docker anywhere locally.** Do not create `docker-compose.yml`. Local PostgreSQL 16 runs natively on Windows (`cove_dev`, `cove_test`). CI may use a GitHub Actions `postgres` service container.
+2. **`POST /vehicles` and `PUT /vehicles/:id` are admin-only.** Record both in one ADR, citing the kata's "(For Admin Users) Forms/UI to add, update, and delete vehicles" line. All role rules live in a single policy map.
+3. **Integration tests run serially** (no file parallelism) against `cove_test`, with table truncation between tests.
+4. **Frontend dev uses a Vite proxy to `/api`**, so the refresh-token cookie is same-origin.
+5. **`.gitignore` does not ignore `*.html`** (the frontend needs `index.html`). `KATA.md` and `KATA.html` stay ignored explicitly.
+6. **Never run `git commit`.** Stage, show the check output and the proposed message, wait for the user.
+
+Environment notes: the user creates `backend/.env` (`DATABASE_URL`, `DATABASE_URL_TEST`); Claude only maintains `backend/.env.example` with placeholder values.
+
+Scope cuts if behind, in this order: dark mode, legal/SEO extras, admin events feed, refresh-token rotation (fall back to a single access JWT), Swagger last. Never cut a kata requirement.

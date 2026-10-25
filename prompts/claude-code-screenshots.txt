@@ -1,0 +1,359 @@
+USER:
+<local-command-caveat>The command below was run directly in Claude Code, not sent to you as a request, and its output goes straight to the user. It's recorded here as context for later messages.</local-command-caveat>
+
+USER:
+<command-name>/clear</command-name>
+            <command-message>clear</command-message>
+            <command-args></command-args>
+
+USER:
+
+
+<pasted_content id="0508">
+Read CLAUDE.md. We are on main (3D studio merged, all tests green). Take the README screenshots of the REAL running app, nothing mocked or edited.
+1. Start the backend on port 3100 and the frontend on 5174 (API_PROXY_TARGET=http://localhost:3100), against cove_dev. Sign in using the ADMIN_* and DEMO_USER_* credentials from backend/.env; never print them.
+2. With gstack's browser, capture these into docs/screenshots/ (desktop 1280x800 unless noted; wait for data, and for the landing intro and 3D to finish rendering; if headless WebGL falls back to the SVG car, say so):
+   landing.png (signed out), login.png, register.png, showroom.png (as the buyer), showroom-filters.png (search + category + price range applied), showroom-sold-out.png (a sold-out card showing "Sold out"), vehicle-detail.png, purchase-confirm.png (dialog open), purchase-success.png (success message visible), orders.png, admin.png (as admin), admin-add.png (add dialog open), mobile-showroom.png (360 px wide), mobile-admin.png (360 px), not-found.png (/nope), api-docs.png (backend /api/docs).
+3. Open every image and check it shows what its name says; retake any that don't.
+4. Update the README screenshots section so all 16 are referenced with one-line captions.
+5. Stop the servers, then commit with the usual rules (--cleanup=verbatim, factual body, two blank lines, Co-authored-by: Claude <noreply@anthropic.com>). Do not push.
+Report which screenshots show the 3D car vs the SVG fallback.
+</pasted_content id="0508">
+
+
+[tool: Skill] browse
+
+[tool: Bash] ls && cat backend/package.json | grep -A15 '"scripts"' && cat frontend/package.json | grep -A12 '"scripts"' && cat frontend/vite.config.ts && grep -n -i -B2 -A12 screenshot README.md | head -80 && ls docs docs/screenshots 2>&1 | head -30 && sed 's/=.*/=<hidden>/' backend/.env
+
+[tool: Skill] browse
+
+[tool: Bash] ls frontend/src frontend/src/pages 2>/dev/null; grep -rn "path=" frontend/src/App.tsx frontend/src/routes* 2>/dev/null | head -30; ls ~/.claude/skills/gstack 2>/dev/null | head -30; ls ~/.claude/skills/browse 2>/dev/null; sed -n 1,60p README.md | sed -n 25,36p; grep -n "docs" backend/src/app.ts | head
+
+[tool: Glob] frontend/src/**/*.tsx
+
+[tool: Skill] browse
+
+[tool: Read] C:\Users\itskm\car-dealership-kata\frontend\src\App.tsx
+
+[tool: Glob] .claude/skills/{browse,gstack}/**/SKILL.md
+
+ASSISTANT:
+Still preparing: the safety classifier has been failing on Skill and Bash calls, so I'm retrying them and reading files in the meantime.
+
+[tool: Skill] browse
+
+[tool: Bash] git status --short | head; ls ~/.claude/skills 2>/dev/null | head -20
+
+[tool: PowerShell] Get-ChildItem "$env:USERPROFILE\.claude\skills" -Name | Select-Object -First 30
+
+[tool: Read] C:\Users\itskm\car-dealership-kata\README.md
+
+[tool: Read] C:\Users\itskm\car-dealership-kata\README.md
+
+ASSISTANT:
+Retrying the blocked tools.
+
+[tool: Skill] browse
+
+[tool: Bash] git status --short | head -5; ls ~/.claude/skills | head -20
+
+[tool: Read] C:\Users\itskm\.claude\skills\browse\SKILL.md
+
+[tool: Bash] git status --short | head -5; B="$HOME/.claude/skills/gstack/browse/dist/browse"; ls -la "$B"* 2>&1 | head; command -v aside; grep -n "^PORT" backend/.env | sed 's/=.*/=set/'
+
+USER:
+continue
+
+[tool: Bash] git status --short | head -5; B="$HOME/.claude/skills/gstack/browse/dist/browse"; ls -la "$B"* 2>&1 | head -3; command -v aside; grep -n "^PORT" backend/.env | sed 's/=.*/=set/'
+
+[tool: PowerShell] Set-Location C:\Users\itskm\car-dealership-kata; git status --short | Select-Object -First 5; Test-Path "$env:USERPROFILE\.claude\skills\gstack\browse\dist\browse.exe"; Test-Path "$env:USERPROFILE\.claude\skills\gstack\browse\dist\browse"
+
+ASSISTANT:
+I haven't taken any screenshots yet. The safety check that approves shell commands and skills is failing on its server side, so every shell, PowerShell and Skill call I try is being blocked. Only file reads work. I've retried several times, and one run already hit the 10-failure limit and ended my turn.
+
+I haven't started any servers, taken any captures, or changed `README.md`. Nothing is committed.
+
+What I've confirmed from reading files:
+- **Browser:** the `browse` skill's instructions point to gstack's headless `$B` browser on Windows, because Aside is macOS-only.
+- **Routes:** the app routes are `/`, `/login`, `/register`, `/showroom`, `/vehicles/:id`, `/orders` and `/admin`, plus a 404 page.
+- **README:** its Screenshots section has 14 images and says there's no home page or detail page, which is now outdated. I'll replace that section with all 16 captioned images.
+
+Please try one of these:
+1. **Send "continue" again.** The check may recover. I'll go in this order: start both servers, capture the 16 images, open each one to verify it, edit the README, stop the servers, then stage and show the commit message.
+2. **Run the server start-up yourself.** Type `! cd backend && npm run dev` in one terminal and `! cd frontend && npm run dev` in another. This only helps if the check recovers for the browser and file work.
+
+On commit rules: your `CLAUDE.md` says never to run `git commit` unless you say "commit it". This task asks me to commit with the usual rules, so I'll treat that as your go-ahead for this one commit, with no push. Tell me if you'd rather I only stage it and show the message.
+
+USER:
+Auto mode is off; I'll approve each command manually. Go ahead with the plan, and yes, make that one commit at the end, no push.
+
+[tool: Bash] git status --short | head -5; B="$HOME/.claude/skills/gstack/browse/dist/browse"; ls -la "$B"* 2>&1 | head -3; command -v aside; grep -n "^PORT" backend/.env | sed 's/=.*/=set/'; ls frontend/node_modules >/dev/null 2>&1 && echo fe-deps-ok; ls backend/node_modules >/dev/null 2>&1 && echo be-deps-ok
+
+[tool: Bash] git status --short | head -5
+
+ASSISTANT:
+Bash works again. Checking the browser binary and dependencies.
+
+[tool: Bash] B="$HOME/.claude/skills/gstack/browse/dist/browse"; ls "$B"* 2>&1 | head -3; command -v aside; grep -c "^PORT" backend/.env; ls frontend/node_modules >/dev/null 2>&1 && echo fe-deps-ok; ls backend/node_modules >/dev/null 2>&1 && echo be-deps-ok; ls ~/.claude/skills/gstack/bin | grep -i ensure
+
+[tool: Bash] cd /c/Users/itskm/car-dealership-kata/backend && (PORT=3100 npm run dev > ../.gstack-be.log 2>&1 &) ; cd ../frontend && (API_PROXY_TARGET=http://localhost:3100 npm run dev -- --port 5174 --strictPort > ../.gstack-fe.log 2>&1 &) ; sleep 12; tail -5 ../.gstack-be.log ../.gstack-fe.log; curl -s -o /dev/null -w "%{http_code}\n" http://localhost:5174/api/vehicles
+
+[tool: Bash] cd /c/Users/itskm/car-dealership-kata && B="$HOME/.claude/skills/gstack/browse/dist/browse.exe"; "$HOME/.claude/skills/gstack/bin/gstack-browser-ensure" 2>&1 | tail -3; "$B" goto http://localhost:5174/ 2>&1 | tail -3; "$B" viewport 1280x800 2>&1 | tail -1; "$B" js "(()=>{const c=document.createElement('canvas');return !!(c.getContext('webgl2')||c.getContext('webgl'))})()"
+
+[tool: Bash] cd /c/Users/itskm/car-dealership-kata && ls -la .gstack; cat .gstack/terminal-agent-pid.lock; echo; git check-ignore .gstack && echo ignored
+
+[tool: Bash] cd /c/Users/itskm/car-dealership-kata && ls -la .gstack; cat .gstack/terminal-agent-pid.lock; echo; git check-ignore .gstack && echo ignored
+
+[tool: Read] C:\Users\itskm\car-dealership-kata\.gstack\terminal-agent-pid.lock
+
+[tool: Glob] .gstack/*
+
+ASSISTANT:
+Servers are up. The headless browser won't start because of a leftover lock file, so I'm checking whether any process owns it.
+
+[tool: Bash] cd /c/Users/itskm/car-dealership-kata && tail -n 8 .gstack/browse-daemon.log; ls -la --time-style=full-iso .gstack/terminal-agent-pid.lock; tasklist | grep -i -E "browse|chrom" | head
+
+[tool: Bash] cd /c/Users/itskm/car-dealership-kata && tail -n 8 .gstack/browse-daemon.log; ls -la .gstack/terminal-agent-pid.lock; tasklist | grep -i -E "browse|chrom" | head
+
+[tool: Read] C:\Users\itskm\car-dealership-kata\.gstack\browse-daemon.log
+
+[tool: Read] C:\Users\itskm\car-dealership-kata\.gstack\browse-startup-error.log
+
+[tool: Bash] cd /c/Users/itskm/car-dealership-kata && tasklist | grep -i -E "browse|chrom|terminal" | head; cat .gstack/browse.json 2>&1 | head -3 | sed 's/"token":"[^"]*"/"token":"<hidden>"/'
+
+[tool: Bash] tasklist | grep -i -E "browse|chrom|terminal" | head
+
+[tool: Bash] tasklist | grep -i -E "browse|chrom|terminal" | head
+
+[tool: PowerShell] Get-Process | Where-Object { $_.Name -match 'browse|chrom|terminal' } | Select-Object Name, Id | Format-Table -AutoSize | Out-String
+
+[tool: Bash] tasklist | grep -i -E "browse|chrom|terminal" | head
+
+[tool: Bash] tasklist | grep -i -E "browse|chrom|terminal" | head
+
+ASSISTANT:
+No browse or terminal-agent process is running. The `chrome.exe` processes are the user's own browser, and I'll leave them alone. The lock file is empty, so it's stale and I'm removing it.
+
+[tool: Bash] cd /c/Users/itskm/car-dealership-kata && rm .gstack/terminal-agent-pid.lock && B="$HOME/.claude/skills/gstack/browse/dist/browse.exe" && "$B" goto http://localhost:5174/ 2>&1 | tail -3; "$B" viewport 1280x800 2>&1 | tail -1; "$B" js "(()=>{const c=document.createElement('canvas');return !!(c.getContext('webgl2')||c.getContext('webgl'))})()"
+
+[tool: Bash] mkdir -p docs/screenshots && B="$HOME/.claude/skills/gstack/browse/dist/browse.exe"; sleep 8; "$B" screenshot docs/screenshots/landing.png 2>&1 | tail -2; "$B" snapshot -i 2>&1 | head -30
+
+[tool: Read] C:\Users\itskm\car-dealership-kata\docs\screenshots\landing.png
+
+ASSISTANT:
+API Error: 529 Overloaded. This is a server-side issue, usually temporary — try again in a moment. If it persists, check https://status.claude.com.
+
+USER:
+
+
+<pasted_content id="0508">
+Read CLAUDE.md. Task: README screenshots of the REAL running app on main. Auto mode is off; I will approve each command.
+1. Start the backend on port 3100 and the frontend on 5174 (API_PROXY_TARGET=http://localhost:3100) against cove_dev. Sign in with the ADMIN_* and DEMO_USER_* credentials from backend/.env; never print them.
+2. With gstack's headless browser, capture into docs/screenshots/ at 1280x800 unless noted, waiting for data and for the landing intro and 3D to finish:
+   landing.png (signed out), login.png, register.png, showroom.png (buyer), showroom-filters.png (search + category + price applied), showroom-sold-out.png (a "Sold out" card), vehicle-detail.png, purchase-confirm.png (dialog open), purchase-success.png (success message visible), orders.png, admin.png (admin), admin-add.png (add dialog open), mobile-showroom.png (360 px wide), mobile-admin.png (360 px), not-found.png (/nope), api-docs.png (http://localhost:3100/api/docs).
+3. Open each image and retake any that don't show what the name says.
+4. Update the README Screenshots section to show exactly these images with one-line captions.
+5. Stop the servers you started. Commit with the usual rules (--cleanup=verbatim, factual body, two blank lines, Co-authored-by: Claude <noreply@anthropic.com>). Do not push.
+Report which images show the 3D car vs the SVG fallback.
+</pasted_content id="0508">
+
+
+[tool: Grep] screenshot
+
+[tool: Grep] name=|id=|aria-label|data-testid
+
+[tool: Bash] B="$HOME/.claude/skills/gstack/browse/dist/browse.exe"; S=docs/screenshots
+"$B" goto http://localhost:5174/ >/dev/null; sleep 8; "$B" screenshot --viewport $S/landing.png | tail -1
+"$B" goto http://localhost:5174/login >/dev/null; sleep 2; "$B" screenshot --viewport $S/login.png | tail -1
+"$B" goto http://localhost:5174/register >/dev/null; sleep 2; "$B" screenshot --viewport $S/register.png | tail -1
+"$B" goto http://localhost:5174/nope >/dev/null; sleep 2; "$B" screenshot --viewport $S/not-found.png | tail -1
+"$B" goto http://localhost:3100/api/docs >/dev/null; sleep 3; "$B" screenshot --viewport $S/api-docs.png | tail -1
+"$B" goto http://localhost:5174/login >/dev/null; "$B" snapshot -i | grep -E "^\s*@e"
+
+[tool: Read] C:\Users\itskm\AppData\Local\Temp\claude\C--Users-itskm-car-dealership-kata\ee3db826-693f-47f1-9d8a-ea4aa526c514\tasks\bzc9rybmz.output
+
+[tool: Bash] rm -f .gstack/terminal-agent-pid.lock; curl -s -o /dev/null -w "fe-proxy:%{http_code}\n" http://localhost:5174/api/vehicles; curl -s -o /dev/null -w "be:%{http_code}\n" http://localhost:3100/api/docs/; tasklist | grep -i -E "browse" | head -3
+
+ASSISTANT:
+Servers are still up. Retaking the signed-out pages now that the lock is gone.
+
+[tool: Bash] B="$HOME/.claude/skills/gstack/browse/dist/browse.exe"; S=docs/screenshots
+"$B" viewport 1280x800 | tail -1
+"$B" goto http://localhost:5174/ >/dev/null; sleep 8; "$B" screenshot --viewport $S/landing.png | tail -1
+"$B" goto http://localhost:5174/login >/dev/null; sleep 2; "$B" screenshot --viewport $S/login.png | tail -1
+"$B" goto http://localhost:5174/register >/dev/null; sleep 2; "$B" screenshot --viewport $S/register.png | tail -1
+"$B" goto http://localhost:5174/nope >/dev/null; sleep 2; "$B" screenshot --viewport $S/not-found.png | tail -1
+"$B" goto http://localhost:3100/api/docs >/dev/null; sleep 3; "$B" screenshot --viewport $S/api-docs.png | tail -1
+"$B" goto http://localhost:5174/login >/dev/null; "$B" snapshot -i | grep -E "^\s*@e"
+
+[tool: Bash] B="$HOME/.claude/skills/gstack/browse/dist/browse.exe"; "$B" goto http://localhost:5174/ >/dev/null; sleep 8; "$B" screenshot --viewport docs/screenshots/landing.png | tail -2; "$B" goto http://localhost:5174/login >/dev/null; ls -la docs/screenshots
+
+[tool: Read] C:\Users\itskm\car-dealership-kata\docs\screenshots\login.png
+
+[tool: Read] C:\Users\itskm\car-dealership-kata\docs\screenshots\register.png
+
+[tool: Read] C:\Users\itskm\car-dealership-kata\docs\screenshots\landing.png
+
+[tool: Bash] B="$HOME/.claude/skills/gstack/browse/dist/browse.exe"; "$B" goto http://localhost:5174/register | tail -1; sleep 3; "$B" url; "$B" screenshot --viewport docs/screenshots/register.png | tail -1
+
+[tool: Read] C:\Users\itskm\car-dealership-kata\docs\screenshots\register.png
+
+[tool: Read] C:\Users\itskm\car-dealership-kata\docs\screenshots\not-found.png
+
+[tool: Read] C:\Users\itskm\car-dealership-kata\docs\screenshots\api-docs.png
+
+[tool: Bash] B="$HOME/.claude/skills/gstack/browse/dist/browse.exe"; E=$(grep -E '^DEMO_USER_EMAIL=' backend/.env | cut -d= -f2- | tr -d '\r"'); P=$(grep -E '^DEMO_USER_PASSWORD=' backend/.env | cut -d= -f2- | tr -d '\r"'); "$B" goto http://localhost:5174/login >/dev/null; "$B" snapshot -i >/dev/null; "$B" fill @e3 "$E" >/dev/null; "$B" fill @e4 "$P" >/dev/null; "$B" click @e6 >/dev/null; sleep 6; "$B" url; "$B" snapshot -i | grep -E "^\s*@e" | head -60
+
+ASSISTANT:
+Signed in as the buyer. Capturing the showroom now.
+
+[tool: Bash] B="$HOME/.claude/skills/gstack/browse/dist/browse.exe"; sleep 5; "$B" screenshot --viewport docs/screenshots/showroom.png | tail -1; "$B" js "document.querySelectorAll('canvas').length"
+
+[tool: Read] C:\Users\itskm\car-dealership-kata\docs\screenshots\showroom.png
+
+[tool: Bash] B="$HOME/.claude/skills/gstack/browse/dist/browse.exe"; "$B" snapshot -i >/dev/null; "$B" click @e12 >/dev/null; "$B" fill @e6 "a" >/dev/null; "$B" fill @e18 "1000000" >/dev/null; "$B" fill @e19 "3000000" >/dev/null; sleep 3; "$B" text | grep -E "cars? found|₹|Sold out|Low stock" | head -20
+
+[tool: Bash] B="$HOME/.claude/skills/gstack/browse/dist/browse.exe"; "$B" snapshot -i | grep -E "searchbox|Minimum|Maximum"
+
+[tool: Bash] B="$HOME/.claude/skills/gstack/browse/dist/browse.exe"; "$B" fill @e6 "a" >/dev/null; "$B" fill @e18 "1000000" >/dev/null; "$B" fill @e19 "1400000" >/dev/null; sleep 3; "$B" text | grep -oE "[0-9]+ cars? found.{0,200}"; "$B" screenshot --viewport docs/screenshots/showroom-filters.png | tail -1
+
+[tool: Read] C:\Users\itskm\car-dealership-kata\docs\screenshots\showroom-filters.png
+
+ASSISTANT:
+Filters shot looks right. Now the sold-out card.
+
+[tool: Bash] B="$HOME/.claude/skills/gstack/browse/dist/browse.exe"; "$B" goto http://localhost:5174/showroom >/dev/null; sleep 4; "$B" js "(()=>{const b=[...document.querySelectorAll('button')].find(x=>x.textContent.trim()==='Sold out');if(!b)return 'none';b.closest('li,article,div[class*=card]')?.scrollIntoView({block:'center'});return 'ok'})()"; sleep 1; "$B" screenshot --viewport docs/screenshots/showroom-sold-out.png | tail -1
+
+[tool: Read] C:\Users\itskm\car-dealership-kata\docs\screenshots\showroom-sold-out.png
+
+ASSISTANT:
+Now the vehicle detail page, using Hyundai Creta, which has stock.
+
+[tool: Bash] B="$HOME/.claude/skills/gstack/browse/dist/browse.exe"; "$B" goto http://localhost:5174/showroom >/dev/null; sleep 3; "$B" snapshot -i | grep -E "View details \(Hyundai Creta\)"
+
+[tool: Bash] B="$HOME/.claude/skills/gstack/browse/dist/browse.exe"; "$B" js "(()=>{const a=document.querySelector('a[aria-label=\"View details (Hyundai Creta)\"]');if(!a)return 'none';a.click();return 'clicked'})()"; sleep 8; "$B" url; "$B" screenshot --viewport docs/screenshots/vehicle-detail.png | tail -1; "$B" js "document.querySelectorAll('canvas').length"
+
+[tool: Bash] B="$HOME/.claude/skills/gstack/browse/dist/browse.exe"; "$B" js "(()=>{const a=[...document.querySelectorAll('a')].filter(x=>x.getAttribute('href')?.startsWith('/vehicles/')).find(x=>x.closest('li,article,div')?.textContent.includes('Hyundai Creta'));if(!a)return 'none';a.click();return a.getAttribute('href')})()"; sleep 8; "$B" url; "$B" screenshot --viewport docs/screenshots/vehicle-detail.png | tail -1; "$B" js "document.querySelectorAll('canvas').length"
+
+[tool: Bash] B="$HOME/.claude/skills/gstack/browse/dist/browse.exe"; "$B" js "JSON.stringify([...document.querySelectorAll('a')].map(a=>a.getAttribute('href')).slice(0,12))"; "$B" snapshot -i | grep -c "View details"
+
+[tool: Bash] B="$HOME/.claude/skills/gstack/browse/dist/browse.exe"; "$B" snapshot -i | grep searchbox; 
+
+[tool: Bash] B="$HOME/.claude/skills/gstack/browse/dist/browse.exe"; "$B" fill @e6 "Creta" >/dev/null; sleep 3; "$B" snapshot -i | grep "View details"
+
+[tool: Bash] B="$HOME/.claude/skills/gstack/browse/dist/browse.exe"; "$B" click @e26 >/dev/null; sleep 10; "$B" url; "$B" screenshot --viewport docs/screenshots/vehicle-detail.png | tail -1; "$B" js "document.querySelectorAll('canvas').length"
+
+[tool: Read] C:\Users\itskm\car-dealership-kata\docs\screenshots\vehicle-detail.png
+
+ASSISTANT:
+Detail page shows the 3D car. Now the purchase flow.
+
+[tool: Bash] B="$HOME/.claude/skills/gstack/browse/dist/browse.exe"; "$B" snapshot -i | grep -E "Buy this car|Keep"; 
+
+[tool: Bash] B="$HOME/.claude/skills/gstack/browse/dist/browse.exe"; "$B" click @e19 >/dev/null; sleep 2; "$B" screenshot --viewport docs/screenshots/purchase-confirm.png | tail -1; "$B" snapshot -i | grep -iE "button|dialog"
+
+[tool: Bash] B="$HOME/.claude/skills/gstack/browse/dist/browse.exe"; "$B" js "(()=>{const b=[...document.querySelectorAll('button')].find(x=>x.textContent.trim()==='Buy this car');if(!b)return 'none';b.click();return 'clicked'})()"; sleep 2; "$B" screenshot --viewport docs/screenshots/purchase-confirm.png | tail -1
+
+[tool: Read] C:\Users\itskm\car-dealership-kata\docs\screenshots\purchase-confirm.png
+
+[tool: Bash] B="$HOME/.claude/skills/gstack/browse/dist/browse.exe"; "$B" js "JSON.stringify([...document.querySelectorAll('button')].map(b=>[b.textContent.trim(),b.getAttribute('aria-label'),b.disabled]))"
+
+[tool: Bash] B="$HOME/.claude/skills/gstack/browse/dist/browse.exe"; "$B" js "(()=>{const b=[...document.querySelectorAll('button')].find(x=>x.textContent.startsWith('Buy this car'));b.click();return 'clicked'})()"; sleep 2; "$B" screenshot --viewport docs/screenshots/purchase-confirm.png | tail -1
+
+[tool: Read] C:\Users\itskm\car-dealership-kata\docs\screenshots\purchase-confirm.png
+
+ASSISTANT:
+Confirm dialog is correct. Confirming the purchase (it only lowers cove_dev stock) and capturing the success message.
+
+[tool: Bash] B="$HOME/.claude/skills/gstack/browse/dist/browse.exe"; "$B" js "(()=>{const b=[...document.querySelectorAll('[role=dialog] button')].find(x=>x.textContent.startsWith('Buy for'));b.click();return 'clicked'})()"; sleep 1.5; "$B" screenshot --viewport docs/screenshots/purchase-success.png | tail -1
+
+[tool: Read] C:\Users\itskm\car-dealership-kata\docs\screenshots\purchase-success.png
+
+ASSISTANT:
+Success shows stock lowered to 6. Next: orders, then the mobile showroom.
+
+[tool: Bash] B="$HOME/.claude/skills/gstack/browse/dist/browse.exe"; S=docs/screenshots; "$B" goto http://localhost:5174/orders >/dev/null; sleep 4; "$B" screenshot --viewport $S/orders.png | tail -1; "$B" viewport 360x800 | tail -1; "$B" goto http://localhost:5174/showroom >/dev/null; sleep 5; "$B" screenshot --viewport $S/mobile-showroom.png | tail -1; "$B" viewport 1280x800 | tail -1
+
+[tool: Read] C:\Users\itskm\car-dealership-kata\docs\screenshots\orders.png
+
+[tool: Read] C:\Users\itskm\car-dealership-kata\docs\screenshots\mobile-showroom.png
+
+ASSISTANT:
+Now switching to the admin account.
+
+[tool: Bash] B="$HOME/.claude/skills/gstack/browse/dist/browse.exe"; "$B" js "(()=>{[...document.querySelectorAll('button')].find(x=>x.textContent.trim()==='Sign out').click();return 'ok'})()"; sleep 3; "$B" goto http://localhost:5174/login >/dev/null; sleep 2; E=$(grep -E '^ADMIN_EMAIL=' backend/.env | cut -d= -f2- | tr -d '\r"'); P=$(grep -E '^ADMIN_PASSWORD=' backend/.env | cut -d= -f2- | tr -d '\r"'); "$B" snapshot -i | grep -E "textbox|Sign in\"" ; 
+
+[tool: Bash] B="$HOME/.claude/skills/gstack/browse/dist/browse.exe"; E=$(grep -E '^ADMIN_EMAIL=' backend/.env | cut -d= -f2- | tr -d '\r"'); P=$(grep -E '^ADMIN_PASSWORD=' backend/.env | cut -d= -f2- | tr -d '\r"'); "$B" fill @e3 "$E" >/dev/null; "$B" fill @e4 "$P" >/dev/null; "$B" click @e6 >/dev/null; sleep 5; "$B" url; "$B" goto http://localhost:5174/admin >/dev/null; sleep 5; "$B" url; "$B" screenshot --viewport docs/screenshots/admin.png | tail -1
+
+[tool: Read] C:\Users\itskm\car-dealership-kata\docs\screenshots\admin.png
+
+ASSISTANT:
+Admin dashboard is right. Opening the add dialog, then the mobile admin view.
+
+[tool: Bash] B="$HOME/.claude/skills/gstack/browse/dist/browse.exe"; S=docs/screenshots; "$B" js "(()=>{[...document.querySelectorAll('button')].find(x=>x.textContent.startsWith('Add to inventory')).click();return 'ok'})()"; sleep 2; "$B" screenshot --viewport $S/admin-add.png | tail -1; "$B" goto http://localhost:5174/admin >/dev/null; "$B" viewport 360x800 | tail -1; "$B" goto http://localhost:5174/admin >/dev/null; sleep 5; "$B" screenshot --viewport $S/mobile-admin.png | tail -1; "$B" viewport 1280x800 | tail -1
+
+[tool: Read] C:\Users\itskm\car-dealership-kata\docs\screenshots\admin-add.png
+
+[tool: Read] C:\Users\itskm\car-dealership-kata\docs\screenshots\mobile-admin.png
+
+ASSISTANT:
+All 16 captured and checked. Now the README.
+
+[tool: Read] C:\Users\itskm\car-dealership-kata\README.md
+
+[tool: Bash] python - <<'EOF' 2>/dev/null || python3 - <<'EOF2'
+EOF
+import re
+EOF2
+sed -n 14,32p README.md | head -2
+
+ASSISTANT:
+Removing the stale TODO comment and rewriting the Screenshots section with the Edit tool.
+
+[tool: Bash] sed -i '14,32d' README.md && sed -n 10,18p README.md && grep -n "^## Screenshots" README.md
+
+[tool: Read] C:\Users\itskm\car-dealership-kata\README.md
+
+[tool: Edit] C:\Users\itskm\car-dealership-kata\README.md
+
+ASSISTANT:
+Now stopping the servers I started, the browser, and removing my log files.
+
+[tool: Bash] B="$HOME/.claude/skills/gstack/browse/dist/browse.exe"; "$B" stop 2>&1 | tail -1; for p in 3100 5174; do pid=$(netstat -ano | grep -E "[:.]$p .*LISTENING" | awk '{print $5}' | head -1); echo "port $p pid $pid"; [ -n "$pid" ] && taskkill //PID $pid //T //F | tail -1; done; sleep 2; netstat -ano | grep -E ":(3100|5174) .*LISTENING" || echo "ports free"; rm -f .gstack-be.log .gstack-fe.log .gstack/terminal-agent-pid.lock; git status --short
+
+[tool: Bash] ls docs/screenshots | wc -l && git add README.md docs/screenshots && git commit --cleanup=verbatim -F - <<'EOF'
+docs(readme): add 16 real screenshots of the running app
+
+Claude started the backend (3100) and frontend (5174) against cove_dev,
+signed in as the demo buyer and the admin, and captured each page with
+gstack's headless Chromium (1280x800, 360x800 for the two mobile shots).
+Claude opened every image to check it matches its name; register.png was
+retaken once because the first capture showed the sign-in page. The one
+purchase made for purchase-success.png lowered the Hyundai Creta stock in
+cove_dev from 7 to 6.
+
+The landing page and vehicle detail page render the 3D car. Showroom cards
+and the admin dialog show the SVG illustration. The README screenshots
+section now lists all 16 with one-line captions and drops the stale TODO
+comment and the "not built" note about the landing and detail pages.
+
+
+Co-authored-by: Claude <noreply@anthropic.com>
+EOF
+git log --oneline -1; git status --short
+
+ASSISTANT:
+All 16 screenshots are in `docs/screenshots/`. I opened each one to check it matches its name. The README Screenshots section lists all 16 with one-line captions. I committed as `912ec49` and did not push. I stopped the servers and the browser, and the working tree is clean.
+
+**3D car vs SVG fallback.** Headless Chromium had working WebGL, so nothing fell back because of a missing context.
+- **3D car:** `landing.png` and `vehicle-detail.png`. `purchase-confirm.png` and `purchase-success.png` also show it, because they were taken on the detail page.
+- **SVG illustration:** `showroom.png`, `showroom-filters.png`, `showroom-sold-out.png`, `admin-add.png`, plus any cars visible in `mobile-showroom.png` and `mobile-admin.png`. The showroom cards use SVG by design, with the 3D car appearing on hover (not captured).
+- **No car shown:** `login.png`, `register.png`, `orders.png`, `admin.png`, `not-found.png`, `api-docs.png`. `mobile-showroom.png` shows only the filter controls at 360 px, since the cards are below the fold.
+
+**Things to know:**
+- **Stock change:** `purchase-success.png` came from a real purchase, which lowered Hyundai Creta stock in `cove_dev` from 7 to 6. The buyer's orders list also has a Mahindra Bolero Pik-Up order that was already there.
+- **Retakes:** `register.png` was retaken once because the first capture showed the sign-in page. The first `landing.png` capture failed and was retaken.
+- **Browser lock:** The browser wouldn't start at first because of a stale empty lock file in `.gstack/`. I confirmed no browse process owned it and deleted it. The same stale lock came back once more and I cleared it again.
+- **Credentials:** I read the `ADMIN_*` and `DEMO_USER_*` values from `backend/.env` inside shell commands and never printed them.
+- **README edits:** I deleted the old `TODO(me)` comment block and removed the line saying the home and detail pages weren't built. I kept "Not built: dark mode", which I didn't re-check.
+- **PROMPTS.md:** Remember to append this session's raw chat.

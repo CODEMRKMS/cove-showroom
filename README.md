@@ -15,15 +15,16 @@ admins add, edit, restock and delete cars.
 
 1. [What the kata asks for and where it lives](#what-the-kata-asks-for-and-where-it-lives)
 2. [Architecture](#architecture)
-3. [Tech stack and why](#tech-stack-and-why)
-4. [Local setup](#local-setup)
-5. [API reference](#api-reference)
-6. [Screenshots](#screenshots)
-7. [Test report](#test-report)
-8. [Performance and accessibility](#performance-and-accessibility)
-9. [My AI Usage](#my-ai-usage)
-10. [Known limitations and what I would do next](#known-limitations-and-what-i-would-do-next)
-11. [Credits and licence](#credits-and-licence)
+3. [3D studio](#3d-studio)
+4. [Tech stack and why](#tech-stack-and-why)
+5. [Local setup](#local-setup)
+6. [API reference](#api-reference)
+7. [Screenshots](#screenshots)
+8. [Test report](#test-report)
+9. [Performance and accessibility](#performance-and-accessibility)
+10. [My AI Usage](#my-ai-usage)
+11. [Known limitations and what I would do next](#known-limitations-and-what-i-would-do-next)
+12. [Credits and licence](#credits-and-licence)
 
 ## What the kata asks for and where it lives
 
@@ -41,17 +42,18 @@ admins add, edit, restock and delete cars.
 | `POST /api/vehicles/:id/purchase` | atomic, [ADR 0004](docs/adr/0004-atomic-purchase.md) | `vehicles.purchase.test.ts`, including the parallel race |
 | `POST /api/vehicles/:id/restock` (admin) | `prisma-inventory.repository.ts` | `vehicles.restock.test.ts` |
 | Each vehicle has a unique ID, make, model, category, price, quantity | `Vehicle` model in `backend/prisma/schema.prisma` | `vehicles.create.test.ts` |
-| Frontend in React with Tailwind, HTML5 and CSS3 | `frontend/` | `npm run build`; 171 component and page tests |
+| Frontend in React with Tailwind, HTML5 and CSS3 | `frontend/` | `npm run build`; 366 frontend tests |
 | Register and login forms | `LoginPage.tsx`, `RegisterPage.tsx` | `frontend/src/auth/auth.test.tsx` |
 | Dashboard with search and filter | `ShowroomPage.tsx`, `FilterBar.tsx` | `frontend/src/pages/showroom.test.tsx`, `lib/filters.test.ts` |
 | Purchase button disabled at zero stock | `PurchaseButton.tsx` | `components/PurchaseButton.test.tsx`, `pages/purchase.test.tsx` |
 | Admin forms to add, update and delete vehicles; hidden from non-admins | `AdminPage.tsx`, `VehicleFormDialog.tsx`, `RequireAdmin` in `auth/guards.tsx` | `pages/admin.test.tsx`; the server enforces the same rule |
 | Visible Red, Green, Refactor commit history | `git log --oneline` | [Test report](#test-report) |
 | Test report | [`docs/test-report/`](docs/test-report/) | [Test report](#test-report) |
-| `PROMPTS.md` (raw AI chat logs) | [`PROMPTS.md`](PROMPTS.md) | written by me, unedited |
+| `PROMPTS.md` (raw AI chat logs) | [`PROMPTS.md`](PROMPTS.md) and [`prompts/`](prompts/) | raw logs; the only edit is secret redaction |
 | "My AI Usage" | [below](#my-ai-usage) | written by me |
 
-Extras beyond the kata: refresh-token rotation with reuse detection, an inventory event ledger and
+Extras beyond the kata: a public landing page at `/`, a vehicle detail page (`/vehicles/:id`) with a
+paint picker and a lazy-loaded 3D car (see [3D studio](#3d-studio)), refresh-token rotation with reuse detection, an inventory event ledger and
 `GET /api/admin/events`, `GET /api/orders/mine`, health and readiness probes, OpenAPI docs at
 `/api/docs`, helmet, a CORS allow-list, global and login rate limits, structured logs with secrets
 redacted, graceful shutdown.
@@ -83,6 +85,27 @@ Decision records: [0001 admin-only create and update](docs/adr/0001-admin-only-v
 [0004 atomic purchase](docs/adr/0004-atomic-purchase.md) · [0005 SVG cars now, 3D later](docs/adr/0005-svg-cars-now-3d-later.md).
 Interview preparation: [`docs/INTERVIEW_NOTES.md`](docs/INTERVIEW_NOTES.md). Frontend design notes: [`docs/design.md`](docs/design.md).
 
+## 3D studio
+
+Cars are drawn two ways. Every car has a hand-written SVG illustration (`buildCarSpec` turns body style
+and paint into data; `CarIllustration.tsx` draws it). On top of that, a procedural 3D model built with
+three.js and react-three-fiber (no downloaded models) appears on the landing page, the vehicle detail
+page, and as a hover turn on showroom cards. It was built on the branch `feat/3d-studio` and merged into
+`main` without squashing. Details: [`docs/3d-report.md`](docs/3d-report.md),
+[`docs/3d-decisions.md`](docs/3d-decisions.md).
+
+- **Lazy-loaded.** The initial HTML references only the main chunk; no 3D code is fetched until a
+  viewer decides to use it.
+- **SVG fallback.** The SVG car is shown when WebGL is unavailable, with reduced motion, with Save-Data,
+  on low-tier phones, after a render error, and while a lost WebGL context is recovering.
+- **Bundle sizes** (gzip -9 of `npm run build`, from `docs/3d-report.md`): initial JavaScript 135,135 B
+  (132 KiB), initial CSS 6,527 B; 3D chunks 280,927 B (274 KiB) for every visitor who loads the 3D car;
+  post-processing chunk 104,303 B (high-quality tier only); 3D total with post-processing 385,230 B
+  (376 KiB). Budgets were under 200 KB and under 700 KB; both passed.
+- **Verification.** The WebGL scene cannot run in jsdom, so it was checked in headless Chromium with
+  software GL, not on real devices. Frame rates and quality-tier thresholds are unmeasured. The looks are
+  recognisable and distinct per body style but not polished (blunt noses, plain truck bed, one wheel design).
+
 ## Tech stack and why
 
 | Part | Choice | Why |
@@ -94,6 +117,7 @@ Interview preparation: [`docs/INTERVIEW_NOTES.md`](docs/INTERVIEW_NOTES.md). Fro
 | Hardening | helmet, cors, express-rate-limit, pino + pino-http | Standard, small, each covered by tests |
 | API tests | Vitest + Supertest against a real database | No mocks of the layer being tested |
 | Frontend | React 19, Vite, React Router 7, TanStack Query, Tailwind CSS 4 | Query handles loading/error/cache states and the optimistic purchase |
+| 3D | three 0.186.1, @react-three/fiber 9.8.1, drei 10.7.9, postprocessing 6.39.5 | Procedural models, lazy-loaded, exact versions pinned |
 | Frontend tests | Vitest, Testing Library, MSW, axe-core | Tests exercise pages through the DOM with the network mocked at the HTTP boundary |
 | CI | GitHub Actions with a `postgres` service container | Lint, format check, typecheck, tests with coverage, build, `npm audit` on production dependencies |
 
@@ -246,18 +270,27 @@ Not built, so not shown: dark mode.
 
 ## Test report
 
-Numbers below come from `npm run test:report`, run on 25 Oct 2026 (see the commit that added the
-report files). They are not edited by hand.
+Test counts come from `npm test` run on 25 Oct 2026 after the 3D studio was merged. Coverage
+figures come from `npm run test:coverage` (backend, unchanged since the report was generated) and from
+a frontend coverage run on 25 Oct 2026 (see the note below). Nothing is edited by hand.
 
 | | Test files | Tests | Statements | Branches | Functions | Lines |
 | --- | --- | --- | --- | --- | --- | --- |
 | Backend (Vitest + Supertest, real PostgreSQL) | 41 | 383 passed | 99.26% | 96.81% | 99.46% | 99.6% |
-| Frontend (Vitest + Testing Library + MSW) | 15 | 171 passed | 91.16% | 82.71% | 93.28% | 92.75% |
+| Frontend (Vitest + Testing Library + MSW) | 27 | 366 passed | 71.03% | 72.74% | 71.37% | 72.16% |
+
+Total: 749 tests, all passing.
 
 Backend coverage excludes the two command-line entry points (`src/server.ts`, `src/seed/run.ts`) and the
 generated Prisma client. `src/server.ts` was checked by running it: it starts, logs, and shuts down
 cleanly on SIGINT. The backend run enforces a 90% threshold on services, controllers and middleware and
-passed. The frontend has no coverage threshold; the number is reported, not enforced.
+passed. The frontend has no coverage threshold; the number is reported, not enforced. Frontend coverage fell
+from 91% (171 tests, before the 3D work) to 71% because the WebGL scene cannot run in jsdom; it is
+covered by manual checks in a real browser (see [3D studio](#3d-studio)), not by unit tests. One
+frontend test (`geometry.test.ts`, "is a different shape for every body style") exceeds Vitest's default 5 s
+timeout when coverage instrumentation is on and passes in the plain `npm test` run; the 71% figures come
+from a coverage run with `--testTimeout=30000`. The HTML and JUnit reports in `docs/test-report/` were
+generated before the 3D work and were **not regenerated**, so they still show the earlier 171 frontend tests.
 
 Reports (all generated files):
 
@@ -293,56 +326,152 @@ the running app; jsdom does not load CSS) are labelled as such in their messages
   axe's colour-contrast rule is switched off there. Contrast ratios in `docs/design.md` were computed
   with the WCAG formula from the palette, and the app was checked by eye in a browser; contrast was not
   measured on the rendered pages with a tool. Only one theme (light) exists.
+- **Accessibility, real browser:** the 3D branch ran axe-core (WCAG 2.0/2.1/2.2 A and AA plus best
+  practice, colour contrast included) in headless Chromium on the landing page, showroom, two detail
+  pages and admin at 375 px and 1280 px, with no violations and no horizontal overflow at 375 px
+  (`docs/3d-report.md`).
 - **Accessibility, manual:** no screen reader pass has been done.
-- **Bundle (measured with `npm --prefix frontend run build` on 25 Oct 2026):** JavaScript 430.95 kB
-  (131.98 kB gzip), CSS 26.39 kB (5.91 kB gzip), plus self-hosted font files loaded on demand.
+- **Bundle:** see the [3D studio](#3d-studio) section for gzip sizes of the initial and 3D chunks.
+  Self-hosted font files load on demand.
 - **Lighthouse, LCP, INP, CLS:** **not measured.** No numbers are given because none were taken.
 
-## My AI Usage
+\## My AI Usage
 
-TODO(me): write this section in your own words. Do not paste the AI's wording. Suggested headings,
-each with the question to answer; delete this line when done.
 
-### Which AI tools I used
 
-TODO(me): name each tool and the version or model if you know it. Which phases did each one help
-with (planning, backend, frontend, tests, documentation)?
+Tools I used
 
-### How I used each one
 
-TODO(me): give two or three concrete examples from this repository. Link a commit hash or a file, and
-say what you asked for and what you got back.
 
-### What I checked or rewrote by hand
+I used Claude on claude.ai as my advisor for the whole build. It helped me write the phased build prompt (MASTER\_PROMPT.md), fix my Windows setup (PowerShell, a silent Postgres install, git quirks), and it reviewed each phase report before I accepted it.
 
-TODO(me): which outputs did you read line by line, run yourself, or change? Say what you changed and
-why (for example the `PUT` admin-only decision in ADR 0001, the seed data, the design choices).
 
-### Where the AI was wrong, and how I caught it
 
-TODO(me): describe at least one real mistake. The history has candidates you can check and decide
-whether to use (commit `0a7a214`, the `cors` credentials header caught by a RED test in `1494099`,
-the invented pino-http 5xx error in `479e162`); only write what you actually remember or can verify.
+For the actual building I used Claude Code. I used Opus for the first planning phase and Sonnet for everything after that, mostly to save usage. I also installed gstack, a skill pack for Claude Code. Its headless browser was used to click through the real app, and its design-review and QA skills were run on the 3D branch at phone and desktop widths. I stayed away from its /ship command because it commits on its own and would have flattened my red-green history.
 
-### Process: how Red, Green, Refactor worked with an AI
 
-TODO(me): who wrote the failing test, who decided it failed for the right reason, and how did you
-keep the AI from writing code before a test? What did you do when it did?
 
-### Reflection
+How I worked with it
 
-TODO(me): how did AI change your workflow, what would you do differently, and what would you not let
-it do next time?
+
+
+I kept the kata text in KATA.md and wrote a phased plan with a check at the end of each phase: setup, auth, vehicles and inventory, frontend, hardening and docs, then 3D last. When the plan didn't fit my situation I overrode it. The biggest one was no Docker, because Docker and WSL had broken my PC before, so I ran PostgreSQL natively. I put those overrides in CLAUDE.md so every new session started with the same rules.
+
+
+
+For TDD, the rule was that every test had to be seen failing for the right reason before it was committed, and the whole suite had to pass before the code commit. For the first two phases I made every commit myself after reading the message. Once the pattern was solid, I let Claude Code commit under fixed rules (no amending, squashing, rebasing or pushing) and I checked the history afterwards, including that every commit has the co-author line.
+
+
+
+I started a fresh session for each phase and exported each transcript before clearing it, which is where PROMPTS.md comes from. The hardening/docs phase and the 3D studio ran overnight while I slept. I set the rules beforehand: never push, never rewrite history, log every decision in docs/3d-decisions.md, and keep the 3D on its own branch so main couldn't break. In the morning I looked at the 3D in the browser myself before merging it.
+
+
+
+Things I decided or checked myself
+
+
+
+The first commit messages Claude drafted said things like "I reviewed the constraints" and "I ran the suite" when the AI had done those things, not me. I rewrote them so every message is true, and for one of them I ran the tests myself so the line became true.
+
+
+
+Claude had a rule of not using packages less than two weeks old. I chose to break it for zod and Prisma because the older versions had high-severity security advisories.
+
+
+
+I had the database schema commit relabelled from feat to build, because a feat with no failing test before it looks like a TDD violation.
+
+
+
+When middleware coverage was at 80%, I added the 90% thresholds only for the layers that already met them, and added middleware later after the error-handling work, so CI never went red.
+
+
+
+I set the order of what to cut if I fell behind, kept 3D until the core was finished, and asked for a public landing page when I noticed the app opened straight onto the login screen.
+
+
+
+Claude never tested the admin pages in a real browser because it won't type in credentials, so I did that by hand: add, edit, restock and delete a car, plus checking the Purchase button is disabled when a car is sold out.
+
+
+
+The kata only says delete and restock are admin-only. I decided create and update should be admin-only as well, and had the reasoning written up in ADR 0001 so it's explained rather than hidden.
+
+
+
+The 3D cars came out recognisable but not beautiful. I merged them anyway because without WebGL the app falls back to the 2D drawings, the bundle stayed within budget, and every test still passed.
+
+
+
+What the tests caught
+
+
+
+The search tests found a real bug: Prisma's contains doesn't escape % or \_, so searching for % matched every car (fixed in b0609ed).
+
+
+
+The race test was proven rather than assumed. A deliberately naive version let 10 buyers take 3 cars; the real version lets exactly 3 through (6bdd9ff, bf39c7d).
+
+
+
+A test walks every real route and fails if one isn't covered by the access policy (862148a, 27f338d).
+
+
+
+One test passed on my fast Windows machine but failed on GitHub's Linux runner. It was reproduced by slowing the fake API down by 300 ms and fixed by waiting properly for the table row, without making the test weaker (43e2ba5).
+
+
+
+Losing the WebGL context left the 3D viewer stuck and froze the tab on fast machines (fixed in eb2366e). A colour bug only showed up in a real browser, not in the tests (876962f).
+
+
+
+Where the AI was wrong
+
+
+
+It told me to choose a Postgres password during install, but the winget install is silent and never asks, so my first logins failed.
+
+
+
+It said git commit -F keeps blank lines. It doesn't. By default git collapses them, which would have broken the co-author format the kata asks for. The fix was adding --cleanup=verbatim.
+
+
+
+It wrote search tests expecting the wrong order (corrected in 1c0da72, kept as its own commit instead of rewriting history).
+
+
+
+One code commit went in with a failing test (bc3c22f, fixed in 0a7a214), and a few commit messages have the wrong test count. I left them in, because the history is supposed to be real.
+
+
+
+It reported the noisy test output as fixed when it wasn't, and the original build plan assumed Docker.
+
+
+
+Reflection
+
+
+
+The biggest change for me was that I spent most of my time deciding and checking instead of typing. AI let me build something much bigger than I could have alone in a day, but it was most dangerous exactly when it sounded most sure of itself. The git blank-line thing and the fake "I did this" lines would both have ended up in my submission if I hadn't checked. Letting it run overnight only felt okay because I had set hard rules first and kept the risky work on a separate branch. Near the end the tools themselves failed on me (the auto-approval service went down and the API got overloaded), which taught me not to leave things like screenshots for the last few hours. Next time I'd review smaller pieces as they come in, and do the human-only jobs earlier.
+
+
+
+Parts of this section were drafted with Claude from my notes and what actually happened during the build, then checked and edited by me.
 
 ## Known limitations and what I would do next
 
 Honest list, roughly in order of importance:
 
 1. **No Lighthouse/LCP/INP/CLS numbers and no screen-reader testing.** Only automated axe in jsdom.
-2. **Cars are flat SVG illustrations.** The 3D studio from the original brief is not built
-   ([ADR 0005](docs/adr/0005-svg-cars-now-3d-later.md)).
-3. **No vehicle detail page, no home page, no dark mode.** `GET /api/vehicles/:id` exists and is
-   tested but the app has no page for it. The root path redirects to the showroom.
+2. **The 3D cars are rough.** They are recognisable and distinct per body style but not polished, were
+   only checked with software GL, and frame rates are unmeasured on real devices. Not built from the
+   original brief: the scroll-scrubbed hero camera, ambient 3D scenes on the 404 and auth pages, and a 3D
+   preview in the admin form. ([ADR 0005](docs/adr/0005-svg-cars-now-3d-later.md) records the original
+   SVG-first decision; the 3D studio followed on its own branch.)
+3. **No dark mode.** Only the light theme exists.
 4. **Registration reveals which emails exist** (409), and has no per-route rate limit. See
    [ADR 0002](docs/adr/0002-auth-strategy.md).
 5. **Rate limiters are in memory and per process.** They reset on restart and do not share counts across
@@ -352,18 +481,18 @@ Honest list, roughly in order of importance:
    tabs at the same instant can sign the user out.
 7. **No deployment.** Nothing is hosted; there is no live link. Cross-site hosting would need
    `SameSite=None; Secure` cookies and a CORS entry for the frontend origin.
-8. **No end-to-end browser test.** The frontend tests run in jsdom with a mocked network. In the
-   clean-clone check the API was exercised with `curl` through the Vite proxy against a real database,
-   but the finished pages were not driven in a browser as part of the documentation work.
+8. **No automated end-to-end browser test.** The frontend tests run in jsdom with a mocked network.
+   The screenshots and the 3D checks were taken from the running app in a real browser, but none of
+   that is a repeatable test.
 9. **No restore for soft-deleted vehicles** and no purge.
 10. **Search is substring matching** (`ILIKE`), not full-text search; fine for 24 cars, not for a large
     catalogue.
 11. **Seed data is invented** (see the notice at the top). Vehicle prices are not real offers.
-12. **GitHub Actions results were not checked from this machine** (no `gh` CLI here). The workflow is in
-    `.github/workflows/ci.yml`; its commands were run locally, but I have not seen it run on GitHub.
+12. **CI status of the latest commit is not recorded here.** The workflow is in
+    `.github/workflows/ci.yml`. It has run on GitHub and caught one test that passed locally and failed on
+    Linux (fixed in `43e2ba5`); I have not checked the result for the final commits from this machine.
 
 ## Credits and licence
 
 Fonts, icons and artwork are listed in [`CREDITS.md`](CREDITS.md). All code, the logo and the car
-illustrations were written for this project. Licence: TODO(me): choose one and add a `LICENSE` file
-(no licence file exists yet, which means "all rights reserved" by default).
+illustrations were written for this project. Licence: MIT, see [`LICENSE`](LICENSE).
